@@ -1,0 +1,9 @@
+Options -MultiViews
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /renewal_react_v1/
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /renewal_react_v1/index.html [L]
+</IfModule>

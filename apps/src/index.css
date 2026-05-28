@@ -1,0 +1,22 @@
+/* Global CSS is in assets/css/common.css and assets/css/style.css */
+
+/* 모바일 서브메뉴 슬라이드 토글 */
+#mobile_menu .container ul ul.sub {
+  display: block !important;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+
+/* 모바일 메뉴 페이드 애니메이션 */
+#mobile_menu {
+  display: block !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+#mobile_menu.open {
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+
