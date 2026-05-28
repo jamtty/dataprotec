@@ -323,6 +323,8 @@ span.br { display:block }
 	#index .section_Employee .card-2 > ul > li .bg .bg-img-wrap { position: relative; height: 25rem; }
 	#index .section_visitor .card-2 > ul > li .txtBox,
 	#index .section_Employee .card-2 > ul > li .txtBox { position: relative; bottom: auto; right: auto; width: 100%; height: auto; min-height: 18rem; }
+	#index .section_visitor .card-2::after,
+	#index .section_Employee .card-2::after { display: none; }
 
 	/* section_storage */
 	#index .section_storage { padding: 8rem 0 24rem; }
