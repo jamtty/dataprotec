@@ -5,5 +5,5 @@ Options -MultiViews
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /renewal_react_v1/index.html [L]
+  RewriteRule ^ index.html [L]
 </IfModule>
