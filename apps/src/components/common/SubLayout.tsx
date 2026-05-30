@@ -54,12 +54,19 @@ function SubLayout({ visualClass, visualTitle, lnbItems, children }: SubLayoutPr
           <div className="lnb" style={lnbFixed ? { position: 'fixed', top: 0, left: 0, width: '100vw' } : {}}>
             <div className="lnb_wrap">
               <ul>
-                {lnbItems.map((item) => (
-                  <li key={item.href} className={location.pathname === item.href ? 'active' : ''}>
-                    <Link to={item.href}>{item.label}</Link>
-                    {location.pathname === item.href && <div className="lnb_bg" />}
-                  </li>
-                ))}
+                {(() => {
+                  const activeHref = lnbItems.reduce<string | null>((best, item) => {
+                    const matches = location.pathname === item.href || location.pathname.startsWith(item.href + '/')
+                    if (matches && (best === null || item.href.length > best.length)) return item.href
+                    return best
+                  }, null)
+                  return lnbItems.map((item) => (
+                    <li key={item.href} className={activeHref === item.href ? 'active' : ''}>
+                      <Link to={item.href}>{item.label}</Link>
+                      {activeHref === item.href && <div className="lnb_bg" />}
+                    </li>
+                  ))
+                })()}
               </ul>
             </div>
           </div>

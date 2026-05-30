@@ -13,6 +13,8 @@ import CompanyRnd from './pages/company/Rnd'
 import CompanyLocation from './pages/company/Location'
 import PromotionNews from './pages/promotion/News'
 import PromotionMaterial from './pages/promotion/Material'
+import NewsDetail from './pages/promotion/NewsDetail'
+import MaterialDetail from './pages/promotion/MaterialDetail'
 import RecruitmentTalent from './pages/recruitment/Talent'
 import RecruitmentWelfare from './pages/recruitment/Welfare'
 import RecruitmentGuide from './pages/recruitment/Guide'
@@ -38,7 +40,9 @@ function App() {
         <Route path="/company/location" element={<CompanyLocation />} />
         {/* 홍보센터 */}
         <Route path="/promotion" element={<PromotionNews />} />
+        <Route path="/promotion/news/:id" element={<NewsDetail />} />
         <Route path="/promotion/material" element={<PromotionMaterial />} />
+        <Route path="/promotion/material/:id" element={<MaterialDetail />} />
         {/* 인재채용 */}
         <Route path="/recruitment" element={<RecruitmentTalent />} />
         <Route path="/recruitment/welfare" element={<RecruitmentWelfare />} />
