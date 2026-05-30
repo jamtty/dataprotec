@@ -30,6 +30,10 @@ function Footer() {
                     대표자. 정해선<span></span>TEL. 031-701-0712<span></span>FAX. 031-701-0714  / 솔루션문의. sales@dataprotec.co.kr<br />
                     Copyright(c) 2021 DATAPROTEC Corp.  All rights reserved.
                 </p>
+                <p>
+                    <strong>AS 및 기술지원센터 TEL. 1660-1614 (평일 오전 9시 부터 오후 6시 까지)</strong><br />
+                    솔루션 AS 및 기술문의. support@dataprotec.co.kr
+                </p>
             </div>
         </div>
       </div>

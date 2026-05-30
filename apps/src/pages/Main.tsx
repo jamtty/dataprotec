@@ -237,6 +237,33 @@ function Main() {
       )
     }
 
+    // section_storage year 카운트업 애니메이션
+    const yearEl = document.querySelector<HTMLElement>('.section_storage .year strong')
+    if (yearEl) {
+      const yearTarget = parseInt(yearEl.dataset.count || '0', 10)
+      yearEl.style.minWidth = yearEl.offsetWidth + 'px'
+      yearEl.textContent = '0'
+      let yearTween: gsap.core.Tween | null = null
+      ScrollTrigger.create({
+        trigger: '.section_storage .year',
+        start: 'top 85%',
+        onEnter: () => {
+          if (yearTween) yearTween.kill()
+          const obj = { val: 0 }
+          yearTween = gsap.to(obj, {
+            val: yearTarget,
+            duration: 0.7,
+            ease: 'power2.out',
+            onUpdate() { yearEl.textContent = String(Math.round(obj.val)) },
+          })
+        },
+        onLeaveBack: () => {
+          if (yearTween) yearTween.kill()
+          yearEl.textContent = '0'
+        },
+      })
+    }
+
     // section_map count 카운트업 애니메이션
     const countEls = document.querySelectorAll<HTMLElement>('.section_map .count ul li .num strong')
     if (countEls.length) {
@@ -397,7 +424,7 @@ function Main() {
               <div className="slide slide_1 swiper-slide">
                 <div className="inner">
                   <div className="txt_box">
-                    <p className="eng slide_up"><span>지능형 통합 보안<br />핵심엔진 DPT X AI</span></p>
+                    <p className="eng slide_up"><span>지능형 통합 보안<br />핵심엔진 DPT <span style={{ fontWeight: 100, fontSize: '0.5em', verticalAlign: 'middle' }}>X</span> AI</span></p>
                     <p className="kor slide_up">
                         기업 보안 유출을 완벽하게 통제하는<span className="br" />
                         엔드포인트 통합 보안 시스템 DPT와<span className="br" />
@@ -751,7 +778,7 @@ function Main() {
                 <div className='con-banner'>
                     <div className='bg-wrap'><div className='bg'></div></div>
                     <div className='txtBox'>
-                        <h3>저장매체 반출입 통합 보안 국내 선도 기업 ‘처음과 끝을 책임지는’ 기업, 데이타프로텍</h3>
+                        <h3>저장매체 반출입 통합 보안 국내 선두 기업 보안의 ‘처음과 끝을 책임지는’ 데이타프로텍</h3>
                         <p>
                             데이타프로텍은 2006년 설립 이후, 사이버 보안 분야에서
                             혁신적인 특허 기술로 국내 최고 보안 수준의 기업과 기관,
@@ -761,7 +788,7 @@ function Main() {
                         <Link to='#'>더보기</Link>
                     </div>
                     <div className='year'>
-                        <p className='big'><strong>17</strong>years</p>
+                        <p className='big'><strong data-count="17">17</strong>years</p>
                         <p>A Trusted Partner in CyberSecurity</p>
                     </div>
                 </div>

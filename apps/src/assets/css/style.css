@@ -83,7 +83,7 @@ span.br { display:block }
 #index .section_visitor { position:relative; padding:11rem 0 18rem; background: linear-gradient(135deg, #0a0d22 0%, #0a0d22 50%, #0f1758 100%); }
 #index .section_visitor .inner { max-width:159.3rem; margin:0 auto; }
 #index .section_visitor h2 span { display:block; font-size:2.5rem; font-weight:500; color:#3399ff;  }
-#index .section_visitor h2 strong { margin:1.5rem 0 0; display:block; font-size:4.7rem; font-weight:800; color:#3399ff; letter-spacing:-1px; }
+#index .section_visitor h2 strong { margin:1.5rem 0 0; display:block; font-size:4.7rem; font-weight:800; color:#3399ff; letter-spacing:-1px; line-height:120%; }
 #index .section_visitor .t-des { margin:5rem 0 0; font-size:1.8rem; font-weight:400; color:#fff; line-height:150%; }
 
 #index .section_visitor .card { margin:10rem 0 0; position:relative; }
@@ -142,7 +142,7 @@ span.br { display:block }
 #index .section_Employee { position:relative;  padding:11rem 0 18rem; background: linear-gradient(135deg, #0a0d22 0%, #0a0d22 50%, #0f1758 100%); }
 #index .section_Employee .inner { max-width:159.3rem; margin:0 auto; }
 #index .section_Employee h2 span { display:block; font-size:2.5rem; font-weight:500; color:#3399ff;  }
-#index .section_Employee h2 strong { margin:1.5rem 0 0; display:block; font-size:4.7rem; font-weight:800; color:#3399ff; letter-spacing: -1px; }
+#index .section_Employee h2 strong { margin:1.5rem 0 0; display:block; font-size:4.7rem; font-weight:800; color:#3399ff; letter-spacing: -1px; line-height:120%; }
 #index .section_Employee .t-des { margin:5rem 0 0; font-size:1.8rem; font-weight:400; color:#fff; line-height:150%; }
 #index .section_Employee .slogan {  width:48.2rem; height:7.3rem; line-height:7.3rem; text-align:center; background:#0059a9; border:1px solid #1c61bf; font-size:2.6rem; font-weight:400; color:#fff;  }
 #index .section_Employee .slogan.mt-9 { margin-top:9rem; }
@@ -172,16 +172,16 @@ span.br { display:block }
 #index .section_storage { position:relative;  padding:11rem 0 18rem;  }
 #index .section_storage .inner { max-width:159.3rem; margin:0 auto; }
 #index .section_storage h2 span { display:block; font-size:2.5rem; font-weight:500; color:#003d90;  }
-#index .section_storage h2 strong { margin:1.5rem 0 0; display:block; font-size:4.7rem; font-weight:800; color:#003d90; letter-spacing: -1px; }
+#index .section_storage h2 strong { margin:1.5rem 0 0; display:block; font-size:4.7rem; font-weight:800; color:#003d90; letter-spacing: -1px; line-height:120%; }
 #index .section_storage .con-banner { margin:14rem 0 0; height:58.5rem;  display:flex; align-items:center; justify-content:flex-end; border-radius:28rem 0 28rem 0;  position:relative; background:#0f1758; }
 #index .section_storage .con-banner .bg-wrap { position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; border-radius:28rem 0 28rem 0; z-index:1; }
 #index .section_storage .con-banner .bg { position:absolute; top:0; left:0; width:100%; height:100%; background:url('../images/main_storage_bg@2x.png') 0 50% no-repeat; background-size:cover; will-change:transform; transform-origin:center center; }
-#index .section_storage .con-banner .txtBox { position:relative; z-index:2; max-width:52rem; letter-spacing: -0.5px; margin-right:21.5rem; height:100%; display:flex; flex-direction:column; justify-content:center; }
+#index .section_storage .con-banner .txtBox { position:relative; z-index:2; max-width:54rem; letter-spacing: -0.5px; margin-right:21.5rem; height:100%; display:flex; flex-direction:column; justify-content:center; }
 #index .section_storage .con-banner .txtBox h3 { font-size:3rem; font-weight:700; color:#fff; line-height:155%; margin:0 0 6.5rem; letter-spacing:-0.5px; }
 #index .section_storage .con-banner .txtBox p { font-size:2.2rem; font-weight:400; color:rgba(255,255,255,.8); line-height:160%; margin:0 0 6.5rem; }
 #index .section_storage .con-banner .txtBox a { display:inline-flex; align-self:flex-start; padding:1.2rem 3.5rem; border:1px solid rgba(255,255,255,.5); font-size:1.8rem; color:#fff; letter-spacing:0.5px; transition:background 0.2s ease; }
 #index .section_storage .con-banner .txtBox a:hover { background:rgba(255,255,255,.15); }
-#index .section_storage .con-banner .year { position:absolute; z-index:3; left:32rem; bottom:-15rem; width:42.3rem; height:32rem; background:#1428a0; padding:5rem 6.5rem 6.5rem; }
+#index .section_storage .con-banner .year { position:absolute; z-index:3; left:32rem; bottom:-15rem; width:42.3rem; height:32rem; background:#1428a0; padding:5rem 6.5rem 6.5rem; text-align:right; }
 #index .section_storage .con-banner .year p { font-size:3rem; color:#0094d4; }
 #index .section_storage .con-banner .year p.big { font-size:5rem; color:#fff; font-weight:600; line-height:150%; }
 #index .section_storage .con-banner .year p.big strong { font-size:12rem; color:#fff; font-weight:800; line-height:100%; }
@@ -204,7 +204,7 @@ span.br { display:block }
 #index .section_kiosk { position:relative;  padding:11rem 0 28rem; background:url('../images/main_kiosk_bg@2x.png') 80% 0 no-repeat; background-size:contain; }
 #index .section_kiosk .inner { max-width:159.3rem; margin:0 auto; }
 #index .section_kiosk h2 span { display:block; font-size:2.5rem; font-weight:500; color:#003d90;  }
-#index .section_kiosk h2 strong { margin:1.5rem 0 0; display:block; font-size:4.7rem; font-weight:800; color:#003d90; letter-spacing: -1px; }
+#index .section_kiosk h2 strong { margin:1.5rem 0 0; display:block; font-size:4.7rem; font-weight:800; color:#003d90; letter-spacing: -1px; line-height:120%; }
 #index .section_kiosk .con-banner { margin:14rem 0 0; height:58.5rem; display:flex; align-items:center; justify-content:flex-start; border-radius:28rem 0 28rem 0; position:relative; overflow:visible; background: linear-gradient(to right, #0f1758, #14279e); }
 #index .section_kiosk .con-banner .img_kiosk { position:absolute; right:33rem; bottom:0; width:42.9rem; overflow:hidden; }
 #index .section_kiosk .con-banner .img_kiosk img { width:100%; }
@@ -460,7 +460,7 @@ span.br { display:block }
 
 
 /* 서브 */
-#sub { position:relative; margin-top:10rem; overflow-x:hidden; }
+#sub { position:relative; margin-top:10rem; }
 
 /* 서브배너 */
 #sub .visual .responsive { display:flex; align-items:center }
@@ -511,6 +511,59 @@ span.br { display:block }
 #sub .contetns button.confirm {border:1px solid #e1e1e1; padding:1.1rem 1.8rem;background-color:#666;color:#fff;font-size:1.5rem}
 #sub .contetns.cert{text-align:center;margin:20rem 0rem; }
 
+/* 회사소개 CEO 인사말 */
+#sub .contetns.company1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:url('../images/company_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+#sub .contetns.company1 .section1 .img { position:absolute; top:-16rem; right:2rem }
+#sub .contetns.company1 .section_con { margin:8rem auto 0 !important; position:relative; }
+#sub .contetns.company1 .section_con:after { clear:both; display:block; content:"" }
+#sub .contetns.company1 .section_con p { font-size:1.9rem; color:#333; line-height:170% }
+#sub .contetns.company1 .section_con .name { font-size:2.4rem; }
+
+/* 회사소개 사업연혁 */
+#sub .contetns.company2 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:url('../images/company2_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+#sub .contetns.company2 .section_con { margin:7rem auto 0; position:relative; }
+#sub .contetns.company2 .section_con:after { clear:both; display:block; content:"" }
+#sub .contetns.company2 table.history { max-width:74rem; margin:0 auto }
+#sub .contetns.company2 table.history tr:first-child td:nth-child(2) { height:14.1rem; background:url('../images/company2_bg_line_top.jpg') 50% 0 no-repeat; }
+#sub .contetns.company2 table.history tr:last-child td:nth-child(2) { height:18rem; background:url('../images/company2_bg_line_bottom.jpg') 50% 0 no-repeat; }
+#sub .contetns.company2 table.history td { padding:1.5rem; font-size:2rem; color:#333; }
+#sub .contetns.company2 table.history td:nth-child(2) { text-align:center; background:url('../images/company2_bg_line_body.jpg') 50% 50% repeat-y; }
+
+/* 회사소개 R&D */
+#sub .contetns.company3 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:url('../images/company3_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+
+#sub .contetns.company3 .section_con .img { margin:8rem auto 4rem; text-align:center; position:relative }
+#sub .contetns.company3 .section_con .img.position { height:97rem; text-align:center; }
+#sub .contetns.company3 .section_con .img.position .img_1 { position:absolute; top:2rem; left:5.2rem; z-index:2 }
+#sub .contetns.company3 .section_con .img.position .img_2 { position:absolute; top:15rem; right:5.5rem; z-index:2 }
+#sub .contetns.company3 .section_con .img.position .img_3 { position:absolute; bottom:2rem; left:50%; -webkit-transform: translateX(-50%); -ms-transform: translateX(-50%); transform:translateX(-50%); z-index:1 }
+#sub .contetns.company3 .section_con .img.position .s_wrap { position:relative; width:100%; height:100%; }
+
+#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_1 { position:absolute; top:-1.5rem; left:-1.5rem; }
+#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_2 { position:absolute; top:-4rem; right:-1rem }
+#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_3 { position:absolute; top:20rem; right:-9rem }
+#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_4 { position:absolute; bottom:8rem; left:-1.5rem; }
+
+#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_1 { position:absolute; top:-1.5rem; left:-1.5rem; }
+#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_2 { position:absolute; top:-4rem; right:-1rem }
+#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_3 { position:absolute; top:20rem; right:-9rem }
+
+#sub .contetns.company3 .section_con .img ul { display:flex; justify-content:space-between; margin:0 0 1.5rem 0; }
+#sub .contetns.company3 .section_con .img li { text-align:center; border:1px solid #d5d7d6; padding:0.5rem; margin:0 0.5% }
+#sub .contetns.company3 .section_con .img li.blank { border:0px }
+#sub .contetns.company3 .section_con .img4 { margin:8rem 0 0 -2.5rem; }
+#sub .contetns.company3 .section_con .img4 li { border-bottom:1px solid #e7e7e7; padding:2rem 0 }
+
+#sub .contetns.company3 .section_con .txt_area { text-align:center }
+#sub .contetns.company3 .section_con .txt_area h4 { font-size:3.5rem; color:#333; font-weight:bold }
+#sub .contetns.company3 .section_con .txt_area p { font-size:2.2rem; color:#333; line-height:170% }
+
+/* 회사소개 사업장안내 */
+#sub .contetns.company4 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:url('../images/company4_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+#sub .contetns.company4 .section_con.bg { padding-bottom:4rem; background:url('../images/company4_bg2.jpg') 95% 100% no-repeat; }
+#sub .contetns.company4 .line { border:1px solid #a3a3a3; }
+#sub .contetns.company4 .map_height { height:48rem }
+
 @media all and (max-width:1193px) {
 	
 	/********** 헤더 ***********/
@@ -552,6 +605,41 @@ span.br { display:block }
 	#sub .contetns .title_area p { font-size:2.4rem; color:#333 }
 	#sub .contetns .section_con { margin-top:10rem !important }
 	#sub .contetns .section_con.five { margin-top:35rem !important }
+
+	/* 회사소개 CEO 인사말 */
+	#sub .contetns.company1 .section_con span.br { display:none }
+	#sub .contetns.company1 .section1 { height:30rem; }
+	#sub .contetns.company1 .section1 .img { top:-16rem; right:1rem }
+	#sub .contetns.company1 .section1 .img img { width:28rem }
+	#sub .contetns.company1 .section_con { margin:12rem auto 0 !important; }
+	#sub .contetns.company1 .section_con p { font-size:1.4rem; }
+	#sub .contetns.company1 .section_con .name { font-size:1.8rem; }
+
+	/* 회사소개 사업연혁 */
+	#sub .contetns.company2 .section1 { height:30rem; }
+	#sub .contetns.company2 table.history { max-width:74rem; margin:0 auto }
+	#sub .contetns.company2 table.history tr:first-child td:nth-child(2) { height:14.1rem; background:url('../images/company2_bg_line_top.jpg') 50% 0 no-repeat; }
+	#sub .contetns.company2 table.history tr:last-child td:nth-child(2) { height:18rem; background:url('../images/company2_bg_line_bottom.jpg') 50% 0 no-repeat; }
+	#sub .contetns.company2 table.history td { padding:1rem; font-size:1.5rem; color:#333; }
+	#sub .contetns.company2 table.history td:nth-child(2) { text-align:center; background:url('../images/company2_bg_line_body.jpg') 50% 50% repeat-y; }
+
+	/* 회사소개 R&D */
+	#sub .contetns.company3 .section_con .img.position { width:102.4rem; height:70rem; left:-2rem; text-align:center; }
+	#sub .contetns.company3 .section_con .img.position .img_1 img,
+	#sub .contetns.company3 .section_con .img.position .img_2 img { width:80% }
+	#sub .contetns.company3 .section_con .img.position .img_1 { position:absolute; top:0; left:6.1rem; z-index:2 }
+	#sub .contetns.company3 .section_con .img.position .img_2 { position:absolute; top:6rem; right:3.5rem; z-index:2 }
+	#sub .contetns.company3 .section_con .img.position .img_3 { position:absolute; bottom:-4rem; left:50%; -webkit-transform: translateX(-50%); -ms-transform: translateX(-50%); transform:translateX(-50%); z-index:1 }
+	#sub .contetns.company3 .section_con .img.position .s_wrap { position:relative; width:100%; height:100%; }
+
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_1 { position:absolute; top:0; left:0; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_2 { position:absolute; top:-2rem; right:0; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_3 { position:absolute; top:15rem; right:-5rem }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_4 { position:absolute; bottom:8rem; left:0rem; text-align:center }
+
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_1 { position:absolute; top:-1.5rem; left:3rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_2 { position:absolute; top:-3rem; right:3rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_3 { position:absolute; top:14rem; right:-5rem; text-align:center }
 
 }
 
@@ -615,7 +703,30 @@ span.br { display:block }
 	#sub .contetns .section_con h3 span.green { background:#46bf20 }
 	#sub .contetns .section_con p { font-size:1.4rem; color:#333; line-height:170% } 
 
+	/* 회사소개 R&D */
+	#sub .contetns.company3 .section1 { height:30rem; }
+	#sub .contetns.company3 .section_con .img { margin:4rem auto; text-align:center; position:relative }
+	#sub .contetns.company3 .section_con .txt_area h4 { font-size:3rem; color:#333; font-weight:bold }
+	#sub .contetns.company3 .section_con .txt_area p { font-size:1.8rem; color:#333; line-height:170% }
+	#sub .contetns.company3 .section_con .img.position { width:76.8rem; height:60rem; text-align:center; }
+	#sub .contetns.company3 .section_con .img.position .img_1 img,
+	#sub .contetns.company3 .section_con .img.position .img_2 img { width:70% }
+	#sub .contetns.company3 .section_con .img.position .img_1 { position:absolute; top:0; left:-1.2rem; z-index:2 }
+	#sub .contetns.company3 .section_con .img.position .img_2 { position:absolute; top:6rem; right:-2.7rem; z-index:2 }
+	#sub .contetns.company3 .section_con .img.position .img_3 { position:absolute; bottom:1rem; left:50%; -webkit-transform: translateX(-50%); -ms-transform: translateX(-50%); transform:translateX(-50%); z-index:1 }
+	#sub .contetns.company3 .section_con .img.position .s_wrap { position:relative; width:100%; height:100%; }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_1 { position:absolute; top:0; left:0; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_2 { position:absolute; top:-2rem; right:0; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_3 { position:absolute; top:14rem; right:-2rem }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_4 { position:absolute; bottom:8rem; left:0rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_1 { position:absolute; top:-1.5rem; left:3rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_2 { position:absolute; top:-3rem; right:3rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_3 { position:absolute; top:14rem; right:-2rem; text-align:center }
 
+	/* 회사소개 사업장안내 */
+	#sub .contetns.company4 .section1 { height:30rem; }
+	#sub .contetns.company4 .section_con.bg { padding-bottom:4rem; background:url('../images/company4_bg2.jpg') 95% 100% no-repeat; background-size:45% }
+	#sub .contetns.company4 .map_height { height:40rem }
 
 }
 
@@ -665,7 +776,40 @@ span.br { display:block }
 	#sub .lnb ul li:hover a { color:#0064af }
 	#sub .lnb ul li.active a { color:#fff }
 	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#0064af; z-index:1 }
-	
+
+	/* 회사소개 CEO 인사말 */
+	#sub .contetns.company1 .title_area { margin:0 0 6rem; width:60%; text-align:left }
+	#sub .contetns .title_area span.br { display:none !important }
+	#sub .contetns.company1 .section1 { height:20rem; }
+	#sub .contetns.company1 .section1 .img { top:-17rem; right:1rem }
+	#sub .contetns.company1 .section1 .img img { width:24rem }
+	#sub .contetns.company1 .section_con { margin:8rem auto 0 !important; }
+
+	/* 회사소개 사업연혁 */
+	#sub .contetns.company2 .section1 { height:20rem; }
+
+	/* 회사소개 R&D */
+	#sub .contetns.company3 .section1 { height:20rem; }
+	#sub .contetns.company3 .section_con .img { margin:4rem auto; text-align:center; position:relative }
+	#sub .contetns.company3 .section_con .txt_area span.br { display:block !important }
+	#sub .contetns.company3 .section_con .img.position { width:48rem; height:40rem; left:0; text-align:center; }
+	#sub .contetns.company3 .section_con .img.position .img_1 img,
+	#sub .contetns.company3 .section_con .img.position .img_2 img { width:40% }
+	#sub .contetns.company3 .section_con .img.position .img_1 { position:absolute; top:2rem; left:-10.5rem; z-index:2 }
+	#sub .contetns.company3 .section_con .img.position .img_2 { position:absolute; top:6rem; right:-11.5rem; z-index:2 }
+	#sub .contetns.company3 .section_con .img.position .img_3 { position:absolute; bottom:1rem; left:50%; -webkit-transform: translateX(-50%); -ms-transform: translateX(-50%); transform:translateX(-50%); z-index:1 }
+	#sub .contetns.company3 .section_con .img.position .s_wrap { position:relative; width:100%; height:100%; }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_1 { position:absolute; top:0; left:7rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_2 { position:absolute; top:-2rem; right:7rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_3 { position:absolute; top:10rem; right:5rem }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_4 { position:absolute; bottom:4rem; left:7rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_1 { position:absolute; top:-1.5rem; left:8rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_2 { position:absolute; top:-3rem; right:8rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_3 { position:absolute; top:9rem; right:4rem; text-align:center }
+
+	/* 회사소개 사업장안내 */
+	#sub .contetns.company4 .section1 { height:20rem; }
+	#sub .contetns.company4 .map_height { height:30rem }
 
 }
 
@@ -686,6 +830,29 @@ span.br { display:block }
 	#sub .lnb ul li:hover a { color:#0064af }
 	#sub .lnb ul li.active a { color:#fff }
 	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#0064af; z-index:1 }
+
+	/* 회사소개 사업연혁 */
+	#sub .contetns.company2 table.history td { padding:0.7rem; font-size:1.5rem; color:#333; }
+	#sub .contetns.company2 table.history td:first-child { width:8rem }
+
+	/* 회사소개 R&D */
+	#sub .contetns.company3 .section_con .img.position { width:31rem; height:35rem; text-align:center; }
+	#sub .contetns.company3 .section_con .img.position .img_1 img,
+	#sub .contetns.company3 .section_con .img.position .img_2 img { width:37% }
+	#sub .contetns.company3 .section_con .img.position .img_1 { position:absolute; top:1rem; left:-20.6rem; z-index:2; }
+	#sub .contetns.company3 .section_con .img.position .img_2 { position:absolute; top:4rem; right:-21.5rem; z-index:2 }
+	#sub .contetns.company3 .section_con .img.position .img_3 { width:62%; position:absolute; bottom:0; left:50%; -webkit-transform: translateX(-50%); -ms-transform: translateX(-50%); transform:translateX(-50%); z-index:1 }
+	#sub .contetns.company3 .section_con .img.position .s_wrap { position:relative; width:100%; height:100%; }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_1 { position:absolute; top:0; left:7rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_2 { position:absolute; top:-2rem; right:7rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_3 { position:absolute; top:10rem; right:5rem }
+	#sub .contetns.company3 .section_con .img.position .img_1 .s_wrap .s_4 { position:absolute; bottom:4rem; left:7rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_1 { position:absolute; top:-1.5rem; left:10rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_2 { position:absolute; top:-1rem; right:8rem; text-align:center }
+	#sub .contetns.company3 .section_con .img.position .img_2 .s_wrap .s_3 { position:absolute; top:9.5rem; right:5.5rem; text-align:center }
+
+	/* 회사소개 사업장안내 */
+	#sub .contetns.company4 span.addr_br { display:block }
 
 }
 
@@ -1260,8 +1427,8 @@ span.br { display:block }
 #bottom .inner { max-width:159.3rem; margin:0 auto; }
 #bottom .logo { margin:0 0 3rem; }
 #bottom .logo img { width:19rem; }
-#bottom .copyright { display:inline-block; vertical-align:top; }
-#bottom .copyright p { font-size:1.8rem; font-weight:400; color:#3b3b3b; line-height:170% }
+#bottom .copyright { display:flex; }
+#bottom .copyright p { flex:1; font-size:1.8rem; font-weight:400; color:#3b3b3b; line-height:170% }
 #bottom .copyright p span { display:inline-block; width:1.5rem; }
 
 #top-btn { position:fixed; right:10rem; bottom:12rem; opacity:0; z-index:99999 }
@@ -1276,12 +1443,11 @@ span.br { display:block }
 
 @media all and (max-width:1193px) {
 
-	#bottom { margin:10rem auto 0; background:#111; padding:5rem 0; }
-	#bottom .section_con { padding:0 3rem ;}
-	#bottom .section_con .logo { display:block; vertical-align:top; margin-right:7rem; position:relative; bottom:0; margin:0 0 2rem }
-	#bottom .section_con .copyright { display:block; vertical-align:top; }
-	#bottom .section_con .copyright p { font-size:1.6rem; color:#fff; line-height:190% }
-	#bottom .section_con span.h_line { border-right:1px solid #777; margin:0 1rem; display:inline-block; vertical-align:middle; position:relative; top:-1px; height:1.6rem; line-height:1.6rem; }
+	#bottom { margin:10rem auto 0; padding:5rem 3rem; }
+	#bottom .logo { margin:0 0 2rem; }
+	#bottom .copyright { display:block; }
+	#bottom .copyright p { font-size:1.6rem; line-height:190%; }
+    #bottom .copyright p:nth-child(2) { margin:2rem 0 0; }
 
 	#top-btn { position:fixed; right:10rem; bottom:12rem; opacity:0; z-index:99999 }
 	#top-btn button { border:0; width:5rem; height:5rem; background:url('../images/top_btn.png') 0 0 no-repeat; background-size:cover }
@@ -1296,12 +1462,10 @@ span.br { display:block }
 
 @media all and (max-width:1023px) {
 
-	#bottom { margin:10rem auto 0; background:#111; padding:3rem; }
-	#bottom .section_con { padding:0 3rem ; }
-	#bottom .section_con .logo { display:block; vertical-align:top;  position:relative; bottom:0; margin:0 0 2rem }
-	#bottom .section_con .copyright { display:block; vertical-align:top; }
-	#bottom .section_con .copyright p { font-size:1.4rem; color:#fff; line-height:190% }
-	#bottom .section_con span.h_line { border-right:1px solid #777; margin:0 1rem; display:inline-block; vertical-align:middle; position:relative; top:-1px; height:1.6rem; line-height:1.6rem; }
+	#bottom { margin:6rem auto 0; padding:3rem; }
+	#bottom .logo { margin:0 0 2rem; }
+	#bottom .copyright { display:block; }
+	#bottom .copyright p { font-size:1.4rem; line-height:190%; }
 
 	#top-btn { position:fixed; right:2rem; bottom:2rem; opacity:0; z-index:99999 }
 	#top-btn button { border:0; width:5rem; height:5rem; background:url('../images/top_btn.png') 0 0 no-repeat; background-size:cover }
@@ -1316,12 +1480,9 @@ span.br { display:block }
 
 @media all and (max-width:767px) {
 	
-	#bottom { margin:10rem auto 0; background:#111; padding:2rem 0; }
-	#bottom .section_con { padding:0 2rem ; }
-	#bottom .section_con .logo img { width:18rem }
-	#bottom .section_con span.h_line { display:none }
-	#bottom .section_con .copyright p { font-size:1.2rem; color:#fff; line-height:180% }
-	#bottom span.br { display:none }
-	#bottom span.br_t { display:block }
+	#bottom { margin:3rem auto 0; padding:2rem; }
+	#bottom .logo img { width:16rem; }
+	#bottom .copyright { display:block; }
+	#bottom .copyright p { font-size:1.2rem; line-height:180%; }
 
 }
