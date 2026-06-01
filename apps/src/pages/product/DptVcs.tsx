@@ -1,6 +1,10 @@
 import ProductLayout from './ProductLayout'
 import prdVcsImg1 from '../../assets/images/prd_vcs_img_1@2x.png'
 import prdVcsImg2 from '../../assets/images/prd_vcs_img_2.png'
+import prdVcsImg5_1 from '../../assets/images/prd_vcs_img_5.png'
+import prdVcsImg5_2 from '../../assets/images/prd_vcs_img_5_2.png'
+import prdVcsImg5_3 from '../../assets/images/prd_vcs_img_5_3.png'
+import prdVcsImg5_4 from '../../assets/images/prd_vcs_img_5_4.png'
 
 function DptVcs() {
   return (
@@ -113,7 +117,7 @@ function DptVcs() {
                     <div className='green'>로컬 AI 통합</div>
                     <div>단순 통제를 넘어선 예측, ‘로컬 AI 엔진’ 탑재</div>
                 </div>
-                <div className='cp-con three'>
+                <div className='cp-con three1'>
                     <p className='t-1'>
                         외부 연계 없는 로컬 AI 엔진 탑재로 안전하고 이상 징후를 사전에 차단할 수 있는 지능화된 핵심 AI 기술 
                     </p>
@@ -136,9 +140,65 @@ function DptVcs() {
                     </div>
                 </div>
             </div>
+            <div className='con-box'>
+                <h3 className='c-tit'>VCS 주요 화면</h3>
+                <ul className='ul-con-list3'>
+                    <li>
+                        <div><img src={prdVcsImg5_1} alt="시작화면" /></div>
+                        <p>시작화면</p>
+                    </li>
+                    <li>
+                        <div><img src={prdVcsImg5_2} alt="저장매체 연결" /></div>
+                        <p>저장매체 연결</p>
+                    </li>
+                    <li>
+                        <div><img src={prdVcsImg5_3} alt="바이러스 검사" /></div>
+                        <p>바이러스 검사</p>
+                    </li>
+                    <li>
+                        <div><img src={prdVcsImg5_4} alt="검사 완료" /></div>
+                        <p>검사 완료</p>
+                    </li>
+                </ul>
+            </div>
+            <div className='con-box'>
+                <h3 className='c-tit'>VCS 도입 전후 패러다임의 변화 비교</h3>
+                <div className='compare-table-wrap'>
+                    <table className='compare-table'>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>기존 아날로그방식</th>
+                                <th className='th-after'>VCS 도입 이후</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>반입 관리</td>
+                                <td>수기 확인 및 검사 누락 발생</td>
+                                <td className='td-after'>시스템 기반 검사 강제화<br/>(미 완료 반입 불가)</td>
+                            </tr>
+                            <tr>
+                                <td>위협 대응</td>
+                                <td>사후 감염 대응 중심</td>
+                                <td className='td-after'>반입 전 3종 백신 검사로<br/>바이러스, 악성코드 선제적 차단</td>
+                            </tr>
+                            <tr>
+                                <td>유출 방지</td>
+                                <td>반출 파일 확인 불가, 단순 삭제</td>
+                                <td className='td-after'>변경 파일 식별 및<br/>보안삭제 / 영구삭제 적용</td>
+                            </tr>
+                            <tr>
+                                <td>이력 검사</td>
+                                <td>종이 대장, 추적 및 검색 불가</td>
+                                <td className='td-after'>100% 디지털 전산 이력 관리</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             
         </div>
-
       </div>
     </ProductLayout>
   )
