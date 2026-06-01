@@ -1745,3 +1745,243 @@ span.br { display:block }
 	#sub .contetns.recruitment1 .section_con ul.list li { margin:0 0 3rem; padding:0 0 0 35%; display:flex; justify-content:center; flex-direction:column; height:17rem; background:url('../images/recruitment_con_bg.jpg') 0 50% no-repeat; background-size:contain }
 	#sub .contetns.recruitment1 .section_con ul.list li h4 { font-size:1.6rem; color:#1a5ba7; margin:0 0 1rem; font-weight:bold }
 }
+
+/* 인재채용 - 복지후생 */
+#sub .contetns.recruitment2 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:#c3cdd6; }
+#sub .contetns.recruitment2 .section1 .bg { position:absolute; width:100%; height:100%; z-index:2; background:url('../images/recruitment_bg1.png') 0 0 no-repeat; background-size:cover}
+#sub .contetns.recruitment2 .section1 .img { position:absolute; z-index:1; bottom:0; right:3rem }
+
+
+#sub .contetns.recruitment2 .section_con ul.list { margin:8rem 0 0 0; }
+#sub .contetns.recruitment2 .section_con ul.list li { margin:0 0 5rem; padding:2rem 0 2rem 23%;  }
+#sub .contetns.recruitment2 .section_con ul.list li:nth-child(1) { background:url('../images/recruitment2_con_bg1.jpg') 0 50% no-repeat;  }
+#sub .contetns.recruitment2 .section_con ul.list li:nth-child(2) { background:url('../images/recruitment2_con_bg2.jpg') 0 50% no-repeat;  }
+#sub .contetns.recruitment2 .section_con ul.list li:nth-child(3) { background:url('../images/recruitment2_con_bg3.jpg') 0 50% no-repeat;  }
+#sub .contetns.recruitment2 .section_con ul.list li:nth-child(4) { background:url('../images/recruitment2_con_bg4.jpg') 0 50% no-repeat;  }
+#sub .contetns.recruitment2 .section_con ul.list li h4 { font-size:2.5rem; color:#1a5ba7;  font-weight:700 }
+#sub .contetns.recruitment2 .section_con ul.info { list-style:disc; margin:2rem 0 0 2.5rem }
+#sub .contetns.recruitment2 .section_con ul.info li { font-size:1.8rem; color:#333; line-height:170%; margin:0 !important; padding:0 !important; height:auto !important; background:none !important }
+
+
+@media all and (max-width:1023px) {
+	
+
+	#sub .contetns.recruitment2 .section1 { max-width:182rem; margin:0 auto; position:relative; height:30rem; background:#c3cdd6; }
+	#sub .contetns.recruitment2 .section1 .bg { position:absolute; width:100%; height:100%; z-index:2; background:url('../images/recruitment_bg1.png') 0 0 no-repeat; background-size:cover}
+	#sub .contetns.recruitment2 .section1 .img { position:absolute; bottom:0; right:1rem }
+	#sub .contetns.recruitment2 .section1 .img img { width:43rem }
+
+
+	#sub .contetns.recruitment2 .section_con ul.list { margin:5rem 0 0 0;  }
+	#sub .contetns.recruitment2 .section_con ul.list li { margin:0 0 2rem; padding:2rem 0 2rem 25%;  }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(1) { background:url('../images/recruitment2_con_bg1.jpg') 0 50% no-repeat; background-size:15rem }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(2) { background:url('../images/recruitment2_con_bg2.jpg') 0 50% no-repeat; background-size:15rem }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(3) { background:url('../images/recruitment2_con_bg3.jpg') 0 50% no-repeat; background-size:15rem }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(4) { background:url('../images/recruitment2_con_bg4.jpg') 0 50% no-repeat; background-size:15rem }
+	#sub .contetns.recruitment2 .section_con ul.list li h4 { font-size:2rem; color:#1a5ba7; font-weight:700 }
+	#sub .contetns.recruitment2 .section_con ul.info { list-style:disc; margin:2rem 0 0 2.5rem }
+	#sub .contetns.recruitment2 .section_con ul.info li { font-size:1.7rem; color:#333; line-height:160%; margin:0 !important; padding:0 !important; height:auto !important; background:none !important }
+
+
+}
+
+@media all and (max-width:767px) {
+	
+
+	#sub .contetns.recruitment2 .section1 { max-width:182rem; margin:0 auto; position:relative; height:20rem; background:url('../images/recruitment_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+	#sub .contetns.recruitment2 .section1 .img { position:absolute; bottom:0; right:1rem }
+	#sub .contetns.recruitment2 .section1 .img img { width:26rem }
+
+	#sub .contetns.recruitment2 .section_con ul.list { margin:3rem 0 0 0;  }
+	#sub .contetns.recruitment2 .section_con ul.list li { margin:0 0 2rem; padding:2rem 0 2rem 23%; }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(1) { background:url('../images/recruitment2_con_bg1.jpg') 0 50% no-repeat; background-size:9rem }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(2) { background:url('../images/recruitment2_con_bg2.jpg') 0 50% no-repeat; background-size:9rem }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(3) { background:url('../images/recruitment2_con_bg3.jpg') 0 50% no-repeat; background-size:9rem }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(4) { background:url('../images/recruitment2_con_bg4.jpg') 0 50% no-repeat; background-size:9rem }
+	#sub .contetns.recruitment2 .section_con ul.list li h4 { font-size:1.7rem; color:#1a5ba7;  font-weight:700 }
+	#sub .contetns.recruitment2 .section_con ul.info { list-style:disc; margin:1rem 0 0 2rem }
+	#sub .contetns.recruitment2 .section_con ul.info li { font-size:1.4rem; color:#333; line-height:160%; margin:0 !important; padding:0 !important; height:auto !important; background:none !important }
+
+
+}
+
+
+@media all and (max-width:479px) {
+	
+	#sub .contetns.recruitment2 .section1 .img { position:absolute; bottom:0; right:0 }
+	#sub .contetns.recruitment2 .section1 .img img { width:24rem }
+
+	
+	#sub .contetns.recruitment2 .section_con ul.list { margin:3rem 0 0 0;  }
+	#sub .contetns.recruitment2 .section_con ul.list li { margin:0; padding:13rem 0 2rem 0; }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(1) { background:url('../images/recruitment2_con_bg1.jpg') 50% 0 no-repeat; background-size:12rem }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(2) { background:url('../images/recruitment2_con_bg2.jpg') 50% 0 no-repeat; background-size:12rem }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(3) { background:url('../images/recruitment2_con_bg3.jpg') 50% 0 no-repeat; background-size:12rem }
+	#sub .contetns.recruitment2 .section_con ul.list li:nth-child(4) { background:url('../images/recruitment2_con_bg4.jpg') 50% 0 no-repeat; background-size:12rem }
+	#sub .contetns.recruitment2 .section_con ul.list li h4 { font-size:1.8rem; color:#1a5ba7;  font-weight:700 }
+	#sub .contetns.recruitment2 .section_con ul.info { list-style:disc; margin:1rem 0 0 2rem }
+	#sub .contetns.recruitment2 .section_con ul.info li { font-size:1.4rem; color:#333; line-height:160%; margin:0 !important; padding:0 !important; height:auto !important; background:none !important }
+
+}
+
+
+
+/* 인재채용 - 지원안내 */
+#sub .contetns.recruitment3 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:#c3cdd6; }
+#sub .contetns.recruitment3 .section1 .bg { position:absolute; width:100%; height:100%; z-index:2; background:url('../images/recruitment_bg1.png') 0 0 no-repeat; background-size:cover}
+#sub .contetns.recruitment3 .section1 .img { position:absolute; z-index:1; bottom:0; right:3rem }
+
+#sub .contetns.recruitment3 .section_con h4 { font-size:2.5rem; color:#1a5ba7; margin:0 0 1rem; font-weight:700 }
+#sub .contetns.recruitment3 .section_con h4.margin { margin:3rem 0 }
+
+#sub .contetns.recruitment3 .section_con ul.info { list-style:disc; margin:2rem 0 0 2.5rem }
+#sub .contetns.recruitment3 .section_con ul.info li { font-size:1.8rem; color:#333; line-height:170%; margin:0 !important; padding:0 !important; height:auto !important; background:none !important }
+#sub .contetns.recruitment3 .section_con .img { margin:3rem 0 }
+
+#sub .contetns.recruitment3 .section_con a.email { display:inline-block; margin:4rem 0 0; font-size:1.9rem; color:#058dcf }
+
+
+@media all and (max-width:1023px) {
+	
+
+	#sub .contetns.recruitment3 .section1 { max-width:182rem; margin:0 auto; position:relative; height:30rem; background:#c3cdd6; }
+	#sub .contetns.recruitment3 .section1 .bg { position:absolute; width:100%; height:100%; z-index:2; background:url('../images/recruitment_bg1.png') 0 0 no-repeat; background-size:cover}
+	#sub .contetns.recruitment3 .section1 .img { position:absolute; bottom:0; right:1rem }
+	#sub .contetns.recruitment3 .section1 .img img { width:43rem }
+
+
+	#sub .contetns.recruitment3 .section_con h4 { font-size:2rem; color:#1a5ba7; margin:0 0 1rem; font-weight:700 }
+	#sub .contetns.recruitment3 .section_con h4.margin { margin:3rem 0 }
+
+	#sub .contetns.recruitment3 .section_con ul.info { list-style:disc; margin:2rem 0 0 2.5rem }
+	#sub .contetns.recruitment3 .section_con ul.info li { font-size:1.7rem; color:#333; line-height:170%; margin:0 !important; padding:0 !important; height:auto !important; background:none !important }
+	#sub .contetns.recruitment3 .section_con p { font-size:1.7rem }
+
+	#sub .contetns.recruitment3 .section_con a.email { display:inline-block; margin:4rem 0 0; font-size:1.7rem; color:#058dcf }
+	#sub .contetns.recruitment3 .section_con a.email img { width:5rem }
+
+}
+
+@media all and (max-width:767px) {
+
+	#sub .contetns.recruitment3 .section1 { max-width:182rem; margin:0 auto; position:relative; height:20rem; background:url('../images/recruitment_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+	#sub .contetns.recruitment3 .section1 .img { position:absolute; bottom:0; right:1rem }
+	#sub .contetns.recruitment3 .section1 .img img { width:26rem }
+
+	
+	#sub .contetns.recruitment3 .section_con h4 { font-size:1.7rem; color:#1a5ba7; margin:0 0 1rem; font-weight:700 }
+	#sub .contetns.recruitment3 .section_con h4.margin { margin:3rem 0 }
+
+	#sub .contetns.recruitment3 .section_con ul.info { list-style:disc; margin:2rem 0 0 2.5rem }
+	#sub .contetns.recruitment3 .section_con ul.info li { font-size:1.4rem; color:#333; line-height:170%; margin:0 !important; padding:0 !important; height:auto !important; background:none !important }
+	#sub .contetns.recruitment3 .section_con p { font-size:1.4rem }
+
+	#sub .contetns.recruitment3 .section_con a.email { display:inline-block; margin:4rem 0 0; font-size:1.6rem; color:#058dcf }
+	#sub .contetns.recruitment3 .section_con a.email img { width:4rem }
+
+}
+
+
+@media all and (max-width:479px) {
+	
+	#sub .contetns.recruitment3 .section1 .img { position:absolute; bottom:0; right:0 }
+	#sub .contetns.recruitment3 .section1 .img img { width:24rem }
+
+
+
+}
+
+/* 고객지원 */
+#sub .contetns.request1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:url('https://dataprotec.co.kr/renewal/theme/basic/img/request_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+
+#sub .contetns.request1 .section_con .tbl_width { border-top:2px solid #333 }
+#sub .contetns.request1 .section_con .tbl_width table.tbl_form { width:100%; }
+#sub .contetns.request1 .section_con .tbl_width table.tbl_form th,
+#sub .contetns.request1 .section_con .tbl_width table.tbl_form td { padding:1.2rem 2.5rem; font-size:1.8rem; font-weight:400; color:#333; border-bottom:1px solid #ddd }
+#sub .contetns.request1 .section_con .tbl_width table.tbl_form th { width:22rem; text-align:left; }
+#sub .contetns.request1 .section_con .tbl_width table.tbl_form .re { color:red }
+#sub .contetns.request1 .section_con .tbl_width table.tbl_form input.frm_input { width:70%; border:1px solid #ccc; height:4.5rem; padding:1.5rem; font-size:1.6rem }
+#sub .contetns.request1 .section_con .tbl_width table.tbl_form textarea.frm_input { width:70%; height:20rem; font-size:1.6rem; padding:1.5rem;  }
+#sub .contetns.request1 .section_con .tbl_width table.tbl_form .captcha_box { border:1px solid #ccc; border-radius:0 }
+
+#sub .contetns.request1 .section_con .tbl_width .agree_wr { margin:2rem 0 4rem }
+#sub .contetns.request1 .section_con .tbl_width .agree_wr p { font-size:1.5rem; margin:0 0 1rem }
+#sub .contetns.request1 .section_con .tbl_width .agree_wr .agree_txt { font-size:1.4rem; color:#666; border:1px solid #ccc; background:#f8f8f8; padding:1.5rem; height:14rem; overflow-y:auto }
+#sub .contetns.request1 .section_con .tbl_width .agree_wr .chk_wr { margin:3rem auto 0; text-align:center }
+#sub .contetns.request1 .section_con .tbl_width .btn_wr { border-top:1px solid #666; margin:5rem auto 0; text-align:center; padding:5rem 0 0 }
+#sub .contetns.request1 .section_con .tbl_width .btn_wr button { transition:all 0.2s ease-out; width:18rem; line-height:5.5rem; text-align:center; background:#fff; border:1px solid #333; color:#333; font-size:1.7rem }
+#sub .contetns.request1 .section_con .tbl_width .btn_wr button:hover { background:#003366; color:#fff }
+
+
+.chk_box { position:relative;  }
+.chk_box input[type="radio"] {position:absolute;top:0;left:0;width:0;height:0;opacity:0;outline:0;z-index:-1;overflow:hidden}
+.chk_box input[type="radio"] + label {height:2rem; line-height:2rem;position:relative;padding-left:25px;display:inline-block;vertical-align:middle;color:#333; margin-right:5rem; font-size:1.8rem;}
+.chk_box input[type="radio"] + label span {position:absolute;top:0;left:0;width:20px;height:20px;display:block;background:#fff;border:1px solid #cdd6df;border-radius:50%}
+.chk_box input[type="radio"]:checked + label { }
+.chk_box input[type="radio"]:checked + label span:before {width:10px;height:10px;background:#505050;content:'';position:absolute;top:4px;left:4px;border-radius:50%}
+
+
+
+@media all and (max-width:1023px) {
+	
+
+	#sub .contetns.request1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:30rem; background:url('https://dataprotec.co.kr/renewal/theme/basic/img/request_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+
+	#sub .contetns.request1 .section_con .tbl_width { border-top:2px solid #333 }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form { width:100%; }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form th,
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form td { padding:1.5rem; font-size:1.6rem; font-weight:400; color:#333; border-bottom:1px solid #ddd }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form th { width:22rem; text-align:left; }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form .re { color:red }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form input.frm_input { width:100%; border:1px solid #ccc; height:4.5rem; padding:1.2rem; font-size:1.6rem }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form textarea.frm_input { width:100%; height:16rem; font-size:1.6rem; padding:1.5rem;  }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form .captcha_box { border:1px solid #ccc; border-radius:0 }
+
+	#sub .contetns.request1 .section_con .tbl_width .agree_wr { margin:2rem 0 4rem }
+	#sub .contetns.request1 .section_con .tbl_width .agree_wr p { font-size:1.5rem; margin:0 0 1rem }
+	#sub .contetns.request1 .section_con .tbl_width .agree_wr .agree_txt { font-size:1.3rem; color:#666; border:1px solid #ccc; background:#f8f8f8; padding:1.2rem; height:12rem; overflow-y:auto }
+	#sub .contetns.request1 .section_con .tbl_width .agree_wr .chk_wr { margin:3rem auto 0; text-align:center }
+	#sub .contetns.request1 .section_con .tbl_width .btn_wr { border-top:1px solid #666; margin:5rem auto 0; text-align:center; padding:5rem 0 0 }
+	#sub .contetns.request1 .section_con .tbl_width .btn_wr button { transition:all 0.2s ease-out; width:18rem; line-height:5.5rem; text-align:center; background:#fff; border:1px solid #333; color:#333; font-size:1.7rem }
+	#sub .contetns.request1 .section_con .tbl_width .btn_wr button:hover { background:#003366; color:#fff }
+
+	.chk_box { position:relative;  }
+	.chk_box input[type="radio"] {position:absolute;top:0;left:0;width:0;height:0;opacity:0;outline:0;z-index:-1;overflow:hidden}
+	.chk_box input[type="radio"] + label {height:2rem; line-height:2rem;position:relative;padding-left:25px;display:inline-block;vertical-align:middle;color:#333; margin-right:5rem; font-size:1.6rem;}
+	.chk_box input[type="radio"] + label span {position:absolute;top:0;left:0;width:20px;height:20px;display:block;background:#fff;border:1px solid #cdd6df;border-radius:50%}
+	.chk_box input[type="radio"]:checked + label { }
+	.chk_box input[type="radio"]:checked + label span:before {width:10px;height:10px;background:#505050;content:'';position:absolute;top:4px;left:4px;border-radius:50%}
+
+}
+
+@media all and (max-width:767px) {
+
+	#sub .contetns.request1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:20rem; background:url('https://dataprotec.co.kr/renewal/theme/basic/img/request_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+
+
+	#sub .contetns.request1 .section_con .tbl_width { border-top:2px solid #333 }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form { width:100%; }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form th,
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form td { padding:1.2rem; font-size:1.6rem; font-weight:400; color:#333; border-bottom:1px solid #ddd }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form th { width:13rem; text-align:left; }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form .re { color:red }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form input.frm_input { width:100%; border:1px solid #ccc; height:4.5rem; padding:1.2rem; font-size:1.6rem }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form textarea.frm_input { width:100%; height:13rem; font-size:1.6rem; padding:1.5rem;  }
+	#sub .contetns.request1 .section_con .tbl_width table.tbl_form .captcha_box { border:1px solid #ccc; border-radius:0 }
+
+	#sub .contetns.request1 .section_con .tbl_width .agree_wr { margin:2rem 0 3rem }
+	#sub .contetns.request1 .section_con .tbl_width .agree_wr p { font-size:1.7rem !important; margin:0 0 1rem }
+	#sub .contetns.request1 .section_con .tbl_width .agree_wr .agree_txt { font-size:1.2rem; color:#666; border:1px solid #ccc; background:#f8f8f8; padding:1rem; height:10rem; overflow-y:auto }
+	#sub .contetns.request1 .section_con .tbl_width .agree_wr .chk_wr { margin:3rem auto 0; text-align:center }
+	#sub .contetns.request1 .section_con .tbl_width .btn_wr { border-top:1px solid #666; margin:5rem auto 0; text-align:center; padding:5rem 0 0 }
+	#sub .contetns.request1 .section_con .tbl_width .btn_wr button { transition:all 0.2s ease-out; width:18rem; line-height:5.5rem; text-align:center; background:#fff; border:1px solid #333; color:#333; font-size:1.7rem }
+	#sub .contetns.request1 .section_con .tbl_width .btn_wr button:hover { background:#003366; color:#fff }
+
+	.chk_box { position:relative;  }
+	.chk_box input[type="radio"] {position:absolute;top:0;left:0;width:0;height:0;opacity:0;outline:0;z-index:-1;overflow:hidden}
+	.chk_box input[type="radio"] + label {height:2rem; line-height:2rem;position:relative;padding-left:25px;display:inline-block;vertical-align:middle;color:#333; margin-right:5rem; font-size:1.8rem;}
+	.chk_box input[type="radio"] + label span {position:absolute;top:0;left:0;width:20px;height:20px;display:block;background:#fff;border:1px solid #cdd6df;border-radius:50%}
+	.chk_box input[type="radio"]:checked + label { }
+	.chk_box input[type="radio"]:checked + label span:before {width:10px;height:10px;background:#505050;content:'';position:absolute;top:4px;left:4px;border-radius:50%}
+
+}
