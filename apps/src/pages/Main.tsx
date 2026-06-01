@@ -879,48 +879,60 @@ function Main() {
 				</div>
                 <ul className='ul-list'>
                     <li>
-                        <Link to='#' className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</Link>
-                        <p className='memo'>
-                            일산킨텍스에서 열리는 보안엑스포 2026<br />
-                            년도에도 참가해서 베리어프리 키오스크,<br />
-                            VCS 신규 키오스크 등을 선보였습니다...
-                        </p>
-                        <div className='thumbnail'>
-                            <img src={mainNewsroomSam} alt="" />
-                        </div>
+                        <Link to='#' className='news-card'>
+                            <div className='thumbnail'>
+                                <img src={mainNewsroomSam} alt="" />
+                            </div>
+                            <div className='card-body'>
+                                <p className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</p>
+                                <div className='card-footer'>
+                                    <span className='tag'>News</span>
+                                    <span className='arrow'></span>
+                                </div>
+                            </div>
+                        </Link>
                     </li>
                     <li>
-                        <Link to='#' className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</Link>
-                        <p className='memo'>
-                            일산킨텍스에서 열리는 보안엑스포 2026<br />
-                            년도에도 참가해서 베리어프리 키오스크,<br />
-                            VCS 신규 키오스크 등을 선보였습니다...
-                        </p>
-                        <div className='thumbnail'>
-                            <img src={mainNewsroomSam} alt="" />
-                        </div>
+                        <Link to='#' className='news-card'>
+                            <div className='thumbnail'>
+                                <img src={mainNewsroomSam} alt="" />
+                            </div>
+                            <div className='card-body'>
+                                <p className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</p>
+                                <div className='card-footer'>
+                                    <span className='tag'>News</span>
+                                    <span className='arrow'></span>
+                                </div>
+                            </div>
+                        </Link>
                     </li>
                     <li>
-                        <Link to='#' className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</Link>
-                        <p className='memo'>
-                            일산킨텍스에서 열리는 보안엑스포 2026<br />
-                            년도에도 참가해서 베리어프리 키오스크,<br />
-                            VCS 신규 키오스크 등을 선보였습니다...
-                        </p>
-                        <div className='thumbnail'>
-                            <img src={mainNewsroomSam} alt="" />
-                        </div>
+                        <Link to='#' className='news-card'>
+                            <div className='thumbnail'>
+                                <img src={mainNewsroomSam} alt="" />
+                            </div>
+                            <div className='card-body'>
+                                <p className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</p>
+                                <div className='card-footer'>
+                                    <span className='tag'>News</span>
+                                    <span className='arrow'></span>
+                                </div>
+                            </div>
+                        </Link>
                     </li>
                     <li>
-                        <Link to='#' className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</Link>
-                        <p className='memo'>
-                            일산킨텍스에서 열리는 보안엑스포 2026<br />
-                            년도에도 참가해서 베리어프리 키오스크,<br />
-                            VCS 신규 키오스크 등을 선보였습니다...
-                        </p>
-                        <div className='thumbnail'>
-                            <img src={mainNewsroomSam} alt="" />
-                        </div>
+                        <Link to='#' className='news-card'>
+                            <div className='thumbnail'>
+                                <img src={mainNewsroomSam} alt="" />
+                            </div>
+                            <div className='card-body'>
+                                <p className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</p>
+                                <div className='card-footer'>
+                                    <span className='tag'>News</span>
+                                    <span className='arrow'></span>
+                                </div>
+                            </div>
+                        </Link>
                     </li>
                 </ul>
             </div>

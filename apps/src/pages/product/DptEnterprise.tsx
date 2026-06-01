@@ -37,7 +37,7 @@ function ProductEnterprise() {
           <div className="responsive title_area">
             <h2 data-aos="fade-left">DPT-Enterprise</h2>
             <p data-aos="fade-up" data-aos-delay="200">
-              대규모 첨단 기업 및 국가중요시설 반·출입 정보보안 시스템,<br />
+              대규모 첨단 기업 및 국가중요시설 반·출입 정보보안 시스템,<span className="br"></span>
               저장매체 정보보안의 처음과 끝을 책임지는 DPT 엔터프라이즈(Enterprise)
             </p>
           </div>

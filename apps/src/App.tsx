@@ -7,6 +7,7 @@ import ProductPro from './pages/product/DptPro'
 import ProductEraser from './pages/product/DptEraser'
 import ProductDptI from './pages/product/DptI'
 import ProductDptId from './pages/product/DptId'
+import ProductVcs from './pages/product/DptVcs'
 import CompanyGreeting from './pages/company/Greeting'
 import CompanyHistory from './pages/company/History'
 import CompanyRnd from './pages/company/Rnd'
@@ -33,6 +34,7 @@ function App() {
         <Route path="/product/eraser" element={<ProductEraser />} />
         <Route path="/product/dpt-i" element={<ProductDptI />} />
         <Route path="/product/dpt-id" element={<ProductDptId />} />
+        <Route path="/product/vcs" element={<ProductVcs />} />
         {/* 회사소개 */}
         <Route path="/company" element={<CompanyGreeting />} />
         <Route path="/company/history" element={<CompanyHistory />} />
