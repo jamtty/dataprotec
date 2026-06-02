@@ -3,20 +3,20 @@ import { Link, useNavigate } from 'react-router-dom'
 import AdminHeader from '@/components/admin/AdminHeader'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import DatePicker from '@/components/admin/DatePicker'
-import { fetchReportList, deleteReport, type ReportItem } from '@/api/report'
+import { fetchMaterialList, deleteMaterial, type MaterialItem } from '@/api/material'
 
 const PAGE_SIZE = 15
 
-type DataSearchParams = { keyword: string; type: number; date_from: string; date_to: string }
-const defaultParams: DataSearchParams = { keyword: '', type: 2, date_from: '', date_to: '' }
+type SearchParams = { keyword: string; type: number; date_from: string; date_to: string }
+const defaultParams: SearchParams = { keyword: '', type: 2, date_from: '', date_to: '' }
 
-export default function AdminDataPage() {
+export default function AdminMaterialPage() {
   const navigate = useNavigate()
-  const [items, setItems] = useState<ReportItem[]>([])
+  const [items, setItems] = useState<MaterialItem[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
   const [page, setPage] = useState(1)
-  const [searchParams, setSearchParams] = useState<DataSearchParams>(defaultParams)
+  const [searchParams, setSearchParams] = useState<SearchParams>(defaultParams)
   const [inputKeyword, setInputKeyword] = useState('')
   const [inputType, setInputType] = useState(2)
   const [inputDateFrom, setInputDateFrom] = useState('')
@@ -25,11 +25,11 @@ export default function AdminDataPage() {
   const [checkedIds, setCheckedIds] = useState<number[]>([])
   const [error, setError] = useState<string | null>(null)
 
-  const load = useCallback(async (p: number, params: DataSearchParams) => {
+  const load = useCallback(async (p: number, params: SearchParams) => {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetchReportList({ page: p, size: PAGE_SIZE, ...params })
+      const res = await fetchMaterialList({ page: p, size: PAGE_SIZE, ...params })
       setItems(res.items)
       setTotalCount(res.totalCount)
       setTotalPages(res.totalPages)
@@ -41,9 +41,7 @@ export default function AdminDataPage() {
     }
   }, [])
 
-  useEffect(() => {
-    load(page, searchParams)
-  }, [load, page, searchParams])
+  useEffect(() => { load(page, searchParams) }, [load, page, searchParams])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,28 +50,19 @@ export default function AdminDataPage() {
   }
 
   const handleReset = () => {
-    setInputKeyword('')
-    setInputType(2)
-    setInputDateFrom('')
-    setInputDateTo('')
-    setPage(1)
-    setSearchParams(defaultParams)
+    setInputKeyword(''); setInputType(2); setInputDateFrom(''); setInputDateTo('')
+    setPage(1); setSearchParams(defaultParams)
   }
 
   const allChecked = items.length > 0 && items.every((item) => checkedIds.includes(item.id))
-
-  const handleCheckAll = () => {
-    setCheckedIds(allChecked ? [] : items.map((item) => item.id))
-  }
-
-  const handleCheckOne = (id: number) => {
+  const handleCheckAll = () => setCheckedIds(allChecked ? [] : items.map((item) => item.id))
+  const handleCheckOne = (id: number) =>
     setCheckedIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]))
-  }
 
   const handleDelete = async (id: number, title: string) => {
     if (!confirm(`"${title}" 을(를) 삭제하시겠습니까?`)) return
     try {
-      await deleteReport(id)
+      await deleteMaterial(id)
       load(page, searchParams)
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : '삭제에 실패했습니다.')
@@ -84,7 +73,7 @@ export default function AdminDataPage() {
     if (checkedIds.length === 0) return
     if (!confirm(`선택한 ${checkedIds.length}건을 삭제하시겠습니까?`)) return
     try {
-      await Promise.all(checkedIds.map((id) => deleteReport(id)))
+      await Promise.all(checkedIds.map((id) => deleteMaterial(id)))
       load(page, searchParams)
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : '삭제에 실패했습니다.')
@@ -95,7 +84,7 @@ export default function AdminDataPage() {
     <div className="adm_wrap">
       <AdminSidebar />
       <div className="adm_content">
-        <AdminHeader pageTitle="자료실 관리" />
+        <AdminHeader pageTitle="홍보자료 관리" />
         <main className="adm_main">
           <section className="adm_section">
             <div className="adm_toolbar">
@@ -126,8 +115,8 @@ export default function AdminDataPage() {
                   <button type="button" className="adm_btn_secondary" onClick={handleReset}>초기화</button>
                 </div>
               </form>
-              <button className="adm_btn_primary" onClick={() => navigate('/admin/data/write')}>
-                + 글쓰기
+              <button className="adm_btn_primary" onClick={() => navigate('/admin/material/new')}>
+                + 작성
               </button>
             </div>
 
@@ -139,60 +128,38 @@ export default function AdminDataPage() {
                       <input type="checkbox" checked={allChecked} onChange={handleCheckAll} />
                     </th>
                     <th style={{ width: '5%' }}>번호</th>
+                    <th style={{ width: '9%' }}>카테고리</th>
                     <th>제목</th>
                     <th style={{ width: '10%' }}>작성자</th>
-                    <th style={{ width: '10%' }}>작성일</th>
-                    <th style={{ width: '7%' }}>첨부</th>
-                    <th style={{ width: '14%' }}>관리</th>
+                    <th style={{ width: '10%' }}>게시일</th>
+                    <th style={{ width: '7%' }}>조회수</th>
+                    <th style={{ width: '16%' }}>관리</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? (
-                    <tr>
-                      <td colSpan={7} className="adm_table_empty">불러오는 중...</td>
-                    </tr>
+                    <tr><td colSpan={8} className="adm_table_empty">불러오는 중...</td></tr>
                   ) : error ? (
-                    <tr>
-                      <td colSpan={7} className="adm_table_empty">오류: {error}</td>
-                    </tr>
+                    <tr><td colSpan={8} className="adm_table_empty">오류: {error}</td></tr>
                   ) : items.length === 0 ? (
-                    <tr>
-                      <td colSpan={7} className="adm_table_empty">게시글이 없습니다.</td>
-                    </tr>
+                    <tr><td colSpan={8} className="adm_table_empty">게시글이 없습니다.</td></tr>
                   ) : items.map((item, idx) => (
                     <tr key={item.id}>
                       <td className="adm_td_center">
-                        <input
-                          type="checkbox"
-                          checked={checkedIds.includes(item.id)}
-                          onChange={() => handleCheckOne(item.id)}
-                        />
+                        <input type="checkbox" checked={checkedIds.includes(item.id)} onChange={() => handleCheckOne(item.id)} />
                       </td>
-                      <td className="adm_td_center">
-                        {totalCount - (page - 1) * PAGE_SIZE - idx}
-                      </td>
+                      <td className="adm_td_center">{totalCount - (page - 1) * PAGE_SIZE - idx}</td>
+                      <td className="adm_td_center">{item.category}</td>
                       <td>
-                        <Link to={`/admin/data/edit/${item.id}`} className="adm_table_link">
-                          {item.title}
-                        </Link>
+                        <Link to={`/admin/material/${item.id}/edit`} className="adm_table_link">{item.title}</Link>
                       </td>
                       <td className="adm_td_center">{item.author_name}</td>
-                      <td className="adm_td_center">{item.created_at}</td>
-                      <td className="adm_td_center">{item.file_count > 0 ? `${item.file_count}개` : '-'}</td>
+                      <td className="adm_td_center">{item.news_date}</td>
+                      <td className="adm_td_center">{item.view_count.toLocaleString()}</td>
                       <td className="adm_td_center">
                         <div className="adm_action_btns">
-                          <button
-                            className="adm_btn_edit"
-                            onClick={() => navigate(`/admin/data/edit/${item.id}`)}
-                          >
-                            수정
-                          </button>
-                          <button
-                            className="adm_btn_delete"
-                            onClick={() => handleDelete(item.id, item.title)}
-                          >
-                            삭제
-                          </button>
+                          <button className="adm_btn_edit" onClick={() => navigate(`/admin/material/${item.id}/edit`)}>수정</button>
+                          <button className="adm_btn_delete" onClick={() => handleDelete(item.id, item.title)}>삭제</button>
                         </div>
                       </td>
                     </tr>
@@ -204,29 +171,22 @@ export default function AdminDataPage() {
             <div className="adm_pagination">
               <div className="adm_pagination_left">
                 {checkedIds.length > 0 && (
-                  <button className="adm_btn_delete" onClick={handleBulkDelete}>
-                    선택 삭제 ({checkedIds.length})
-                  </button>
+                  <button className="adm_btn_delete" onClick={handleBulkDelete}>선택 삭제 ({checkedIds.length})</button>
                 )}
-                <span className="adm_total_count">총 {totalCount.toLocaleString()}건</span>
+                <span className="adm_total_count">전 {totalCount.toLocaleString()}건</span>
               </div>
               <div className="adm_page_btns">
                 <button className="adm_page_btn" disabled={page <= 1} onClick={() => setPage(1)}>{'<<'}</button>
                 <button className="adm_page_btn" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>{'<'}</button>
-                {(() => {
-                  const delta = 4
-                  const start = Math.max(1, page - delta)
-                  const end = Math.min(totalPages, page + delta)
-                  return Array.from({ length: end - start + 1 }, (_, i) => start + i).map((p) => (
+                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                  .filter((p) => Math.abs(p - page) <= 2)
+                  .map((p) => (
                     <button
                       key={p}
-                      className={`adm_page_btn${page === p ? ' active' : ''}`}
+                      className={`adm_page_btn${p === page ? ' active' : ''}`}
                       onClick={() => setPage(p)}
-                    >
-                      {p}
-                    </button>
-                  ))
-                })()}
+                    >{p}</button>
+                  ))}
                 <button className="adm_page_btn" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>{'>'}</button>
                 <button className="adm_page_btn" disabled={page >= totalPages} onClick={() => setPage(totalPages)}>{'>>'}</button>
               </div>

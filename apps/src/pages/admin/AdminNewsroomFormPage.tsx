@@ -4,12 +4,12 @@ import AdminHeader from '@/components/admin/AdminHeader'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import RichEditor from '@/components/admin/RichEditor'
 import {
-  createNotice,
-  updateNotice,
-  fetchNoticeDetail,
-  deleteNoticeFile,
-  type NoticeFile,
-} from '@/api/notice'
+  createNewsroom,
+  updateNewsroom,
+  fetchNewsroomDetail,
+  deleteNewsroomFile,
+  type NewsroomFile,
+} from '@/api/newsroom'
 import { toAbsUrl } from '@/utils/uploadUrl'
 
 export default function AdminNoticeFormPage() {
@@ -17,9 +17,14 @@ export default function AdminNoticeFormPage() {
   const { id } = useParams<{ id: string }>()
   const isEdit = Boolean(id)
 
+  const LABEL = '뉴스룸'
+  const LIST_PATH = '/admin/newsroom'
+
   const [title, setTitle] = useState('')
+  const [newsDate, setNewsDate] = useState(() => new Date().toISOString().slice(0, 10))
+  const [desc, setDesc] = useState('')
   const [content, setContent] = useState('')
-  const [existingFiles, setExistingFiles] = useState<NoticeFile[]>([])
+  const [existingFiles, setExistingFiles] = useState<NewsroomFile[]>([])
   const [newFiles, setNewFiles] = useState<File[]>([])
   const [newFilePreviews, setNewFilePreviews] = useState<(string | null)[]>([])
   const [loading, setLoading] = useState(false)
@@ -29,15 +34,17 @@ export default function AdminNoticeFormPage() {
 
   useEffect(() => {
     if (!isEdit) return
-    fetchNoticeDetail(Number(id), true)
+    fetchNewsroomDetail(Number(id), true)
       .then((res) => {
         setTitle(res.item.title)
+        setNewsDate(res.item.news_date || '')
+        setDesc(res.item.desc || '')
         setContent(res.item.content ?? '')
         setExistingFiles(res.files)
       })
       .catch(() => {
         alert('게시글을 불러오지 못했습니다.')
-        navigate('/admin/notice')
+        navigate(LIST_PATH)
       })
       .finally(() => setFetching(false))
   }, [id, isEdit, navigate])
@@ -63,7 +70,7 @@ export default function AdminNoticeFormPage() {
   const handleDeleteExistingFile = async (fileId: number) => {
     if (!confirm('첨부파일을 삭제하시겠습니까?')) return
     try {
-      await deleteNoticeFile(fileId)
+      await deleteNewsroomFile(fileId)
       setExistingFiles((prev) => prev.filter((f) => f.id !== fileId))
     } catch {
       alert('파일 삭제에 실패했습니다.')
@@ -79,14 +86,21 @@ export default function AdminNoticeFormPage() {
 
     setLoading(true)
     try {
+      const formData = {
+        title,
+        news_date: newsDate,
+        desc,
+        content,
+        files: newFiles.length > 0 ? newFiles : undefined,
+      }
       if (isEdit) {
-        await updateNotice(Number(id), title, content, newFiles.length > 0 ? newFiles : undefined)
+        await updateNewsroom(Number(id), formData)
         alert('수정되었습니다.')
       } else {
-        await createNotice(title, content, newFiles.length > 0 ? newFiles : undefined)
+        await createNewsroom(formData)
         alert('등록되었습니다.')
       }
-      navigate('/admin/notice')
+      navigate(LIST_PATH)
     } catch (err: unknown) {
       alert(err instanceof Error && err.message ? err.message : '저장에 실패했습니다.')
     } finally {
@@ -99,7 +113,7 @@ export default function AdminNoticeFormPage() {
       <div className="adm_wrap">
         <AdminSidebar />
         <div className="adm_content">
-          <AdminHeader pageTitle="공지사항 관리" />
+        <AdminHeader pageTitle={`${LABEL} 관리`} />
           <main className="adm_main">
             <p style={{ padding: '2rem' }}>불러오는 중...</p>
           </main>
@@ -112,10 +126,22 @@ export default function AdminNoticeFormPage() {
     <div className="adm_wrap">
       <AdminSidebar />
       <div className="adm_content">
-        <AdminHeader pageTitle={isEdit ? '공지사항 수정' : '공지사항 등록'} />
+        <AdminHeader pageTitle={isEdit ? `${LABEL} 수정` : `${LABEL} 등록`} />
         <main className="adm_main">
           <section className="adm_section">
             <form className="adm_form" onSubmit={handleSubmit}>
+
+              {/* 게시일 */}
+              <div className="adm_form_row">
+                <label className="adm_form_label">게시일 <span className="required">*</span></label>
+                <input
+                  type="date"
+                  className="adm_form_input"
+                  value={newsDate}
+                  onChange={(e) => setNewsDate(e.target.value)}
+                  required
+                />
+              </div>
 
               {/* 제목 */}
               <div className="adm_form_row">
@@ -129,6 +155,18 @@ export default function AdminNoticeFormPage() {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="제목을 입력해주세요."
                   required
+                />
+              </div>
+
+              {/* 요약 */}
+              <div className="adm_form_row adm_form_row_col">
+                <label className="adm_form_label">요약</label>
+                <textarea
+                  className="adm_form_input"
+                  rows={3}
+                  placeholder="목록화면에 표시되는 단락 요약을 입력하세요."
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
                 />
               </div>
 
@@ -200,7 +238,7 @@ export default function AdminNoticeFormPage() {
                 <button
                   type="button"
                   className="adm_btn_secondary"
-                  onClick={() => navigate('/admin/notice')}
+                  onClick={() => navigate(LIST_PATH)}
                 >
                   취소
                 </button>

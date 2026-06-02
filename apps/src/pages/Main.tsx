@@ -16,8 +16,6 @@ import mainVis3Img from '../assets/images/main_vis_3@2x.png'
 import mainMapTitleImg from '../assets/images/main_map_title@2x.png'
 import mainImgKiosk1 from '../assets/images/main_img_kiosk_1@2x.png'
 import mainImgKiosk2 from '../assets/images/main_img_kiosk_2@2x.png'
-import mainImgKiosk3 from '../assets/images/main_img_kiosk_3@2x.png'
-import mainImgKiosk4 from '../assets/images/main_img_kiosk_4@2x.png'
 import mainNewsroomSam from '../assets/images/main_newsroom_sam@2x.png'
 import mainClImg1 from '../assets/images/main_cl_img_1.png'
 import mainClImg2 from '../assets/images/main_cl_img_2.png'
@@ -268,7 +266,7 @@ function Main() {
     const countEls = document.querySelectorAll<HTMLElement>('.section_map .count ul li .num strong')
     if (countEls.length) {
       const targets = Array.from(countEls).map(el => parseInt(el.dataset.count || '0', 10))
-      countEls.forEach((el, i) => {
+      countEls.forEach((el) => {
         el.style.minWidth = el.offsetWidth + 'px'
         el.textContent = '0'
       })
@@ -299,7 +297,7 @@ function Main() {
         onLeaveBack: () => {
           countTweens.forEach(t => t.kill())
           countTweens.length = 0
-          countEls.forEach((el, i) => {
+          countEls.forEach((el) => {
             el.textContent = '0'
           })
         },

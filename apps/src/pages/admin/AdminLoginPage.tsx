@@ -1,8 +1,8 @@
-﻿import { useState, useEffect } from 'react'
+﻿import { useState } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useAuthStore, isTokenExpired } from '@/store/useAuthStore'
 import { loginAdmin } from '@/api/auth'
-import adminCssUrl from '@/assets/css/admin.css?url'
+import '@/assets/css/admin.css'
 
 export default function AdminLoginPage() {
   const navigate = useNavigate()
@@ -12,16 +12,8 @@ export default function AdminLoginPage() {
   const [pw, setPw] = useState('')
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    const link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href = adminCssUrl
-    document.head.appendChild(link)
-    return () => { document.head.removeChild(link) }
-  }, [])
-
   if (isAuthenticated && !isTokenExpired(accessToken)) {
-    return <Navigate to="/admin/banner" replace />
+    return <Navigate to="/admin/newsroom" replace />
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,7 +32,7 @@ export default function AdminLoginPage() {
         },
         result.token,
       )
-      navigate('/admin/banner', { replace: true })
+      navigate('/admin/newsroom', { replace: true })
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '로그인에 실패했습니다.'
       alert(msg)

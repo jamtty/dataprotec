@@ -1,3 +1,8 @@
 # 서버 도구 / 업로드 파일 제외
 phpMyAdmin/
-uploads/
+
+# 백엔드 민감 설정 (비밀번호, JWT secret 포함)
+backend/config.php
+
+# VS Code SFTP 확장 - SSH 비밀번호 평문 저장됨
+.vscode/sftp.json

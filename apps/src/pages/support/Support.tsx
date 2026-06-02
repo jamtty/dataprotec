@@ -1,5 +1,6 @@
 ﻿import { useState, useEffect, useRef } from 'react'
 import SupportLayout from './SupportLayout'
+import { submitInquiry } from '@/api/inquiry'
 
 function Support() {
   const [company, setCompany] = useState('')
@@ -9,6 +10,7 @@ function Support() {
   const [content, setContent] = useState('')
   const [agree, setAgree] = useState('')
   const [captchaKey, setCaptchaKey] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const [captchaCode, setCaptchaCode] = useState(() => {
     const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
     return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
@@ -52,6 +54,26 @@ function Support() {
     const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
     setCaptchaCode(Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join(''))
     setCaptchaKey('')
+  }
+
+  const handleSubmit = async () => {
+    if (!company.trim()) { alert('회사명을 입력해주세요.'); return }
+    if (!manager.trim()) { alert('담당자를 입력해주세요.'); return }
+    if (!phone.trim()) { alert('연락처를 입력해주세요.'); return }
+    if (!content.trim()) { alert('문의내용을 입력해주세요.'); return }
+    if (agree !== '1') { alert('개인정보 수집 및 이용에 동의해주세요.'); return }
+    if (captchaKey.toLowerCase() !== captchaCode.toLowerCase()) { alert('보안코드가 일치하지 않습니다.'); refreshCaptcha(); return }
+
+    setSubmitting(true)
+    try {
+      await submitInquiry({ company, manager, phone, email, content })
+      alert('문의가 접수되었습니다. 담당자가 바로 연락드리겠습니다.')
+      setCompany(''); setManager(''); setPhone(''); setEmail(''); setContent(''); setAgree(''); refreshCaptcha()
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : '문의 제출에 실패했습니다. 다시 시도해주세요.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -141,7 +163,9 @@ function Support() {
               </div>
 
               <div className="btn_wr">
-                <button type="button" className="submit chk_form">확인</button>
+                <button type="button" className="submit chk_form" onClick={handleSubmit} disabled={submitting}>
+                  {submitting ? '제출 중...' : '확인'}
+                </button>
               </div>
             </form>
           </div>
