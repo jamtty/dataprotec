@@ -26,12 +26,12 @@ function Footer() {
             </div>
             <div className="copyright">
                 <p>
-                    경기도 군포시 고산로148번길 17 군포IT밸리 B동 1501호  / 대구시 북구 관음동 1378-4 번지 4층<br />
+                    경기도 군포시 고산로148번길 17 군포IT밸리 B동 1501호  / 대구시 북구 관음동 1378-4 번지 4층<span className='br'></span>
                     대표자. 정해선<span></span>TEL. 031-701-0712<span></span>FAX. 031-701-0714  / 솔루션문의. sales@dataprotec.co.kr<br />
                     Copyright(c) 2021 DATAPROTEC Corp.  All rights reserved.
                 </p>
                 <p>
-                    <strong>AS 및 기술지원센터 TEL. 1660-1614 (평일 오전 9시 부터 오후 6시 까지)</strong><br />
+                    <strong>AS 및 기술지원센터 TEL. 1660-1614 (평일 오전 9시 부터 오후 6시 까지)</strong><span className='br'></span>
                     솔루션 AS 및 기술문의. support@dataprotec.co.kr
                 </p>
             </div>
