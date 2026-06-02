@@ -1,0 +1,5 @@
+# Authorization 헤더를 PHP $_SERVER['HTTP_AUTHORIZATION']에 전달
+# Apache mod_rewrite/CGI/FastCGI 환경에서 헤더가 누락되는 문제 수정
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]

@@ -8,7 +8,8 @@ function authHeaders(): Record<string, string> {
 }
 
 export interface MaterialFile {
-  id: number
+  bf_no: number      // g5_board_file.bf_no (0-based slot)
+  wr_id: number      // g5_board_file.wr_id (post id)
   ori_name: string
   file_url: string
   file_ext: string
@@ -114,8 +115,8 @@ export async function deleteMaterial(id: number): Promise<void> {
   if (!data.success) throw new Error(data.message ?? '삭제에 실패했습니다.')
 }
 
-export async function deleteMaterialFile(fileId: number): Promise<void> {
-  const res = await fetch(`${API_BASE}/api/material-file.php?id=${fileId}`, {
+export async function deleteMaterialFile(wrId: number, bfNo: number): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/material-file.php?wr_id=${wrId}&bf_no=${bfNo}`, {
     method: 'DELETE',
     headers: authHeaders(),
   })

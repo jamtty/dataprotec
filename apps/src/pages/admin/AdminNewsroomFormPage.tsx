@@ -21,26 +21,33 @@ export default function AdminNoticeFormPage() {
   const LIST_PATH = '/admin/newsroom'
 
   const [title, setTitle] = useState('')
-  const [newsDate, setNewsDate] = useState(() => new Date().toISOString().slice(0, 10))
-  const [desc, setDesc] = useState('')
   const [content, setContent] = useState('')
-  const [existingFiles, setExistingFiles] = useState<NewsroomFile[]>([])
-  const [newFiles, setNewFiles] = useState<File[]>([])
-  const [newFilePreviews, setNewFilePreviews] = useState<(string | null)[]>([])
+
+  // 첸부파일 1: 썸네일 (g5_board_file bf_no=0, bf_type=1)
+  const [existingThumbnail, setExistingThumbnail] = useState<NewsroomFile | null>(null)
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null)
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null)
+
+  // 첸부파일 2: 다운로드 파일 (g5_board_file bf_no=1, bf_type=0)
+  const [existingDownloadFile, setExistingDownloadFile] = useState<NewsroomFile | null>(null)
+  const [downloadFile, setDownloadFile] = useState<File | null>(null)
+
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(isEdit)
-
-  const isImageFile = (name: string) => /\.(jpg|jpeg|png|gif|webp)$/i.test(name)
 
   useEffect(() => {
     if (!isEdit) return
     fetchNewsroomDetail(Number(id), true)
       .then((res) => {
         setTitle(res.item.title)
-        setNewsDate(res.item.news_date || '')
-        setDesc(res.item.desc || '')
         setContent(res.item.content ?? '')
-        setExistingFiles(res.files)
+        // 썸네일: bf_no=0 (bf_type=1 또는 이미지 확장자)
+        const IMG_EXTS = /^(jpg|jpeg|png|gif|webp)$/i
+        setExistingThumbnail(
+          res.files.find((f) => f.bf_no === 0 && (f.file_type === 1 || f.file_type === 2 || IMG_EXTS.test(f.file_ext))) ?? null
+        )
+        // 다운로드: bf_no=1
+        setExistingDownloadFile(res.files.find((f) => f.bf_no === 1) ?? null)
       })
       .catch(() => {
         alert('게시글을 불러오지 못했습니다.')
@@ -49,29 +56,43 @@ export default function AdminNoticeFormPage() {
       .finally(() => setFetching(false))
   }, [id, isEdit, navigate])
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return
-    const added = Array.from(e.target.files!)
-    setNewFiles((prev) => [...prev, ...added])
-    setNewFilePreviews((prev) => [
-      ...prev,
-      ...added.map((f) => (isImageFile(f.name) ? URL.createObjectURL(f) : null)),
-    ])
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (thumbnailPreview) URL.revokeObjectURL(thumbnailPreview)
+    setThumbnailFile(file)
+    setThumbnailPreview(URL.createObjectURL(file))
     e.target.value = ''
   }
 
-  const removeNewFile = (index: number) => {
-    const preview = newFilePreviews[index]
-    if (preview) URL.revokeObjectURL(preview)
-    setNewFiles((prev) => prev.filter((_, i) => i !== index))
-    setNewFilePreviews((prev) => prev.filter((_, i) => i !== index))
+  const removeThumbnailNew = () => {
+    if (thumbnailPreview) URL.revokeObjectURL(thumbnailPreview)
+    setThumbnailFile(null)
+    setThumbnailPreview(null)
   }
 
-  const handleDeleteExistingFile = async (fileId: number) => {
+  const handleDownloadFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setDownloadFile(file)
+    e.target.value = ''
+  }
+
+  const handleDeleteExistingThumbnail = async (wrId: number, bfNo: number) => {
+    if (!confirm('썸네일을 삭제하시겠습니까?')) return
+    try {
+      await deleteNewsroomFile(wrId, bfNo)
+      setExistingThumbnail(null)
+    } catch {
+      alert('썸네일 삭제에 실패했습니다.')
+    }
+  }
+
+  const handleDeleteExistingDownloadFile = async (wrId: number, bfNo: number) => {
     if (!confirm('첨부파일을 삭제하시겠습니까?')) return
     try {
-      await deleteNewsroomFile(fileId)
-      setExistingFiles((prev) => prev.filter((f) => f.id !== fileId))
+      await deleteNewsroomFile(wrId, bfNo)
+      setExistingDownloadFile(null)
     } catch {
       alert('파일 삭제에 실패했습니다.')
     }
@@ -88,10 +109,9 @@ export default function AdminNoticeFormPage() {
     try {
       const formData = {
         title,
-        news_date: newsDate,
-        desc,
         content,
-        files: newFiles.length > 0 ? newFiles : undefined,
+        thumbnail:    thumbnailFile  ?? undefined,
+        downloadFile: downloadFile   ?? undefined,
       }
       if (isEdit) {
         await updateNewsroom(Number(id), formData)
@@ -102,7 +122,13 @@ export default function AdminNoticeFormPage() {
       }
       navigate(LIST_PATH)
     } catch (err: unknown) {
-      alert(err instanceof Error && err.message ? err.message : '저장에 실패했습니다.')
+      const msg = err instanceof Error && err.message ? err.message : '저장에 실패했습니다.'
+      if (msg.includes('인증') || msg.includes('토큰') || msg.includes('401')) {
+        alert('로그인이 만료되었습니다. 다시 로그인해주세요.')
+        navigate('/admin/login')
+      } else {
+        alert(msg)
+      }
     } finally {
       setLoading(false)
     }
@@ -131,18 +157,6 @@ export default function AdminNoticeFormPage() {
           <section className="adm_section">
             <form className="adm_form" onSubmit={handleSubmit}>
 
-              {/* 게시일 */}
-              <div className="adm_form_row">
-                <label className="adm_form_label">게시일 <span className="required">*</span></label>
-                <input
-                  type="date"
-                  className="adm_form_input"
-                  value={newsDate}
-                  onChange={(e) => setNewsDate(e.target.value)}
-                  required
-                />
-              </div>
-
               {/* 제목 */}
               <div className="adm_form_row">
                 <label className="adm_form_label">
@@ -158,76 +172,111 @@ export default function AdminNoticeFormPage() {
                 />
               </div>
 
-              {/* 요약 */}
-              <div className="adm_form_row adm_form_row_col">
-                <label className="adm_form_label">요약</label>
-                <textarea
-                  className="adm_form_input"
-                  rows={3}
-                  placeholder="목록화면에 표시되는 단락 요약을 입력하세요."
-                  value={desc}
-                  onChange={(e) => setDesc(e.target.value)}
-                />
-              </div>
-
               {/* 내용 */}
               <div className="adm_form_row adm_form_row_col">
                 <label className="adm_form_label">내용</label>
                 <RichEditor value={content} onChange={setContent} />
               </div>
 
-              {/* 첨부파일 */}
-              <div className="adm_form_row adm_form_row_col">
-                <label className="adm_form_label">첨부파일</label>
+              {/* 첨부파일 1: 썸네일 */}
+              <div className="adm_form_row">
+                <label className="adm_form_label">첨부파일 1 (썸네일)</label>
                 <div>
-                  {existingFiles.length > 0 && (
-                    <ul className="adm_file_list">
-                      {existingFiles.map((f) => (
-                        <li key={f.id} className="adm_file_item">
-                          {/^(jpg|jpeg|png|gif|webp)$/i.test(f.file_ext) && (
-                            <img
-                              src={toAbsUrl(f.file_url)}
-                              className="adm_file_thumb"
-                              alt={f.ori_name}
-                            />
-                          )}
-                          <a
-                            href={toAbsUrl(f.file_url)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="adm_file_name"
-                          >
-                            {f.ori_name}
-                          </a>
-                          <button
-                            type="button"
-                            className="adm_file_del"
-                            onClick={() => handleDeleteExistingFile(f.id)}
-                          >
-                            <span className="material-icons">close</span>
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
+                  {/* 기존 썸네일 (수정 시, 새 파일 미선택) */}
+                  {existingThumbnail && !thumbnailFile && (
+                    <div style={{ marginBottom: '8px' }}>
+                      <img
+                        src={toAbsUrl(existingThumbnail.file_url)}
+                        alt="현재 썸네일"
+                        style={{ width: 300, height: 200, objectFit: 'cover', display: 'block', borderRadius: 4, border: '1px solid #e5e7eb' }}
+                      />
+                      <div className="adm_file_item" style={{ marginTop: '6px' }}>
+                        <span className="adm_file_name">{existingThumbnail.ori_name}</span>
+                        <button
+                          type="button"
+                          className="adm_file_del"
+                          onClick={() => handleDeleteExistingThumbnail(existingThumbnail.wr_id, existingThumbnail.bf_no)}
+                        >
+                          <span className="material-icons">close</span>
+                        </button>
+                      </div>
+                    </div>
                   )}
-                  {newFiles.map((f, i) => (
-                    <div key={i} className="adm_file_item adm_file_new">
-                      {newFilePreviews[i] && (
-                        <img src={newFilePreviews[i]!} className="adm_file_thumb" alt={f.name} />
-                      )}
-                      <span className="adm_file_name">{f.name}</span>
-                      <button type="button" className="adm_file_del" onClick={() => removeNewFile(i)}>
+                  {/* 새로 선택한 썸네일 미리보기 */}
+                  {thumbnailPreview && (
+                    <div style={{ marginBottom: '8px' }}>
+                      <img
+                        src={thumbnailPreview}
+                        alt="새 썸네일"
+                        style={{ width: 300, height: 200, objectFit: 'cover', display: 'block', borderRadius: 4, border: '1px solid #e5e7eb' }}
+                      />
+                      <div className="adm_file_item adm_file_new" style={{ marginTop: '6px' }}>
+                        <span className="adm_file_name">{thumbnailFile?.name}</span>
+                        <button type="button" className="adm_file_del" onClick={removeThumbnailNew}>
+                          <span className="material-icons">close</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <label className="adm_file_btn">
+                    <span className="material-icons">image</span>
+                    {existingThumbnail || thumbnailFile ? '썸네일 변경' : '썸네일 선택'}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleThumbnailChange}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                  <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '6px' }}>
+                    권장 크기: 300 × 200px · 이미지 파일(jpg, png, gif, webp)만 가능
+                  </p>
+                </div>
+              </div>
+
+              {/* 첨부파일 2: 다운로드 파일 */}
+              <div className="adm_form_row">
+                <label className="adm_form_label">첨부파일 2 (다운로드)</label>
+                <div>
+                  {/* 기존 다운로드 파일 */}
+                  {existingDownloadFile && (
+                    <div style={{ marginBottom: '8px' }}>
+                      <div className="adm_file_item">
+                        <span className="material-icons" style={{ fontSize: '20px', color: '#6b7280' }}>insert_drive_file</span>
+                        <a
+                          href={toAbsUrl(existingDownloadFile.file_url)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="adm_file_name"
+                        >
+                          {existingDownloadFile.ori_name}
+                        </a>
+                        <button
+                          type="button"
+                          className="adm_file_del"
+                          onClick={() => handleDeleteExistingDownloadFile(existingDownloadFile.wr_id, existingDownloadFile.bf_no)}
+                        >
+                          <span className="material-icons">close</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  {/* 새로 선택한 다운로드 파일 */}
+                  {downloadFile && (
+                    <div className="adm_file_item adm_file_new" style={{ marginBottom: '8px' }}>
+                      <span className="material-icons" style={{ fontSize: '20px', color: '#6b7280' }}>insert_drive_file</span>
+                      <span className="adm_file_name">{downloadFile.name}</span>
+                      <button type="button" className="adm_file_del" onClick={() => setDownloadFile(null)}>
                         <span className="material-icons">close</span>
                       </button>
                     </div>
-                  ))}
+                  )}
                   <label className="adm_file_btn">
                     <span className="material-icons">attach_file</span>
-                    파일 선택
+                    {existingDownloadFile || downloadFile ? '파일 변경' : '파일 선택'}
                     <input
                       type="file"
-                      multiple
-                      onChange={handleFileChange}
+                      onChange={handleDownloadFileChange}
                       style={{ display: 'none' }}
                     />
                   </label>

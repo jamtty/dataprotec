@@ -1,5 +1,8 @@
 /* ── 에디터 ─────────────────────────────────────────── */
 .rich_editor_outer {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
   border: 1px solid #d1d5db;
   border-radius: 0.6rem;
   overflow: visible;
@@ -126,9 +129,13 @@
 
 /* 에디터 본문 */
 .te-content {
+  width: 100%;
+  box-sizing: border-box;
   border-radius: 0 0 0.6rem 0.6rem;
 }
 .te-content .ProseMirror {
+  width: 100%;
+  box-sizing: border-box;
   min-height: 36rem;
   padding: 1.4rem 1.6rem;
   font-size: 14px;
@@ -152,6 +159,11 @@
   line-height: 130%;
   min-height: 1.3em;
 }
+/* TipTap TextAlign 정렬 클래스 */
+.te-content .ProseMirror .has-text-align-left    { text-align: left; }
+.te-content .ProseMirror .has-text-align-center  { text-align: center; }
+.te-content .ProseMirror .has-text-align-right   { text-align: right; }
+.te-content .ProseMirror .has-text-align-justify { text-align: justify; }
 .te-content .ProseMirror img {
   display: inline;
   max-width: 100%;
@@ -250,15 +262,22 @@
 }
 
 /* ── 공개 상세 페이지 콘텐츠 뷰어 ─────────────────────── */
-/* 정렬 (TipTap inline style 대응) */
+/* 정렬 (TipTap has-text-align-* 클래스 + inline style 대응) */
+.viewcon .has-text-align-left,
+.viewcon [style*='text-align: left'] {
+  text-align: left;
+}
+.viewcon .has-text-align-center,
 .viewcon [style*='text-align: center'],
 .viewcon .text-align-center {
   text-align: center;
 }
+.viewcon .has-text-align-right,
 .viewcon [style*='text-align: right'],
 .viewcon .text-align-right {
   text-align: right;
 }
+.viewcon .has-text-align-justify,
 .viewcon [style*='text-align: justify'] {
   text-align: justify;
 }

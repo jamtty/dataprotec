@@ -8,21 +8,22 @@ function authHeaders(): Record<string, string> {
 }
 
 export interface NewsroomFile {
-  id: number
-  ori_name: string   // 원본 파일명
-  file_url: string   // 접근 URL
-  file_ext: string   // 확장자 (소문자, 점 없음)
-  file_size: number
+  bf_no: number      // g5_board_file.bf_no (0-based slot)
+  wr_id: number      // g5_board_file.wr_id (post id)
+  ori_name: string   // bf_source
+  file_url: string   // bf_fileurl
+  thumb_url: string  // bf_thumburl (이미지일 때 썸네일)
+  file_type: number  // bf_type: 0=일반, 1=이미지
+  file_ext: string
+  file_size: number  // bf_filesize
 }
 
 export interface NewsroomItem {
   id: number
   title: string
   news_date: string    // YYYY-MM-DD
-  desc: string         // 목록용 요약문
   content: string      // 본문
-  thumbnail: string    // 썸네일 URL (첫 번째 이미지 파일 자동 설정)
-  is_active: number    // 1: 게시, 0: 숨김
+  thumbnail: string    // 썸네일 URL
   author_name: string
   view_count: number
   created_at: string
@@ -32,10 +33,9 @@ export interface NewsroomItem {
 
 export interface NewsroomFormData {
   title: string
-  news_date: string
-  desc: string
   content: string
-  files?: File[]
+  thumbnail?: File       // 썸네일 이미지 (wr_2)
+  downloadFile?: File   // 다운로드 첨부파일 (newsroom_files)
 }
 
 // -------------------------------------------------------
@@ -79,17 +79,16 @@ export async function fetchNewsroomDetail(
 // -------------------------------------------------------
 export async function createNewsroom(formData: NewsroomFormData): Promise<void> {
   const form = new FormData()
-  form.append('title',     formData.title)
-  form.append('category',  formData.category)
-  form.append('news_date', formData.news_date)
-  form.append('desc',      formData.desc)
-  form.append('content',   formData.content)
-  if (formData.files) formData.files.forEach(f => form.append('files[]', f))
+  form.append('title',   formData.title)
+  form.append('content', formData.content)
+  if (formData.thumbnail)    form.append('thumbnail',     formData.thumbnail)
+  if (formData.downloadFile) form.append('download_file', formData.downloadFile)
   const res = await fetch(`${API_BASE}/api/newsroom.php`, {
     method: 'POST',
     headers: authHeaders(),
     body: form,
   })
+  if (res.status === 401) throw new Error('인증이 만료되었습니다. 다시 로그인해주세요.')
   const data = await res.json() as { success: boolean; message?: string }
   if (!data.success) throw new Error(data.message ?? '등록에 실패했습니다.')
 }
@@ -99,18 +98,18 @@ export async function createNewsroom(formData: NewsroomFormData): Promise<void> 
 // -------------------------------------------------------
 export async function updateNewsroom(id: number, formData: NewsroomFormData): Promise<void> {
   const form = new FormData()
-  form.append('_method',   'PUT')
-  form.append('id',        String(id))
-  form.append('title',     formData.title)
-  form.append('news_date', formData.news_date)
-  form.append('desc',      formData.desc)
-  form.append('content',   formData.content)
-  if (formData.files) formData.files.forEach(f => form.append('files[]', f))
+  form.append('_method',  'PUT')
+  form.append('id',       String(id))
+  form.append('title',    formData.title)
+  form.append('content',  formData.content)
+  if (formData.thumbnail)    form.append('thumbnail',     formData.thumbnail)
+  if (formData.downloadFile) form.append('download_file', formData.downloadFile)
   const res = await fetch(`${API_BASE}/api/newsroom.php`, {
     method: 'POST',
     headers: authHeaders(),
     body: form,
   })
+  if (res.status === 401) throw new Error('인증이 만료되었습니다. 다시 로그인해주세요.')
   const data = await res.json() as { success: boolean; message?: string }
   if (!data.success) throw new Error(data.message ?? '수정에 실패했습니다.')
 }
@@ -130,8 +129,8 @@ export async function deleteNewsroom(id: number): Promise<void> {
 // -------------------------------------------------------
 //  첨부파일 삭제
 // -------------------------------------------------------
-export async function deleteNewsroomFile(fileId: number): Promise<void> {
-  const res = await fetch(`${API_BASE}/api/newsroom-file.php?id=${fileId}`, {
+export async function deleteNewsroomFile(wrId: number, bfNo: number): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/newsroom-file.php?wr_id=${wrId}&bf_no=${bfNo}`, {
     method: 'DELETE',
     headers: authHeaders(),
   })

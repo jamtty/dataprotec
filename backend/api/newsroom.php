@@ -18,8 +18,9 @@ require_once dirname(__DIR__) . '/db.php';
 require_once dirname(__DIR__) . '/jwt.php';
 
 // ── 업로드 기본 경로 (서버 절대경로 & 웹 경로) ──────────────────
-define('UPLOAD_DIR',      dirname(__DIR__, 2) . '/uploads/newsroom/');
-define('UPLOAD_WEB_PATH', '/renewal_react_v1/uploads/newsroom/');
+define('UPLOAD_DIR',      dirname(__DIR__, 2) . '/data/file/news_room/');
+define('UPLOAD_WEB_PATH', '/renewal_react_v1/data/file/news_room/');
+define('BO_TABLE_NEWSROOM', 'news_room');
 
 // ── 허용 파일 확장자 ─────────────────────────────────────────────
 define('ALLOWED_EXTS', ['jpg','jpeg','png','gif','webp','pdf','doc','docx','xls','xlsx','ppt','pptx','zip','txt']);
@@ -27,7 +28,10 @@ define('MAX_FILE_SIZE', 20 * 1024 * 1024); // 20 MB
 
 // ── 인증 helper ──────────────────────────────────────────────────
 function requireAuth(): array {
-    $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+    $auth = $_SERVER['HTTP_AUTHORIZATION']
+        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+        ?? (function_exists('getallheaders') ? (getallheaders()['Authorization'] ?? '') : '')
+        ?? '';
     if (!preg_match('/^Bearer\s+(.+)$/i', $auth, $m)) {
         http_response_code(401);
         echo json_encode(['success' => false, 'message' => '인증이 필요합니다.']);
@@ -66,6 +70,7 @@ function saveUploadedFile(array $file): array {
 
     return [
         'ori_name'  => $oriName,
+        'file_name' => $savedName,
         'file_path' => UPLOAD_WEB_PATH . $savedName,
         'file_ext'  => $ext,
         'file_size' => (int)$file['size'],
@@ -91,7 +96,12 @@ try {
                 $id        = (int)$_GET['id'];
                 $withFiles = !empty($_GET['with_files']);
 
-                $stmt = $pdo->prepare('SELECT * FROM newsroom_items WHERE id = ? LIMIT 1');
+                $stmt = $pdo->prepare(
+                    'SELECT wr_id AS id, wr_subject AS title, DATE(wr_datetime) AS news_date, wr_content AS content,
+                            wr_hit AS view_count, wr_name AS author_name,
+                            wr_datetime AS created_at, wr_last AS updated_at
+                     FROM g5_write_news_room WHERE wr_id = ? AND wr_is_comment = 0 LIMIT 1'
+                );
                 $stmt->execute([$id]);
                 $item = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (!$item) {
@@ -100,16 +110,31 @@ try {
                     exit;
                 }
 
-                // 조회수 증가 (관리자 요청이 아닐 때만 원하면 분기)
-                $pdo->prepare('UPDATE newsroom_items SET view_count = view_count + 1 WHERE id = ?')
+                // 조회수 증가
+                $pdo->prepare('UPDATE g5_write_news_room SET wr_hit = wr_hit + 1 WHERE wr_id = ?')
                     ->execute([$id]);
                 $item['view_count'] = (int)$item['view_count'] + 1;
 
                 $files = [];
                 if ($withFiles) {
-                    $fs = $pdo->prepare('SELECT id, ori_name, file_path AS file_url, file_ext, file_size FROM newsroom_files WHERE item_id = ? ORDER BY id ASC');
-                    $fs->execute([$id]);
-                    $files = $fs->fetchAll(PDO::FETCH_ASSOC);
+                    $fs = $pdo->prepare(
+                        'SELECT bf_no, wr_id, bf_source AS ori_name,
+                                CASE WHEN bf_fileurl != \'\'  THEN bf_fileurl
+                                     WHEN bf_file   != \'\'  THEN CONCAT(\'' . UPLOAD_WEB_PATH . '\', bf_file)
+                                     ELSE \'\'  END AS file_url,
+                                bf_thumburl AS thumb_url, bf_type AS file_type, bf_filesize AS file_size
+                         FROM g5_board_file WHERE bo_table = ? AND wr_id = ? ORDER BY bf_no ASC'
+                    );
+                    $fs->execute([BO_TABLE_NEWSROOM, $id]);
+                    $rawFiles = $fs->fetchAll(PDO::FETCH_ASSOC);
+                    $files = array_map(function($f) {
+                        $f['file_ext'] = strtolower((string)pathinfo((string)$f['ori_name'], PATHINFO_EXTENSION));
+                        $f['file_type'] = (int)$f['file_type'];
+                        return $f;
+                    }, $rawFiles);
+                    // 이미지 파일(bf_type=1)을 thumbnail 필드로 로지 타입 API 호환성 유지
+                    $thumbArr = array_values(array_filter($files, fn($f) => $f['file_type'] === 1));
+                    $item['thumbnail'] = !empty($thumbArr) ? $thumbArr[0]['file_url'] : '';
                 }
 
                 echo json_encode(['success' => true, 'item' => $item, 'files' => $files]);
@@ -124,45 +149,50 @@ try {
             $dateFrom = trim((string)($_GET['date_from'] ?? ''));
             $dateTo   = trim((string)($_GET['date_to'] ?? ''));
 
-            $where  = ['1=1'];
+            $where  = ['wr_is_comment = 0'];
             $params = [];
 
             if ($keyword !== '') {
                 if ($type === 1) {
-                    $where[] = 'title LIKE ?';
+                    $where[] = 'wr_subject LIKE ?';
                     $params[] = '%' . $keyword . '%';
                 } elseif ($type === 3) {
-                    $where[] = 'content LIKE ?';
+                    $where[] = 'wr_content LIKE ?';
                     $params[] = '%' . $keyword . '%';
                 } else {
-                    $where[] = '(title LIKE ? OR content LIKE ?)';
+                    $where[] = '(wr_subject LIKE ? OR wr_content LIKE ?)';
                     $params[] = '%' . $keyword . '%';
                     $params[] = '%' . $keyword . '%';
                 }
             }
-            if ($dateFrom !== '') { $where[] = 'news_date >= ?'; $params[] = $dateFrom; }
-            if ($dateTo   !== '') { $where[] = 'news_date <= ?'; $params[] = $dateTo; }
+            if ($dateFrom !== '') { $where[] = 'DATE(wr_datetime) >= ?'; $params[] = $dateFrom; }
+            if ($dateTo   !== '') { $where[] = 'DATE(wr_datetime) <= ?'; $params[] = $dateTo; }
 
             $whereSQL = implode(' AND ', $where);
             $offset   = ($page - 1) * $size;
 
-            $cnt  = $pdo->prepare("SELECT COUNT(*) FROM newsroom_items WHERE {$whereSQL}");
+            $cnt  = $pdo->prepare("SELECT COUNT(*) FROM g5_write_news_room WHERE {$whereSQL}");
             $cnt->execute($params);
             $total = (int)$cnt->fetchColumn();
 
             $rows = $pdo->prepare(
-                "SELECT id, title, news_date, description AS `desc`, thumbnail, is_active, view_count, author_name, created_at, updated_at
-                 FROM newsroom_items WHERE {$whereSQL} ORDER BY id DESC LIMIT {$size} OFFSET {$offset}"
+                "SELECT w.wr_id AS id, w.wr_subject AS title, DATE(w.wr_datetime) AS news_date,
+                        w.wr_hit AS view_count, w.wr_name AS author_name,
+                        w.wr_datetime AS created_at, w.wr_last AS updated_at,
+                        COALESCE((SELECT bf_fileurl FROM g5_board_file
+                                  WHERE bo_table='news_room' AND wr_id=w.wr_id AND bf_type=1
+                                  LIMIT 1), '') AS thumbnail
+                 FROM g5_write_news_room w WHERE {$whereSQL} ORDER BY w.wr_id DESC LIMIT {$size} OFFSET {$offset}"
             );
             $rows->execute($params);
             $items = $rows->fetchAll(PDO::FETCH_ASSOC);
 
             echo json_encode([
-                'success'     => true,
-                'items'       => $items,
-                'total_count' => $total,
-                'total_pages' => (int)ceil($total / $size),
-                'page'        => $page,
+                'success'    => true,
+                'items'      => $items,
+                'totalCount' => $total,
+                'totalPages' => (int)ceil($total / $size),
+                'page'       => $page,
             ]);
             break;
         }
@@ -171,10 +201,8 @@ try {
         case 'POST': {
             requireAuth();
 
-            $title    = trim((string)($_POST['title']    ?? ''));
-            $newsDate = trim((string)($_POST['news_date'] ?? date('Y-m-d')));
-            $desc     = trim((string)($_POST['desc']     ?? ''));
-            $content  = trim((string)($_POST['content']  ?? ''));
+            $title   = trim((string)($_POST['title']   ?? ''));
+            $content = trim((string)($_POST['content'] ?? ''));
 
             if ($title === '') {
                 http_response_code(400);
@@ -182,46 +210,40 @@ try {
                 exit;
             }
 
-            // 썸네일: 첫 번째 이미지 파일 경로
-            $thumbnail = '';
-
             $pdo->beginTransaction();
 
             $ins = $pdo->prepare(
-                'INSERT INTO newsroom_items (title, news_date, description, content, thumbnail) VALUES (?,?,?,?,?)'
+                'INSERT INTO g5_write_news_room (wr_subject, wr_content, wr_2, wr_name, wr_datetime, wr_last, wr_is_comment, wr_parent, wr_num) VALUES (?,?,?,?,NOW(),NOW(),0,0,0)'
             );
-            $ins->execute([$title, $newsDate, $desc, $content, $thumbnail]);
+            $ins->execute([$title, $content, '', '관리자']);
             $newId = (int)$pdo->lastInsertId();
 
-            // 파일 업로드
-            $uploadedFiles = [];
-            if (!empty($_FILES['files'])) {
-                $files = $_FILES['files'];
-                // 단일 파일도 배열로 정규화
-                $count = is_array($files['name']) ? count($files['name']) : 1;
-                for ($i = 0; $i < $count; $i++) {
-                    $fileItem = is_array($files['name']) ? [
-                        'name'     => $files['name'][$i],
-                        'tmp_name' => $files['tmp_name'][$i],
-                        'size'     => $files['size'][$i],
-                        'error'    => $files['error'][$i],
-                    ] : $files;
-
-                    if ((int)$fileItem['error'] !== UPLOAD_ERR_OK) continue;
-
-                    $saved = saveUploadedFile($fileItem);
-                    $fstmt = $pdo->prepare(
-                        'INSERT INTO newsroom_files (item_id, ori_name, file_path, file_ext, file_size) VALUES (?,?,?,?,?)'
-                    );
-                    $fstmt->execute([$newId, $saved['ori_name'], $saved['file_path'], $saved['file_ext'], $saved['file_size']]);
-                    $uploadedFiles[] = $saved;
-
-                    // 첫 이미지를 썸네일로
-                    if ($thumbnail === '' && in_array($saved['file_ext'], ['jpg','jpeg','png','gif','webp'], true)) {
-                        $thumbnail = $saved['file_path'];
-                        $pdo->prepare('UPDATE newsroom_items SET thumbnail = ? WHERE id = ?')->execute([$thumbnail, $newId]);
-                    }
+            // 첫번째 첨부: 썸네일 이미지
+            if (!empty($_FILES['thumbnail']) && (int)$_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
+                $imgExts = ['jpg','jpeg','png','gif','webp'];
+                $tExt = strtolower((string)pathinfo((string)$_FILES['thumbnail']['name'], PATHINFO_EXTENSION));
+                if (!in_array($tExt, $imgExts, true)) {
+                    $pdo->rollBack();
+                    http_response_code(400);
+                    echo json_encode(['success' => false, 'message' => '썸네일은 이미지 파일만 가능합니다.']);
+                    exit;
                 }
+                $saved = saveUploadedFile($_FILES['thumbnail']);
+                $pdo->prepare('UPDATE g5_write_news_room SET wr_2 = ? WHERE wr_id = ?')
+                    ->execute([$saved['file_path'], $newId]);
+            }
+
+            // 두번째 첨부: 다운로드 파일
+            if (!empty($_FILES['download_file']) && (int)$_FILES['download_file']['error'] === UPLOAD_ERR_OK) {
+                $saved = saveUploadedFile($_FILES['download_file']);
+                // 기존 슬롯 추가 (bf_no 최대+1, 없으면 0)
+                $bfStmt = $pdo->prepare('SELECT COALESCE(MAX(bf_no)+1,0) FROM g5_board_file WHERE bo_table=? AND wr_id=?');
+                $bfStmt->execute([BO_TABLE_NEWSROOM, $newId]);
+                $bfNo = (int)$bfStmt->fetchColumn();
+                $pdo->prepare(
+                    'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                     VALUES (?,?,?,?,?,?,?,?,0,0,0,0,\'\',NOW())'
+                )->execute([BO_TABLE_NEWSROOM, $newId, $bfNo, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
             }
 
             $pdo->commit();
@@ -234,11 +256,9 @@ try {
         case 'PUT': {
             requireAuth();
 
-            $id       = (int)($_POST['id'] ?? 0);
-            $title    = trim((string)($_POST['title']    ?? ''));
-            $newsDate = trim((string)($_POST['news_date'] ?? ''));
-            $desc     = trim((string)($_POST['desc']     ?? ''));
-            $content  = trim((string)($_POST['content']  ?? ''));
+            $id      = (int)($_POST['id'] ?? 0);
+            $title   = trim((string)($_POST['title']   ?? ''));
+            $content = trim((string)($_POST['content'] ?? ''));
 
             if ($id === 0 || $title === '') {
                 http_response_code(400);
@@ -249,42 +269,52 @@ try {
             $pdo->beginTransaction();
 
             $upd = $pdo->prepare(
-                'UPDATE newsroom_items SET title=?, news_date=?, description=?, content=? WHERE id=?'
+                'UPDATE g5_write_news_room SET wr_subject=?, wr_content=?, wr_last=NOW() WHERE wr_id=?'
             );
-            $upd->execute([$title, $newsDate, $desc, $content, $id]);
+            $upd->execute([$title, $content, $id]);
 
-            // 신규 파일 업로드
-            if (!empty($_FILES['files'])) {
-                $files = $_FILES['files'];
-                $count = is_array($files['name']) ? count($files['name']) : 1;
-                $thumbnail = '';
-                // 기존 썸네일 확인
-                $tRow = $pdo->prepare('SELECT thumbnail FROM newsroom_items WHERE id = ?');
-                $tRow->execute([$id]);
-                $thumbnail = (string)($tRow->fetchColumn() ?? '');
-
-                for ($i = 0; $i < $count; $i++) {
-                    $fileItem = is_array($files['name']) ? [
-                        'name'     => $files['name'][$i],
-                        'tmp_name' => $files['tmp_name'][$i],
-                        'size'     => $files['size'][$i],
-                        'error'    => $files['error'][$i],
-                    ] : $files;
-
-                    if ((int)$fileItem['error'] !== UPLOAD_ERR_OK) continue;
-
-                    $saved = saveUploadedFile($fileItem);
-                    $fstmt = $pdo->prepare(
-                        'INSERT INTO newsroom_files (item_id, ori_name, file_path, file_ext, file_size) VALUES (?,?,?,?,?)'
-                    );
-                    $fstmt->execute([$id, $saved['ori_name'], $saved['file_path'], $saved['file_ext'], $saved['file_size']]);
-
-                    // 썸네일이 없으면 첫 이미지로 설정
-                    if ($thumbnail === '' && in_array($saved['file_ext'], ['jpg','jpeg','png','gif','webp'], true)) {
-                        $thumbnail = $saved['file_path'];
-                        $pdo->prepare('UPDATE newsroom_items SET thumbnail = ? WHERE id = ?')->execute([$thumbnail, $id]);
-                    }
+            // 새 썸네일 업로드 (bf_no=0, bf_type=1) — 기존 파일 삭제 후 대체
+            if (!empty($_FILES['thumbnail']) && (int)$_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
+                $imgExts = ['jpg','jpeg','png','gif','webp'];
+                $tExt = strtolower((string)pathinfo((string)$_FILES['thumbnail']['name'], PATHINFO_EXTENSION));
+                if (!in_array($tExt, $imgExts, true)) {
+                    $pdo->rollBack();
+                    http_response_code(400);
+                    echo json_encode(['success' => false, 'message' => '썸네일은 이미지 파일만 가능합니다.']);
+                    exit;
                 }
+                $oldRow = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0');
+                $oldRow->execute([BO_TABLE_NEWSROOM, $id]);
+                $oldFile = $oldRow->fetchColumn();
+                if ($oldFile) {
+                    $absOld = UPLOAD_DIR . $oldFile;
+                    if (file_exists($absOld)) @unlink($absOld);
+                    $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0')
+                        ->execute([BO_TABLE_NEWSROOM, $id]);
+                }
+                $saved = saveUploadedFile($_FILES['thumbnail']);
+                $pdo->prepare(
+                    'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                     VALUES (?,?,0,?,?,?,?,?,0,0,1,0,\'\',NOW())'
+                )->execute([BO_TABLE_NEWSROOM, $id, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+            }
+
+            // 새 다운로드 파일 업로드 (bf_no=1, bf_type=0) — 기존 파일 삭제 후 대체
+            if (!empty($_FILES['download_file']) && (int)$_FILES['download_file']['error'] === UPLOAD_ERR_OK) {
+                $oldRow = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1');
+                $oldRow->execute([BO_TABLE_NEWSROOM, $id]);
+                $oldFile = $oldRow->fetchColumn();
+                if ($oldFile) {
+                    $absOld = UPLOAD_DIR . $oldFile;
+                    if (file_exists($absOld)) @unlink($absOld);
+                    $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1')
+                        ->execute([BO_TABLE_NEWSROOM, $id]);
+                }
+                $saved = saveUploadedFile($_FILES['download_file']);
+                $pdo->prepare(
+                    'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                     VALUES (?,?,1,?,?,?,?,?,0,0,0,0,\'\',NOW())'
+                )->execute([BO_TABLE_NEWSROOM, $id, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
             }
 
             $pdo->commit();
@@ -308,15 +338,16 @@ try {
             }
 
             // 파일 목록 수집 후 삭제
-            $fs = $pdo->prepare('SELECT file_path FROM newsroom_files WHERE item_id = ?');
-            $fs->execute([$id]);
-            $filePaths = $fs->fetchAll(PDO::FETCH_COLUMN);
+            $fs = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table = ? AND wr_id = ?');
+            $fs->execute([BO_TABLE_NEWSROOM, $id]);
+            $fileNames = $fs->fetchAll(PDO::FETCH_COLUMN);
 
-            $pdo->prepare('DELETE FROM newsroom_items WHERE id = ?')->execute([$id]);
+            $pdo->prepare('DELETE FROM g5_write_news_room WHERE wr_id = ?')->execute([$id]);
+            $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table = ? AND wr_id = ?')->execute([BO_TABLE_NEWSROOM, $id]);
 
             // 파일 시스템에서 파일 삭제
-            foreach ($filePaths as $webPath) {
-                $absPath = dirname(__DIR__, 2) . $webPath;
+            foreach ($fileNames as $fileName) {
+                $absPath = UPLOAD_DIR . $fileName;
                 if (file_exists($absPath)) {
                     @unlink($absPath);
                 }

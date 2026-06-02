@@ -17,13 +17,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once dirname(__DIR__) . '/db.php';
 require_once dirname(__DIR__) . '/jwt.php';
 
-define('MAT_UPLOAD_DIR',      dirname(__DIR__, 2) . '/uploads/material/');
-define('MAT_UPLOAD_WEB_PATH', '/renewal_react_v1/uploads/material/');
+define('MAT_UPLOAD_DIR',      dirname(__DIR__, 2) . '/data/file/promotion/');
+define('MAT_UPLOAD_WEB_PATH', '/renewal_react_v1/data/file/promotion/');
+define('MAT_BO_TABLE',        'promotion');
 define('MAT_ALLOWED_EXTS',    ['jpg','jpeg','png','gif','webp','pdf','doc','docx','xls','xlsx','ppt','pptx','zip','txt']);
 define('MAT_MAX_FILE_SIZE',   20 * 1024 * 1024);
 
 function matRequireAuth(): array {
-    $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+    $auth = $_SERVER['HTTP_AUTHORIZATION']
+        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+        ?? (function_exists('getallheaders') ? (getallheaders()['Authorization'] ?? '') : '')
+        ?? '';
     if (!preg_match('/^Bearer\s+(.+)$/i', $auth, $m)) {
         http_response_code(401);
         echo json_encode(['success' => false, 'message' => '인증이 필요합니다.']);
@@ -61,6 +65,7 @@ function matSaveUploadedFile(array $file): array {
 
     return [
         'ori_name'  => $oriName,
+        'file_name' => $savedName,
         'file_path' => MAT_UPLOAD_WEB_PATH . $savedName,
         'file_ext'  => $ext,
         'file_size' => (int)$file['size'],
@@ -97,9 +102,16 @@ try {
 
                 $files = [];
                 if ($withFiles) {
-                    $fs = $pdo->prepare('SELECT id, ori_name, file_path AS file_url, file_ext, file_size FROM material_files WHERE item_id = ? ORDER BY id ASC');
-                    $fs->execute([$id]);
-                    $files = $fs->fetchAll(PDO::FETCH_ASSOC);
+                    $fs = $pdo->prepare(
+                        'SELECT bf_no, wr_id, bf_source AS ori_name, bf_fileurl AS file_url, bf_filesize AS file_size
+                         FROM g5_board_file WHERE bo_table = ? AND wr_id = ? ORDER BY bf_no ASC'
+                    );
+                    $fs->execute([MAT_BO_TABLE, $id]);
+                    $rawFiles = $fs->fetchAll(PDO::FETCH_ASSOC);
+                    $files = array_map(function($f) {
+                        $f['file_ext'] = strtolower((string)pathinfo((string)$f['ori_name'], PATHINFO_EXTENSION));
+                        return $f;
+                    }, $rawFiles);
                 }
 
                 echo json_encode(['success' => true, 'item' => $item, 'files' => $files]);
@@ -194,8 +206,13 @@ try {
                     if ((int)$fileItem['error'] !== UPLOAD_ERR_OK) continue;
 
                     $saved = matSaveUploadedFile($fileItem);
-                    $pdo->prepare('INSERT INTO material_files (item_id, ori_name, file_path, file_ext, file_size) VALUES (?,?,?,?,?)')
-                        ->execute([$newId, $saved['ori_name'], $saved['file_path'], $saved['file_ext'], $saved['file_size']]);
+                    $bfStmt = $pdo->prepare('SELECT COALESCE(MAX(bf_no)+1,0) FROM g5_board_file WHERE bo_table=? AND wr_id=?');
+                    $bfStmt->execute([MAT_BO_TABLE, $newId]);
+                    $bfNo = (int)$bfStmt->fetchColumn();
+                    $pdo->prepare(
+                        'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                         VALUES (?,?,?,?,?,?,?,?,0,0,0,0,\'\',NOW())'
+                    )->execute([MAT_BO_TABLE, $newId, $bfNo, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
 
                     if ($thumbnail === '' && in_array($saved['file_ext'], ['jpg','jpeg','png','gif','webp'], true)) {
                         $thumbnail = $saved['file_path'];
@@ -247,8 +264,13 @@ try {
                     if ((int)$fileItem['error'] !== UPLOAD_ERR_OK) continue;
 
                     $saved = matSaveUploadedFile($fileItem);
-                    $pdo->prepare('INSERT INTO material_files (item_id, ori_name, file_path, file_ext, file_size) VALUES (?,?,?,?,?)')
-                        ->execute([$id, $saved['ori_name'], $saved['file_path'], $saved['file_ext'], $saved['file_size']]);
+                    $bfStmt = $pdo->prepare('SELECT COALESCE(MAX(bf_no)+1,0) FROM g5_board_file WHERE bo_table=? AND wr_id=?');
+                    $bfStmt->execute([MAT_BO_TABLE, $id]);
+                    $bfNo = (int)$bfStmt->fetchColumn();
+                    $pdo->prepare(
+                        'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                         VALUES (?,?,?,?,?,?,?,?,0,0,0,0,\'\',NOW())'
+                    )->execute([MAT_BO_TABLE, $id, $bfNo, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
 
                     if ($thumbnail === '' && in_array($saved['file_ext'], ['jpg','jpeg','png','gif','webp'], true)) {
                         $thumbnail = $saved['file_path'];
@@ -274,14 +296,15 @@ try {
                 exit;
             }
 
-            $fs = $pdo->prepare('SELECT file_path FROM material_files WHERE item_id = ?');
-            $fs->execute([$id]);
-            $filePaths = $fs->fetchAll(PDO::FETCH_COLUMN);
+            $fs = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table = ? AND wr_id = ?');
+            $fs->execute([MAT_BO_TABLE, $id]);
+            $fileNames = $fs->fetchAll(PDO::FETCH_COLUMN);
 
             $pdo->prepare('DELETE FROM material_items WHERE id = ?')->execute([$id]);
+            $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table = ? AND wr_id = ?')->execute([MAT_BO_TABLE, $id]);
 
-            foreach ($filePaths as $webPath) {
-                $absPath = dirname(__DIR__, 2) . $webPath;
+            foreach ($fileNames as $fileName) {
+                $absPath = MAT_UPLOAD_DIR . $fileName;
                 if (file_exists($absPath)) { @unlink($absPath); }
             }
 

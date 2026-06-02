@@ -70,11 +70,11 @@ export default function AdminMaterialFormPage() {
     setNewFilePreviews((prev) => prev.filter((_, i) => i !== index))
   }
 
-  const handleDeleteExistingFile = async (fileId: number) => {
+  const handleDeleteExistingFile = async (wrId: number, bfNo: number) => {
     if (!confirm('첨부파일을 삭제하시겠습니까?')) return
     try {
-      await deleteMaterialFile(fileId)
-      setExistingFiles((prev) => prev.filter((f) => f.id !== fileId))
+      await deleteMaterialFile(wrId, bfNo)
+      setExistingFiles((prev) => prev.filter((f) => !(f.wr_id === wrId && f.bf_no === bfNo)))
     } catch {
       alert('파일 삭제에 실패했습니다.')
     }
@@ -149,9 +149,9 @@ export default function AdminMaterialFormPage() {
                 </select>
               </div>
 
-              {/* 게시일 */}
+              {/* 작성일 */}
               <div className="adm_form_row">
-                <label className="adm_form_label">게시일 <span className="required">*</span></label>
+                <label className="adm_form_label">작성일 <span className="required">*</span></label>
                 <input
                   type="date"
                   className="adm_form_input"
@@ -220,7 +220,7 @@ export default function AdminMaterialFormPage() {
                           <button
                             type="button"
                             className="adm_file_del"
-                            onClick={() => handleDeleteExistingFile(f.id)}
+                            onClick={() => handleDeleteExistingFile(f.wr_id, f.bf_no)}
                           >
                             <span className="material-icons">close</span>
                           </button>

@@ -14,7 +14,10 @@ require_once dirname(__DIR__) . '/db.php';
 require_once dirname(__DIR__) . '/jwt.php';
 
 function broFileRequireAuth(): void {
-    $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+    $auth = $_SERVER['HTTP_AUTHORIZATION']
+        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+        ?? (function_exists('getallheaders') ? (getallheaders()['Authorization'] ?? '') : '')
+        ?? '';
     if (!preg_match('/^Bearer\s+(.+)$/i', $auth, $m)) {
         http_response_code(401);
         echo json_encode(['success' => false, 'message' => '인증이 필요합니다.']);

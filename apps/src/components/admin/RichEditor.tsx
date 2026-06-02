@@ -3,7 +3,44 @@ import { useEditor, EditorContent, Extension, Node, mergeAttributes } from '@tip
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import { TextStyle } from '@tiptap/extension-text-style'
+import { Color } from '@tiptap/extension-color'
+import Underline from '@tiptap/extension-underline'
+import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
+import Placeholder from '@tiptap/extension-placeholder'
+import { Table } from '@tiptap/extension-table'
+import TableRow from '@tiptap/extension-table-row'
+import TableHeader from '@tiptap/extension-table-header'
+import TableCell from '@tiptap/extension-table-cell'
+import HardBreak from '@tiptap/extension-hard-break'
 import '@/assets/css/editor.css'
+import { getStoredToken } from '@/store/useAuthStore'
+import { toAbsUrl } from '@/utils/uploadUrl'
+
+const API_BASE = import.meta.env.PROD
+  ? 'https://www.dataprotec.co.kr/renewal_react_v1/backend'
+  : 'http://localhost/renewal_react_v1/backend'
+
+// 저장된 상대경로 → 절대경로로 변환 (에디터 표시용)
+function resolveContentUrls(html: string): string {
+  if (!html) return html
+  return html.replace(/src="(\/[^"]+)"/g, (_, p) => `src="${toAbsUrl(p)}"`)
+}
+
+// 에디터 이미지 업로드
+async function uploadEditorImage(file: File): Promise<string> {
+  const form = new FormData()
+  form.append('image', file)
+  const token = getStoredToken()
+  const res = await fetch(`${API_BASE}/api/upload.php`, {
+    method: 'POST',
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: form,
+  })
+  const data = await res.json() as { success: boolean; url?: string; message?: string }
+  if (!data.success || !data.url) throw new Error(data.message ?? '이미지 업로드 실패')
+  return data.url
+}
 
 // Iframe 노드 — YouTube 등 <iframe> 태그 보존
 const Iframe = Node.create({

@@ -141,7 +141,7 @@ export default function AdminNoticePage() {
                     <th style={{ width: '5%' }}>번호</th>
                     <th>제목</th>
                     <th style={{ width: '10%' }}>작성자</th>
-                    <th style={{ width: '10%' }}>게시일</th>
+                    <th style={{ width: '10%' }}>작성일</th>
                     <th style={{ width: '7%' }}>조회수</th>
                     <th style={{ width: '16%' }}>관리</th>
                   </tr>

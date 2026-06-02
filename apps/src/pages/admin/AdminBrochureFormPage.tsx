@@ -149,9 +149,9 @@ export default function AdminBrochureFormPage() {
                 </select>
               </div>
 
-              {/* 게시일 */}
+              {/* 작성일 */}
               <div className="adm_form_row">
-                <label className="adm_form_label">게시일 <span className="required">*</span></label>
+                <label className="adm_form_label">작성일 <span className="required">*</span></label>
                 <input
                   type="date"
                   className="adm_form_input"

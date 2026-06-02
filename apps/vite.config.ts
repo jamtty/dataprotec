@@ -23,6 +23,11 @@ export default defineConfig(({ mode }) => ({
         changeOrigin: true,
         secure: false,
       },
+      '/renewal_react_v1/data': {
+        target: 'https://dataprotec.co.kr',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   css: {
