@@ -97,7 +97,7 @@ function DptVcs() {
                     <div>STEP 01</div>
                     <div>반입 단계, 다중 백신 기반의 무결성 검증</div>
                 </div>
-                <div data-aos="fade-up">
+                <div data-aos="fade-up" className='pad'>
                     <img src={prdVcsImg2} alt="" />
                 </div>
             </div>
@@ -260,9 +260,6 @@ function DptVcs() {
                         <div className='swiper-wrapper'>
                             <div className='swiper-slide'>
                                 <img src={mainImgKiosk1} alt="" />
-                            </div>
-                            <div className='swiper-slide'>
-                                <img src={mainImgKiosk2} alt="" />
                             </div>
                         </div>
                     </div>
