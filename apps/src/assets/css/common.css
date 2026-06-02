@@ -90,8 +90,8 @@
     url('../fonts/Pretendard/Pretendard-Thin.woff') format('woff');
 }
 
-html { height:100%; min-width:320px; overflow-x:hidden; overflow-y:auto; -webkit-overflow-scrolling:touch; font-size: 0.52083vw; /* 10px @ 1920px */ }
-body { height:100%; margin:0; padding:0; font-family:"Pretendard", sans-serif; font-weight:400; font-size:1.3rem; line-height:1.5; }
+html { height:100%; min-width:320px; overflow-x:hidden; overflow-y:auto; -webkit-overflow-scrolling:touch; font-size: 10px; }
+body { height:100%; margin:0; padding:0; font-family:"Pretendard", sans-serif; font-weight:400; font-size:1.3rem; line-height:1.5; zoom:0.95; }
 
 @media screen and (max-width: 1024px) { html { font-size: 1.3021vw; }  /* 10px @ 768px  */ }
 @media screen and (max-width:  767px) { html { font-size: 9px; }         /* 9px  @ 767px  */ }

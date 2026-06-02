@@ -537,7 +537,7 @@ span.br { display:block }
 #sub .contetns.company2 table.history tr:first-child td:nth-child(2) { height:14.1rem; background:url('../images/company2_bg_line_top.jpg') 50% 0 no-repeat; }
 #sub .contetns.company2 table.history tr:last-child td:nth-child(2) { height:18rem; background:url('../images/company2_bg_line_bottom.jpg') 50% 0 no-repeat; }
 #sub .contetns.company2 table.history td { padding:1.5rem; font-size:2rem; color:#333; }
-#sub .contetns.company2 table.history td:nth-child(2) { text-align:center; background:url('../images/company2_bg_line_body.jpg') 50% 50% repeat-y; }
+#sub .contetns.company2 table.history td:nth-child(2) { text-align:center; background:url('../images/company2_bg_line_body.jpg') 50% 0 repeat-y; }
 
 /* 회사소개 R&D */
 #sub .contetns.company3 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:url('../images/company3_bg1.jpg') 50% 50% no-repeat; background-size:cover}
