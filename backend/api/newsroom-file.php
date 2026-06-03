@@ -76,6 +76,12 @@ try {
         @unlink($absPath);
     }
 
+    // 썸네일 슬롯(bf_no=0)을 삭제한 경우 wr_2 필드도 정리
+    if ($bfNo === 0) {
+        $pdo->prepare('UPDATE g5_write_news_room SET wr_2 = ? WHERE wr_id = ?')
+            ->execute(['', $wrId]);
+    }
+
     echo json_encode(['success' => true]);
 
 } catch (Exception $e) {

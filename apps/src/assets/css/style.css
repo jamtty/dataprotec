@@ -1778,6 +1778,82 @@ span.br { display:block }
 #sub .contetns.recruitment2 .section_con ul.info { list-style:disc; margin:2rem 0 0 2.5rem }
 #sub .contetns.recruitment2 .section_con ul.info li { font-size:1.8rem; color:#333; line-height:170%; margin:0 !important; padding:0 !important; height:auto !important; background:none !important }
 
+/* ── 레이어 팝업 ─────────────────────────────────────── */
+.layer_popup_overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+}
+.layer_popup_box {
+  position: absolute;
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+  border-radius: 4px;
+  overflow: hidden;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+}
+.layer_popup_content {
+  flex: 1;
+  overflow: auto;
+  font-size: 0;
+  line-height: 0;
+}
+.layer_popup_content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  vertical-align: top;
+}
+.layer_popup_footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #222;
+  padding: 0 1.2rem;
+  height: 4rem;
+  flex-shrink: 0;
+}
+.layer_popup_dismiss {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+.layer_popup_dismiss:hover {
+  color: #fff;
+}
+.layer_popup_close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+}
+.layer_popup_close:hover {
+  color: #aaa;
+}
+@media (max-width: 768px) {
+  .layer_popup_box {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+    width: 90vw !important;
+    max-width: 400px;
+    max-height: 80vh;
+  }
+}
+
 
 @media all and (max-width:1023px) {
 	

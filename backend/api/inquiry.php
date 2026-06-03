@@ -1,9 +1,10 @@
-<?php
+﻿<?php
 // backend/api/inquiry.php
-// GET  ?page&size&keyword&is_read   → 목록 (인증 필요)
-// GET  ?id                          → 상세 + 읽음 처리 (인증 필요)
-// POST (json body)                  → 등록 (공개 - 고객 문의 제출)
-// DELETE ?id                        → 삭제 (인증 필요)
+// GET  ?page&size&keyword  → 목록 (인증 필요)
+// POST (json body)         → 등록 (공개 - 고객 문의 제출)
+// DELETE ?id               → 삭제 (인증 필요)
+// 테이블: g5_write_request
+// 컬럼 매핑: wr_subject=회사명, wr_name=담당자, wr_1=연락처, wr_2=이메일, wr_content=문의내용
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -14,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once dirname(__DIR__) . '/db.php';
 require_once dirname(__DIR__) . '/jwt.php';
+
+define('INQ_TABLE', 'g5_write_request');
 
 function requireAuth(): array {
     $auth = $_SERVER['HTTP_AUTHORIZATION']
@@ -44,76 +47,60 @@ try {
 
     switch ($method) {
 
-        // ────────────────────── GET ──────────────────────────────
+        // ────────────────── GET ────────────────────────────
         case 'GET': {
             requireAuth();
 
-            // 상세 조회 + 읽음 처리
-            if (isset($_GET['id'])) {
-                $id = (int)$_GET['id'];
-                $stmt = $pdo->prepare('SELECT * FROM inquiry_items WHERE id = ? LIMIT 1');
-                $stmt->execute([$id]);
-                $item = $stmt->fetch(PDO::FETCH_ASSOC);
-                if (!$item) {
-                    http_response_code(404);
-                    echo json_encode(['success' => false, 'message' => '문의를 찾을 수 없습니다.']);
-                    exit;
-                }
-                // 읽음 처리
-                if (!(int)$item['is_read']) {
-                    $pdo->prepare('UPDATE inquiry_items SET is_read = 1 WHERE id = ?')->execute([$id]);
-                    $item['is_read'] = 1;
-                }
-                echo json_encode(['success' => true, 'item' => $item]);
-                break;
-            }
-
-            // 목록 조회
             $page    = max(1, (int)($_GET['page'] ?? 1));
             $size    = min(100, max(1, (int)($_GET['size'] ?? 15)));
             $keyword = trim((string)($_GET['keyword'] ?? ''));
-            $isRead  = isset($_GET['is_read']) ? (int)$_GET['is_read'] : -1; // -1=전체
 
-            $where  = ['1=1'];
+            $where  = ['wr_is_comment = 0'];
             $params = [];
 
             if ($keyword !== '') {
-                $where[]  = '(company LIKE ? OR manager LIKE ? OR content LIKE ?)';
+                $where[]  = '(wr_subject LIKE ? OR wr_name LIKE ? OR wr_1 LIKE ? OR wr_2 LIKE ? OR wr_content LIKE ?)';
                 $params[] = '%' . $keyword . '%';
                 $params[] = '%' . $keyword . '%';
                 $params[] = '%' . $keyword . '%';
-            }
-            if ($isRead >= 0) {
-                $where[]  = 'is_read = ?';
-                $params[] = $isRead;
+                $params[] = '%' . $keyword . '%';
+                $params[] = '%' . $keyword . '%';
             }
 
             $whereSQL = implode(' AND ', $where);
             $offset   = ($page - 1) * $size;
 
-            $cnt = $pdo->prepare("SELECT COUNT(*) FROM inquiry_items WHERE {$whereSQL}");
+            $cnt = $pdo->prepare("SELECT COUNT(*) FROM `" . INQ_TABLE . "` WHERE {$whereSQL}");
             $cnt->execute($params);
             $total = (int)$cnt->fetchColumn();
 
             $rows = $pdo->prepare(
-                "SELECT id, company, manager, phone, email, LEFT(content,100) AS content_preview,
-                        is_read, created_at
-                 FROM inquiry_items WHERE {$whereSQL} ORDER BY id DESC LIMIT {$size} OFFSET {$offset}"
+                "SELECT wr_id       AS id,
+                        wr_subject  AS company,
+                        wr_name     AS manager,
+                        wr_1        AS phone,
+                        wr_2        AS email,
+                        wr_content  AS content,
+                        wr_datetime AS created_at
+                 FROM `" . INQ_TABLE . "`
+                 WHERE {$whereSQL}
+                 ORDER BY wr_id DESC
+                 LIMIT {$size} OFFSET {$offset}"
             );
             $rows->execute($params);
             $items = $rows->fetchAll(PDO::FETCH_ASSOC);
 
             echo json_encode([
-                'success'     => true,
-                'items'       => $items,
-                'totalCount'  => $total,
-                'totalPages'  => (int)ceil($total / $size),
-                'page'        => $page,
+                'success'    => true,
+                'items'      => $items,
+                'totalCount' => $total,
+                'totalPages' => (int)ceil($total / $size),
+                'page'       => $page,
             ]);
             break;
         }
 
-        // ────────────────────── POST (등록 - 공개) ───────────────
+        // ────────────────── POST (등록 - 공개) ───────────────
         case 'POST': {
             $raw  = file_get_contents('php://input');
             $body = json_decode($raw ?: '{}', true) ?? [];
@@ -130,23 +117,33 @@ try {
                 exit;
             }
 
-            // 이메일 형식 검증
             if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 http_response_code(400);
                 echo json_encode(['success' => false, 'message' => '이메일 형식이 올바르지 않습니다.']);
                 exit;
             }
 
+            $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+
             $ins = $pdo->prepare(
-                'INSERT INTO inquiry_items (company, manager, phone, email, content) VALUES (?,?,?,?,?)'
+                "INSERT INTO `" . INQ_TABLE . "`
+                 (wr_subject, wr_name, wr_1, wr_2, wr_email, wr_content, wr_datetime, wr_last,
+                  wr_is_comment, wr_parent, wr_num, wr_reply, wr_comment_reply,
+                  ca_name, wr_option, wr_link1, wr_link2, wr_ip, mb_id, wr_password,
+                  wr_homepage, wr_facebook_user, wr_twitter_user,
+                  wr_3, wr_4, wr_5, wr_6, wr_7, wr_8, wr_9, wr_10)
+                 VALUES (?,?,?,?,?,?,NOW(),NOW(),0,0,
+                         COALESCE((SELECT MIN(wr_num) FROM `" . INQ_TABLE . "` t2),0)-1,
+                         '','','','','','',?,'','','','','',
+                         '','','','','','','','')"
             );
-            $ins->execute([$company, $manager, $phone, $email, $content]);
+            $ins->execute([$company, $manager, $phone, $email, $email, $content, $ip]);
 
             echo json_encode(['success' => true, 'id' => (int)$pdo->lastInsertId()]);
             break;
         }
 
-        // ────────────────────── DELETE ───────────────────────────
+        // ────────────────── DELETE ───────────────────────
         case 'DELETE': {
             requireAuth();
 
@@ -159,7 +156,7 @@ try {
                 exit;
             }
 
-            $pdo->prepare('DELETE FROM inquiry_items WHERE id = ?')->execute([$id]);
+            $pdo->prepare("DELETE FROM `" . INQ_TABLE . "` WHERE wr_id = ?")->execute([$id]);
             echo json_encode(['success' => true]);
             break;
         }

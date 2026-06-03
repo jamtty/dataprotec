@@ -7,6 +7,12 @@ type MenuSection = {
 
 export const sideMenuSections: MenuSection[] = [
   {
+    sectionLabel: '운영',
+    items: [
+      { label: '팝업 관리', to: '/admin/popup', icon: 'web_asset' },
+    ],
+  },
+  {
     sectionLabel: '게시판',
     items: [
       { label: '뉴스룸 관리', to: '/admin/newsroom', icon: 'newspaper' },

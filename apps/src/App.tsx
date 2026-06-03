@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import './assets/css/common.css'
 import './assets/css/style.css'
 import { useAuthStore, isTokenExpired } from '@/store/useAuthStore'
@@ -10,6 +11,8 @@ import AdminMaterialFormPage from './pages/admin/AdminMaterialFormPage'
 import AdminBrochurePage from './pages/admin/AdminBrochurePage'
 import AdminBrochureFormPage from './pages/admin/AdminBrochureFormPage'
 import AdminInquiryPage from './pages/admin/AdminInquiryPage'
+import AdminPopupPage from './pages/admin/AdminPopupPage'
+import AdminPopupFormPage from './pages/admin/AdminPopupFormPage'
 import AdminMyPage from './pages/admin/AdminMyPage'
 import Main from './pages/Main'
 import ProductEnterprise from './pages/product/DptEnterprise'
@@ -34,7 +37,35 @@ import Support from './pages/support/Support'
 const basename = import.meta.env.PROD ? '/renewal_react_v1' : '/'
 
 function AdminRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, accessToken } = useAuthStore()
+  const { isAuthenticated, accessToken, clearAuth } = useAuthStore()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isAuthenticated || !accessToken) return
+    // 토큰 남은 시간 계산 후 만료 시점에 자동 로그아웃
+    try {
+      const parts = accessToken.split('.')
+      if (parts.length === 3) {
+        const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/'))) as { exp?: number }
+        if (typeof payload.exp === 'number') {
+          const msUntilExpiry = payload.exp * 1000 - Date.now()
+          if (msUntilExpiry <= 0) {
+            clearAuth()
+            navigate('/admin/login', { replace: true })
+            return
+          }
+          const timer = setTimeout(() => {
+            clearAuth()
+            navigate('/admin/login', { replace: true })
+          }, msUntilExpiry)
+          return () => clearTimeout(timer)
+        }
+      }
+    } catch {
+      // 파싱 실패 시 무시
+    }
+  }, [isAuthenticated, accessToken, clearAuth, navigate])
+
   if (!isAuthenticated || isTokenExpired(accessToken)) {
     return <Navigate to="/admin/login" replace />
   }
@@ -82,6 +113,9 @@ function App() {
         <Route path="/admin/brochure/new" element={<AdminRoute><AdminBrochureFormPage /></AdminRoute>} />
         <Route path="/admin/brochure/:id/edit" element={<AdminRoute><AdminBrochureFormPage /></AdminRoute>} />
         <Route path="/admin/inquiry" element={<AdminRoute><AdminInquiryPage /></AdminRoute>} />
+        <Route path="/admin/popup" element={<AdminRoute><AdminPopupPage /></AdminRoute>} />
+        <Route path="/admin/popup/new" element={<AdminRoute><AdminPopupFormPage /></AdminRoute>} />
+        <Route path="/admin/popup/:id/edit" element={<AdminRoute><AdminPopupFormPage /></AdminRoute>} />
         <Route path="/admin/my" element={<AdminRoute><AdminMyPage /></AdminRoute>} />
       </Routes>
     </BrowserRouter>

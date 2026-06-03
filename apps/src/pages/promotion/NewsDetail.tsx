@@ -1,19 +1,48 @@
-﻿import { useEffect } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import PromotionLayout from './PromotionLayout'
-import { newsData } from './newsData'
+import { fetchNewsroomDetail, fetchNewsroomList, type NewsroomItem } from '@/api/newsroom'
+import blankImg from '../../assets/images/blank.jpg'
 
 function NewsDetail() {
   const { id } = useParams<{ id: string }>()
   const numId = Number(id)
 
+  const [article, setArticle] = useState<NewsroomItem | null>(null)
+  const [recentItems, setRecentItems] = useState<NewsroomItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
+
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [id])
-  const currentIndex = newsData.findIndex(n => n.id === numId)
-  const article = newsData[currentIndex]
+    setLoading(true)
+    setNotFound(false)
 
-  if (!article) {
+    Promise.all([
+      fetchNewsroomDetail(numId),
+      fetchNewsroomList({ page: 1, size: 5 }),
+    ])
+      .then(([detail, list]) => {
+        setArticle(detail.item)
+        setRecentItems(list.items)
+      })
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false))
+  }, [numId])
+
+  if (loading) {
+    return (
+      <PromotionLayout>
+        <div className="contetns">
+          <div className="responsive section_con" style={{ padding: '8rem 0', textAlign: 'center' }}>
+            <p style={{ fontSize: '1.8rem', color: '#888' }}>불러오는 중...</p>
+          </div>
+        </div>
+      </PromotionLayout>
+    )
+  }
+
+  if (notFound || !article) {
     return (
       <PromotionLayout>
         <div className="contetns">
@@ -41,31 +70,26 @@ function NewsDetail() {
             <div className="v_top">
               <h4 className="v_title">{article.title}</h4>
               <div className="v_info">
-                <span className="datetime">{article.date}</span>
+                <span className="datetime">{article.news_date}</span>
               </div>
             </div>
-            <div className="v_content">
-              {article.content.split('\n').map((line, i) =>
-                line.trim() === '' ? <br key={i} /> : <p key={i}>{line}</p>
-              )}
-            </div>
+            <div className="v_content" dangerouslySetInnerHTML={{ __html: article.content }} />
             <div className="v_bottom">
               <Link to="/promotion" className="bo_list_btn">목록으로</Link>
             </div>
             <div id="bo_list">
               <table>
                 <tbody>
-                  {newsData.slice(0, 5).map(item => (
+                  {recentItems.map(item => (
                     <tr key={item.id}>
                       <td>
                         <div className="result">
                           <Link to={`/promotion/news/${item.id}`} className="thumbnail">
-                            <img src={item.img} alt={item.title} />
+                            <img src={item.thumbnail || blankImg} alt={item.title} />
                           </Link>
                           <div className="txt">
-                            <p className="datetime">{item.date}</p>
+                            <p className="datetime">{item.news_date}</p>
                             <Link to={`/promotion/news/${item.id}`}>{item.title}</Link>
-                            <p className="memo">{item.desc}</p>
                           </div>
                         </div>
                       </td>
@@ -82,3 +106,4 @@ function NewsDetail() {
 }
 
 export default NewsDetail
+

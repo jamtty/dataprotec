@@ -31,7 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once dirname(__DIR__) . '/jwt.php';
 
 // ── 인증 ────────────────────────────────────────────────────────
-$auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+$auth = $_SERVER['HTTP_AUTHORIZATION']
+    ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+    ?? (function_exists('getallheaders') ? (getallheaders()['Authorization'] ?? '') : '')
+    ?? '';
 if (!preg_match('/^Bearer\s+(.+)$/i', $auth, $m) || !verifyJWT($m[1])) {
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => '인증이 필요합니다.']);
@@ -64,9 +67,10 @@ if ((int)$file['size'] > 10 * 1024 * 1024) {
 $extMap  = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif', 'image/webp' => 'webp'];
 $ext     = $extMap[$mime];
 $saved   = date('Ymd') . '_' . bin2hex(random_bytes(8)) . '.' . $ext;
+$yearMonth = date('ym'); // 예: 2606
 
-$uploadDir = dirname(__DIR__, 2) . '/uploads/editor/';
-$webPath   = '/renewal_react_v1/uploads/editor/' . $saved;
+$uploadDir = dirname(__DIR__, 2) . '/data/editor/' . $yearMonth . '/';
+$webPath   = '/renewal_react_v1/data/editor/' . $yearMonth . '/' . $saved;
 
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);

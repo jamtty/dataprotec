@@ -1,4 +1,5 @@
 import { getStoredToken } from '@/store/useAuthStore'
+import { safeJson } from '@/utils/apiUtils'
 
 const API_BASE = '/renewal_react_v1/backend'
 
@@ -46,10 +47,10 @@ export async function fetchNewsroomList(
 ): Promise<{ items: NewsroomItem[]; totalCount: number; totalPages: number }> {
   const query = new URLSearchParams(params as Record<string, string>).toString()
   const res = await fetch(`${API_BASE}/api/newsroom.php?${query}`, { headers: authHeaders() })
-  const data = await res.json() as {
+  const data = await safeJson<{
     success: boolean; message?: string
     items?: NewsroomItem[]; totalCount?: number; totalPages?: number
-  }
+  }>(res)
   if (!data.success) throw new Error(data.message ?? '목록을 불러오지 못했습니다.')
   return {
     items:      data.items      ?? [],
@@ -66,10 +67,10 @@ export async function fetchNewsroomDetail(
   _withFiles?: boolean,
 ): Promise<{ item: NewsroomItem; files: NewsroomFile[] }> {
   const res = await fetch(`${API_BASE}/api/newsroom.php?id=${id}&with_files=1`, { headers: authHeaders() })
-  const data = await res.json() as {
+  const data = await safeJson<{
     success: boolean; message?: string
     item?: NewsroomItem; files?: NewsroomFile[]
-  }
+  }>(res)
   if (!data.success) throw new Error(data.message ?? '상세 정보를 불러오지 못했습니다.')
   return { item: data.item!, files: data.files ?? [] }
 }
@@ -89,7 +90,7 @@ export async function createNewsroom(formData: NewsroomFormData): Promise<void> 
     body: form,
   })
   if (res.status === 401) throw new Error('인증이 만료되었습니다. 다시 로그인해주세요.')
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '등록에 실패했습니다.')
 }
 
@@ -110,7 +111,7 @@ export async function updateNewsroom(id: number, formData: NewsroomFormData): Pr
     body: form,
   })
   if (res.status === 401) throw new Error('인증이 만료되었습니다. 다시 로그인해주세요.')
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '수정에 실패했습니다.')
 }
 
@@ -122,7 +123,7 @@ export async function deleteNewsroom(id: number): Promise<void> {
     method: 'DELETE',
     headers: authHeaders(),
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '삭제에 실패했습니다.')
 }
 
@@ -134,6 +135,6 @@ export async function deleteNewsroomFile(wrId: number, bfNo: number): Promise<vo
     method: 'DELETE',
     headers: authHeaders(),
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '파일 삭제에 실패했습니다.')
 }

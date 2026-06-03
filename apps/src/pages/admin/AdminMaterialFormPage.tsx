@@ -12,38 +12,37 @@ import {
 } from '@/api/material'
 import { toAbsUrl } from '@/utils/uploadUrl'
 
-const LABEL = '홍보자료'
-const LIST_PATH = '/admin/material'
-const CATEGORIES = ['제품소개', '이벤트', '기타']
-
 export default function AdminMaterialFormPage() {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const isEdit = Boolean(id)
 
+  const LABEL = '홍보자료'
+  const LIST_PATH = '/admin/material'
+
   const [title, setTitle] = useState('')
-  const [category, setCategory] = useState(() => CATEGORIES[0])
-  const [newsDate, setNewsDate] = useState(() => new Date().toISOString().slice(0, 10))
-  const [desc, setDesc] = useState('')
   const [content, setContent] = useState('')
-  const [existingFiles, setExistingFiles] = useState<MaterialFile[]>([])
-  const [newFiles, setNewFiles] = useState<File[]>([])
-  const [newFilePreviews, setNewFilePreviews] = useState<(string | null)[]>([])
+
+  const [existingThumbnail, setExistingThumbnail] = useState<MaterialFile | null>(null)
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null)
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null)
+
+  const [existingDownloadFile, setExistingDownloadFile] = useState<MaterialFile | null>(null)
+  const [downloadFile, setDownloadFile] = useState<File | null>(null)
+
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(isEdit)
 
-  const isImageFile = (name: string) => /\.(jpg|jpeg|png|gif|webp)$/i.test(name)
-
   useEffect(() => {
     if (!isEdit) return
-    fetchMaterialDetail(Number(id))
+    fetchMaterialDetail(Number(id), true)
       .then((res) => {
         setTitle(res.item.title)
-        setCategory(res.item.category || CATEGORIES[0])
-        setNewsDate(res.item.news_date || '')
-        setDesc(res.item.desc || '')
         setContent(res.item.content ?? '')
-        setExistingFiles(res.files)
+        const IMG_EXTS = /^(jpg|jpeg|png|gif|webp)$/i
+        const isImage = (f: MaterialFile) => f.file_type === 1 || IMG_EXTS.test(f.file_ext)
+        setExistingThumbnail(res.files.find((f) => isImage(f)) ?? null)
+        setExistingDownloadFile(res.files.find((f) => !isImage(f)) ?? null)
       })
       .catch(() => {
         alert('게시글을 불러오지 못했습니다.')
@@ -52,29 +51,43 @@ export default function AdminMaterialFormPage() {
       .finally(() => setFetching(false))
   }, [id, isEdit, navigate])
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return
-    const added = Array.from(e.target.files!)
-    setNewFiles((prev) => [...prev, ...added])
-    setNewFilePreviews((prev) => [
-      ...prev,
-      ...added.map((f) => (isImageFile(f.name) ? URL.createObjectURL(f) : null)),
-    ])
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (thumbnailPreview) URL.revokeObjectURL(thumbnailPreview)
+    setThumbnailFile(file)
+    setThumbnailPreview(URL.createObjectURL(file))
     e.target.value = ''
   }
 
-  const removeNewFile = (index: number) => {
-    const preview = newFilePreviews[index]
-    if (preview) URL.revokeObjectURL(preview)
-    setNewFiles((prev) => prev.filter((_, i) => i !== index))
-    setNewFilePreviews((prev) => prev.filter((_, i) => i !== index))
+  const removeThumbnailNew = () => {
+    if (thumbnailPreview) URL.revokeObjectURL(thumbnailPreview)
+    setThumbnailFile(null)
+    setThumbnailPreview(null)
   }
 
-  const handleDeleteExistingFile = async (wrId: number, bfNo: number) => {
+  const handleDownloadFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setDownloadFile(file)
+    e.target.value = ''
+  }
+
+  const handleDeleteExistingThumbnail = async (wrId: number, bfNo: number, fileType: number) => {
+    if (!confirm('썸네일을 삭제하시겠습니까?')) return
+    try {
+      await deleteMaterialFile(wrId, bfNo, fileType)
+      setExistingThumbnail(null)
+    } catch {
+      alert('썸네일 삭제에 실패했습니다.')
+    }
+  }
+
+  const handleDeleteExistingDownloadFile = async (wrId: number, bfNo: number, fileType: number) => {
     if (!confirm('첨부파일을 삭제하시겠습니까?')) return
     try {
-      await deleteMaterialFile(wrId, bfNo)
-      setExistingFiles((prev) => prev.filter((f) => !(f.wr_id === wrId && f.bf_no === bfNo)))
+      await deleteMaterialFile(wrId, bfNo, fileType)
+      setExistingDownloadFile(null)
     } catch {
       alert('파일 삭제에 실패했습니다.')
     }
@@ -91,11 +104,9 @@ export default function AdminMaterialFormPage() {
     try {
       const formData = {
         title,
-        category,
-        news_date: newsDate,
-        desc,
         content,
-        files: newFiles.length > 0 ? newFiles : undefined,
+        thumbnail:    thumbnailFile  ?? undefined,
+        downloadFile: downloadFile   ?? undefined,
       }
       if (isEdit) {
         await updateMaterial(Number(id), formData)
@@ -106,7 +117,13 @@ export default function AdminMaterialFormPage() {
       }
       navigate(LIST_PATH)
     } catch (err: unknown) {
-      alert(err instanceof Error && err.message ? err.message : '저장에 실패했습니다.')
+      const msg = err instanceof Error && err.message ? err.message : '저장에 실패했습니다.'
+      if (msg.includes('인증') || msg.includes('토큰') || msg.includes('401')) {
+        alert('로그인이 만료되었습니다. 다시 로그인해주세요.')
+        navigate('/admin/login')
+      } else {
+        alert(msg)
+      }
     } finally {
       setLoading(false)
     }
@@ -135,32 +152,6 @@ export default function AdminMaterialFormPage() {
           <section className="adm_section">
             <form className="adm_form" onSubmit={handleSubmit}>
 
-              {/* 카테고리 */}
-              <div className="adm_form_row">
-                <label className="adm_form_label">카테고리</label>
-                <select
-                  className="adm_form_select"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  {CATEGORIES.map(c => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* 작성일 */}
-              <div className="adm_form_row">
-                <label className="adm_form_label">작성일 <span className="required">*</span></label>
-                <input
-                  type="date"
-                  className="adm_form_input"
-                  value={newsDate}
-                  onChange={(e) => setNewsDate(e.target.value)}
-                  required
-                />
-              </div>
-
               {/* 제목 */}
               <div className="adm_form_row">
                 <label className="adm_form_label">
@@ -176,76 +167,107 @@ export default function AdminMaterialFormPage() {
                 />
               </div>
 
-              {/* 요약 */}
-              <div className="adm_form_row adm_form_row_col">
-                <label className="adm_form_label">요약</label>
-                <textarea
-                  className="adm_form_input"
-                  rows={3}
-                  placeholder="목록화면에 표시되는 단락 요약을 입력하세요."
-                  value={desc}
-                  onChange={(e) => setDesc(e.target.value)}
-                />
-              </div>
-
               {/* 내용 */}
               <div className="adm_form_row adm_form_row_col">
                 <label className="adm_form_label">내용</label>
                 <RichEditor value={content} onChange={setContent} />
               </div>
 
-              {/* 첨부파일 */}
-              <div className="adm_form_row adm_form_row_col">
-                <label className="adm_form_label">첨부파일</label>
+              {/* 첨부파일 1: 썸네일 */}
+              <div className="adm_form_row">
+                <label className="adm_form_label">첨부파일 1 (썸네일)</label>
                 <div>
-                  {existingFiles.length > 0 && (
-                    <ul className="adm_file_list">
-                      {existingFiles.map((f) => (
-                        <li key={f.id} className="adm_file_item">
-                          {/^(jpg|jpeg|png|gif|webp)$/i.test(f.file_ext) && (
-                            <img
-                              src={toAbsUrl(f.file_url)}
-                              className="adm_file_thumb"
-                              alt={f.ori_name}
-                            />
-                          )}
-                          <a
-                            href={toAbsUrl(f.file_url)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="adm_file_name"
-                          >
-                            {f.ori_name}
-                          </a>
-                          <button
-                            type="button"
-                            className="adm_file_del"
-                            onClick={() => handleDeleteExistingFile(f.wr_id, f.bf_no)}
-                          >
-                            <span className="material-icons">close</span>
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
+                  {existingThumbnail && !thumbnailFile && (
+                    <div style={{ marginBottom: '8px' }}>
+                      <img
+                        src={toAbsUrl(existingThumbnail.file_url)}
+                        alt="현재 썸네일"
+                        style={{ width: 300, height: 200, objectFit: 'cover', display: 'block', borderRadius: 4, border: '1px solid #e5e7eb' }}
+                      />
+                      <div className="adm_file_item" style={{ marginTop: '6px' }}>
+                        <span className="adm_file_name">{existingThumbnail.ori_name}</span>
+                        <button
+                          type="button"
+                          className="adm_file_del"
+                          onClick={() => handleDeleteExistingThumbnail(existingThumbnail.wr_id, existingThumbnail.bf_no, existingThumbnail.file_type)}
+                        >
+                          <span className="material-icons">close</span>
+                        </button>
+                      </div>
+                    </div>
                   )}
-                  {newFiles.map((f, i) => (
-                    <div key={i} className="adm_file_item adm_file_new">
-                      {newFilePreviews[i] && (
-                        <img src={newFilePreviews[i]!} className="adm_file_thumb" alt={f.name} />
-                      )}
-                      <span className="adm_file_name">{f.name}</span>
-                      <button type="button" className="adm_file_del" onClick={() => removeNewFile(i)}>
+                  {thumbnailPreview && (
+                    <div style={{ marginBottom: '8px' }}>
+                      <img
+                        src={thumbnailPreview}
+                        alt="새 썸네일"
+                        style={{ width: 300, height: 200, objectFit: 'cover', display: 'block', borderRadius: 4, border: '1px solid #e5e7eb' }}
+                      />
+                      <div className="adm_file_item adm_file_new" style={{ marginTop: '6px' }}>
+                        <span className="adm_file_name">{thumbnailFile?.name}</span>
+                        <button type="button" className="adm_file_del" onClick={removeThumbnailNew}>
+                          <span className="material-icons">close</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <label className="adm_file_btn">
+                    <span className="material-icons">image</span>
+                    {existingThumbnail || thumbnailFile ? '썸네일 변경' : '썸네일 선택'}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleThumbnailChange}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                  <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '6px' }}>
+                    권장 크기: 370 × 521px · 이미지 파일(jpg, png, gif, webp)만 가능
+                  </p>
+                </div>
+              </div>
+
+              {/* 첨부파일 2: 다운로드 파일 */}
+              <div className="adm_form_row">
+                <label className="adm_form_label">첨부파일 2 (다운로드)</label>
+                <div>
+                  {existingDownloadFile && (
+                    <div style={{ marginBottom: '8px' }}>
+                      <div className="adm_file_item">
+                        <span className="material-icons" style={{ fontSize: '20px', color: '#6b7280' }}>insert_drive_file</span>
+                        <a
+                          href={toAbsUrl(existingDownloadFile.file_url)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="adm_file_name"
+                        >
+                          {existingDownloadFile.ori_name}
+                        </a>
+                        <button
+                          type="button"
+                          className="adm_file_del"
+                          onClick={() => handleDeleteExistingDownloadFile(existingDownloadFile.wr_id, existingDownloadFile.bf_no, existingDownloadFile.file_type)}
+                        >
+                          <span className="material-icons">close</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  {downloadFile && (
+                    <div className="adm_file_item adm_file_new" style={{ marginBottom: '8px' }}>
+                      <span className="material-icons" style={{ fontSize: '20px', color: '#6b7280' }}>insert_drive_file</span>
+                      <span className="adm_file_name">{downloadFile.name}</span>
+                      <button type="button" className="adm_file_del" onClick={() => setDownloadFile(null)}>
                         <span className="material-icons">close</span>
                       </button>
                     </div>
-                  ))}
+                  )}
                   <label className="adm_file_btn">
                     <span className="material-icons">attach_file</span>
-                    파일 선택
+                    {existingDownloadFile || downloadFile ? '파일 변경' : '파일 선택'}
                     <input
                       type="file"
-                      multiple
-                      onChange={handleFileChange}
+                      onChange={handleDownloadFileChange}
                       style={{ display: 'none' }}
                     />
                   </label>

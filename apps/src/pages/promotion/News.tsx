@@ -1,36 +1,50 @@
-﻿import { useState, useMemo } from 'react'
+﻿import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import PromotionLayout from './PromotionLayout'
-import { newsData } from './newsData'
+import { fetchNewsroomList, type NewsroomItem } from '@/api/newsroom'
+import blankImg from '../../assets/images/blank.jpg'
 
 const ITEMS_PER_PAGE = 5
 const searchTypes = ['전체', '제목', '제목+내용']
 
 function PromotionNews() {
   const [searchInput, setSearchInput] = useState('')
-  const [searchText, setSearchText] = useState('')
   const [searchType, setSearchType] = useState('전체')
   const [currentPage, setCurrentPage] = useState(1)
+  const [items, setItems] = useState<NewsroomItem[]>([])
+  const [totalPages, setTotalPages] = useState(1)
+  const [loading, setLoading] = useState(false)
+  // 실제 검색 실행용 (버튼/엔터 후)
+  const [committedSearch, setCommittedSearch] = useState('')
+  const [committedType, setCommittedType] = useState('전체')
 
-  const filtered = useMemo(() => {
-    if (!searchText) return newsData
-    return newsData.filter(item => {
-      if (searchType === '제목') return item.title.includes(searchText)
-      return item.title.includes(searchText) || item.content.includes(searchText)
-    })
-  }, [searchText, searchType])
+  const load = useCallback(async (page: number, keyword: string, type: string) => {
+    setLoading(true)
+    try {
+      const typeNum = type === '제목' ? 1 : type === '내용' ? 3 : 2
+      const res = await fetchNewsroomList({ page, size: ITEMS_PER_PAGE, keyword, type: typeNum })
+      setItems(res.items)
+      setTotalPages(res.totalPages || 1)
+    } catch {
+      setItems([])
+      setTotalPages(1)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
-  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
-  const pageItems = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+  useEffect(() => {
+    load(currentPage, committedSearch, committedType)
+  }, [currentPage, committedSearch, committedType, load])
 
   const handleSearch = () => {
-    setSearchText(searchInput)
+    setCommittedSearch(searchInput)
+    setCommittedType(searchType)
     setCurrentPage(1)
   }
 
   const handleSearchTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSearchType(e.target.value)
-    setCurrentPage(1)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -61,22 +75,23 @@ function PromotionNews() {
               />
               <button type="button" className="sch_btn" onClick={handleSearch} aria-label="검색"></button>
             </div>
-            {pageItems.length === 0 ? (
+            {loading ? (
+              <p className="news_empty">불러오는 중...</p>
+            ) : items.length === 0 ? (
               <p className="news_empty">검색 결과가 없습니다.</p>
             ) : (
               <table>
                 <tbody>
-                  {pageItems.map(item => (
+                  {items.map(item => (
                     <tr key={item.id}>
                       <td>
                         <div className="result">
                           <Link to={`/promotion/news/${item.id}`} className="thumbnail">
-                            <img src={item.img} alt={item.title} />
+                            <img src={item.thumbnail || blankImg} alt={item.title} />
                           </Link>
                           <div className="txt">
-                            <p className="datetime">{item.date}</p>
+                            <p className="datetime">{item.news_date}</p>
                             <Link to={`/promotion/news/${item.id}`}>{item.title}</Link>
-                            <p className="memo">{item.desc}</p>
                           </div>
                         </div>
                       </td>

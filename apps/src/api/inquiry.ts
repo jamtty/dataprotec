@@ -1,4 +1,5 @@
 import { getStoredToken } from '@/store/useAuthStore'
+import { safeJson } from '@/utils/apiUtils'
 
 const API_BASE = '/renewal_react_v1/backend'
 
@@ -13,8 +14,7 @@ export interface InquiryItem {
   manager: string
   phone: string
   email: string
-  content_preview?: string  // 목록용 요약 (100자)
-  content?: string          // 상세용 전체
+  content: string
   is_read: number
   created_at: string
 }
@@ -27,10 +27,10 @@ export async function fetchInquiryList(
 ): Promise<{ items: InquiryItem[]; totalCount: number; totalPages: number }> {
   const query = new URLSearchParams(params as Record<string, string>).toString()
   const res = await fetch(`${API_BASE}/api/inquiry.php?${query}`, { headers: authHeaders() })
-  const data = await res.json() as {
+  const data = await safeJson<{
     success: boolean; message?: string
     items?: InquiryItem[]; totalCount?: number; totalPages?: number
-  }
+  }>(res)
   if (!data.success) throw new Error(data.message ?? '목록을 불러오지 못했습니다.')
   return {
     items:      data.items      ?? [],
@@ -44,7 +44,7 @@ export async function fetchInquiryList(
 // -------------------------------------------------------
 export async function fetchInquiryDetail(id: number): Promise<InquiryItem> {
   const res = await fetch(`${API_BASE}/api/inquiry.php?id=${id}`, { headers: authHeaders() })
-  const data = await res.json() as { success: boolean; message?: string; item?: InquiryItem }
+  const data = await safeJson<{ success: boolean; message?: string; item?: InquiryItem }>(res)
   if (!data.success) throw new Error(data.message ?? '상세 정보를 불러오지 못했습니다.')
   return data.item!
 }
@@ -60,8 +60,8 @@ export async function submitInquiry(body: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   })
-  const data = await res.json() as { success: boolean; message?: string }
-  if (!data.success) throw new Error(data.message ?? '문의 제출에 실패했습니다.')
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
+  if (!data.success) throw new Error(data.message ?? '문의 전송에 실패했습니다.')
 }
 
 // -------------------------------------------------------
@@ -72,6 +72,6 @@ export async function deleteInquiry(id: number): Promise<void> {
     method: 'DELETE',
     headers: authHeaders(),
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '삭제에 실패했습니다.')
 }

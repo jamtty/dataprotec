@@ -128,8 +128,11 @@ try {
                     $fs->execute([BO_TABLE_NEWSROOM, $id]);
                     $rawFiles = $fs->fetchAll(PDO::FETCH_ASSOC);
                     $files = array_map(function($f) {
-                        $f['file_ext'] = strtolower((string)pathinfo((string)$f['ori_name'], PATHINFO_EXTENSION));
+                        $f['bf_no']     = (int)$f['bf_no'];
+                        $f['wr_id']     = (int)$f['wr_id'];
                         $f['file_type'] = (int)$f['file_type'];
+                        $f['file_size'] = (int)$f['file_size'];
+                        $f['file_ext']  = strtolower((string)pathinfo((string)$f['ori_name'], PATHINFO_EXTENSION));
                         return $f;
                     }, $rawFiles);
                     // 이미지 파일(bf_type=1)을 thumbnail 필드로 로지 타입 API 호환성 유지
@@ -175,13 +178,30 @@ try {
             $cnt->execute($params);
             $total = (int)$cnt->fetchColumn();
 
+            $webPath = UPLOAD_WEB_PATH;
             $rows = $pdo->prepare(
                 "SELECT w.wr_id AS id, w.wr_subject AS title, DATE(w.wr_datetime) AS news_date,
                         w.wr_hit AS view_count, w.wr_name AS author_name,
                         w.wr_datetime AS created_at, w.wr_last AS updated_at,
-                        COALESCE((SELECT bf_fileurl FROM g5_board_file
-                                  WHERE bo_table='news_room' AND wr_id=w.wr_id AND bf_type=1
-                                  LIMIT 1), '') AS thumbnail
+                        COALESCE(
+                            NULLIF((SELECT CASE
+                                       WHEN bf_thumburl != '' THEN bf_thumburl
+                                       WHEN bf_fileurl  != '' THEN bf_fileurl
+                                       WHEN bf_file     != '' THEN CONCAT('{$webPath}', bf_file)
+                                       ELSE NULL END
+                                   FROM g5_board_file
+                                   WHERE bo_table='news_room' AND wr_id=w.wr_id AND bf_type=1
+                                   ORDER BY bf_no ASC LIMIT 1), ''),
+                            NULLIF((SELECT CASE
+                                       WHEN bf_thumburl != '' THEN bf_thumburl
+                                       WHEN bf_fileurl  != '' THEN bf_fileurl
+                                       WHEN bf_file     != '' THEN CONCAT('{$webPath}', bf_file)
+                                       ELSE NULL END
+                                   FROM g5_board_file
+                                   WHERE bo_table='news_room' AND wr_id=w.wr_id
+                                   ORDER BY bf_no ASC LIMIT 1), ''),
+                            ''
+                        ) AS thumbnail
                  FROM g5_write_news_room w WHERE {$whereSQL} ORDER BY w.wr_id DESC LIMIT {$size} OFFSET {$offset}"
             );
             $rows->execute($params);
@@ -212,13 +232,21 @@ try {
 
             $pdo->beginTransaction();
 
-            $ins = $pdo->prepare(
-                'INSERT INTO g5_write_news_room (wr_subject, wr_content, wr_2, wr_name, wr_datetime, wr_last, wr_is_comment, wr_parent, wr_num) VALUES (?,?,?,?,NOW(),NOW(),0,0,0)'
-            );
-            $ins->execute([$title, $content, '', '관리자']);
-            $newId = (int)$pdo->lastInsertId();
+            // GnuBoard5 규칙:
+            //   wr_num  = MIN(wr_num) - 1  (음수, 값이 클수록 새 글)
+            //   wr_parent = wr_id          (최상위 글은 자기 자신)
+            $minNumStmt = $pdo->query('SELECT IFNULL(MIN(wr_num), 0) - 1 FROM g5_write_news_room');
+            $nextNum = (int)$minNumStmt->fetchColumn();
 
-            // 첫번째 첨부: 썸네일 이미지
+            $ins = $pdo->prepare(
+                'INSERT INTO g5_write_news_room (wr_subject, wr_content, wr_2, wr_name, wr_datetime, wr_last, wr_is_comment, wr_parent, wr_num) VALUES (?,?,?,?,NOW(),NOW(),0,0,?)'
+            );
+            $ins->execute([$title, $content, '', '관리자', $nextNum]);
+            $newId = (int)$pdo->lastInsertId();
+            // wr_parent를 자기 자신으로 설정 (GnuBoard5 최상위 글 규칙)
+            $pdo->prepare('UPDATE g5_write_news_room SET wr_parent = ? WHERE wr_id = ?')->execute([$newId, $newId]);
+
+            // 첫번째 첨부: 썸네일 이미지 (bf_no=0, bf_type=1)
             if (!empty($_FILES['thumbnail']) && (int)$_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
                 $imgExts = ['jpg','jpeg','png','gif','webp'];
                 $tExt = strtolower((string)pathinfo((string)$_FILES['thumbnail']['name'], PATHINFO_EXTENSION));
@@ -229,21 +257,22 @@ try {
                     exit;
                 }
                 $saved = saveUploadedFile($_FILES['thumbnail']);
-                $pdo->prepare('UPDATE g5_write_news_room SET wr_2 = ? WHERE wr_id = ?')
-                    ->execute([$saved['file_path'], $newId]);
-            }
-
-            // 두번째 첨부: 다운로드 파일
-            if (!empty($_FILES['download_file']) && (int)$_FILES['download_file']['error'] === UPLOAD_ERR_OK) {
-                $saved = saveUploadedFile($_FILES['download_file']);
-                // 기존 슬롯 추가 (bf_no 최대+1, 없으면 0)
-                $bfStmt = $pdo->prepare('SELECT COALESCE(MAX(bf_no)+1,0) FROM g5_board_file WHERE bo_table=? AND wr_id=?');
-                $bfStmt->execute([BO_TABLE_NEWSROOM, $newId]);
-                $bfNo = (int)$bfStmt->fetchColumn();
+                // g5_board_file에 bf_no=0으로 삽입
                 $pdo->prepare(
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                     VALUES (?,?,?,?,?,?,?,?,0,0,0,0,\'\',NOW())'
-                )->execute([BO_TABLE_NEWSROOM, $newId, $bfNo, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                     VALUES (?,?,0,?,?,?,?,?,0,0,1,0,\'\',NOW())'
+                )->execute([BO_TABLE_NEWSROOM, $newId, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                // wr_2 필드 저장 생략 — 최신 코드에서는 g5_board_file 사용
+            }
+
+            // 두번째 첨부: 다운로드 파일 (bf_no=1, bf_type=0)
+            if (!empty($_FILES['download_file']) && (int)$_FILES['download_file']['error'] === UPLOAD_ERR_OK) {
+                $saved = saveUploadedFile($_FILES['download_file']);
+                // 다운로드 파일은 항상 bf_no=1 슬롯으로 저장
+                $pdo->prepare(
+                    'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                     VALUES (?,?,1,?,?,?,?,?,0,0,0,0,\'\',NOW())'
+                )->execute([BO_TABLE_NEWSROOM, $newId, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
             }
 
             $pdo->commit();
@@ -297,6 +326,7 @@ try {
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
                      VALUES (?,?,0,?,?,?,?,?,0,0,1,0,\'\',NOW())'
                 )->execute([BO_TABLE_NEWSROOM, $id, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                // wr_2 필드 저장 생략 — 최신 코드에서는 g5_board_file 사용
             }
 
             // 새 다운로드 파일 업로드 (bf_no=1, bf_type=0) — 기존 파일 삭제 후 대체

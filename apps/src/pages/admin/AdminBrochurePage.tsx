@@ -1,24 +1,21 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import AdminHeader from '@/components/admin/AdminHeader'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import DatePicker from '@/components/admin/DatePicker'
-import { fetchBrochureList, deleteBrochure, type BrochureItem } from '@/api/brochure'
+import { fetchBrochureRequestList, deleteBrochureRequest, type BrochureRequestItem } from '@/api/brochure'
 
 const PAGE_SIZE = 15
 
-type SearchParams = { keyword: string; type: number; date_from: string; date_to: string }
-const defaultParams: SearchParams = { keyword: '', type: 2, date_from: '', date_to: '' }
+type SearchParams = { keyword: string; date_from: string; date_to: string }
+const defaultParams: SearchParams = { keyword: '', date_from: '', date_to: '' }
 
 export default function AdminBrochurePage() {
-  const navigate = useNavigate()
-  const [items, setItems] = useState<BrochureItem[]>([])
+  const [items, setItems] = useState<BrochureRequestItem[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
   const [page, setPage] = useState(1)
   const [searchParams, setSearchParams] = useState<SearchParams>(defaultParams)
   const [inputKeyword, setInputKeyword] = useState('')
-  const [inputType, setInputType] = useState(2)
   const [inputDateFrom, setInputDateFrom] = useState('')
   const [inputDateTo, setInputDateTo] = useState('')
   const [loading, setLoading] = useState(false)
@@ -29,7 +26,7 @@ export default function AdminBrochurePage() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetchBrochureList({ page: p, size: PAGE_SIZE, ...params })
+      const res = await fetchBrochureRequestList({ page: p, size: PAGE_SIZE, ...params })
       setItems(res.items)
       setTotalCount(res.totalCount)
       setTotalPages(res.totalPages)
@@ -46,11 +43,11 @@ export default function AdminBrochurePage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     setPage(1)
-    setSearchParams({ keyword: inputKeyword, type: inputType, date_from: inputDateFrom, date_to: inputDateTo })
+    setSearchParams({ keyword: inputKeyword, date_from: inputDateFrom, date_to: inputDateTo })
   }
 
   const handleReset = () => {
-    setInputKeyword(''); setInputType(2); setInputDateFrom(''); setInputDateTo('')
+    setInputKeyword(''); setInputDateFrom(''); setInputDateTo('')
     setPage(1); setSearchParams(defaultParams)
   }
 
@@ -59,10 +56,10 @@ export default function AdminBrochurePage() {
   const handleCheckOne = (id: number) =>
     setCheckedIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]))
 
-  const handleDelete = async (id: number, title: string) => {
-    if (!confirm(`"${title}" 을(를) 삭제하시겠습니까?`)) return
+  const handleDelete = async (id: number, label: string) => {
+    if (!confirm(`"${label}" 항목을 삭제하시겠습니까?`)) return
     try {
-      await deleteBrochure(id)
+      await deleteBrochureRequest(id)
       load(page, searchParams)
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : '삭제에 실패했습니다.')
@@ -73,7 +70,7 @@ export default function AdminBrochurePage() {
     if (checkedIds.length === 0) return
     if (!confirm(`선택한 ${checkedIds.length}건을 삭제하시겠습니까?`)) return
     try {
-      await Promise.all(checkedIds.map((id) => deleteBrochure(id)))
+      await Promise.all(checkedIds.map((id) => deleteBrochureRequest(id)))
       load(page, searchParams)
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : '삭제에 실패했습니다.')
@@ -84,7 +81,7 @@ export default function AdminBrochurePage() {
     <div className="adm_wrap">
       <AdminSidebar />
       <div className="adm_content">
-        <AdminHeader pageTitle="브로슈어 관리" />
+        <AdminHeader pageTitle="브로슈어 신청 관리" />
         <main className="adm_main">
           <section className="adm_section">
             <div className="adm_toolbar">
@@ -97,15 +94,10 @@ export default function AdminBrochurePage() {
                 </div>
                 <div className="adm_search_row">
                   <label className="adm_search_label">검색어</label>
-                  <select className="adm_search_select" value={inputType} onChange={(e) => setInputType(Number(e.target.value))}>
-                    <option value={2}>전체</option>
-                    <option value={0}>제목</option>
-                    <option value={1}>내용</option>
-                  </select>
                   <input
                     type="text"
                     className="adm_search_keyword"
-                    placeholder="검색어를 입력해주세요."
+                    placeholder="회사명, 담당자, 연락처, 이메일 검색"
                     value={inputKeyword}
                     onChange={(e) => setInputKeyword(e.target.value)}
                   />
@@ -115,9 +107,6 @@ export default function AdminBrochurePage() {
                   <button type="button" className="adm_btn_secondary" onClick={handleReset}>초기화</button>
                 </div>
               </form>
-              <button className="adm_btn_primary" onClick={() => navigate('/admin/brochure/new')}>
-                + 작성
-              </button>
             </div>
 
             <div className="adm_table_wrap">
@@ -128,36 +117,37 @@ export default function AdminBrochurePage() {
                       <input type="checkbox" checked={allChecked} onChange={handleCheckAll} />
                     </th>
                     <th style={{ width: '5%' }}>번호</th>
-                    <th>제목</th>
-                    <th style={{ width: '10%' }}>작성자</th>
-                    <th style={{ width: '10%' }}>작성일</th>
-                    <th style={{ width: '7%' }}>조회수</th>
-                    <th style={{ width: '16%' }}>관리</th>
+                    <th style={{ width: '14%' }}>회사명</th>
+                    <th style={{ width: '10%' }}>담당자</th>
+                    <th style={{ width: '13%' }}>연락처</th>
+                    <th style={{ width: '16%' }}>이메일</th>
+                    <th style={{ width: '13%' }}>다운로드 일자</th>
+                    <th>문의내용</th>
+                    <th style={{ width: '8%' }}>관리</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? (
-                    <tr><td colSpan={7} className="adm_table_empty">불러오는 중...</td></tr>
+                    <tr><td colSpan={9} className="adm_table_empty">불러오는 중...</td></tr>
                   ) : error ? (
-                    <tr><td colSpan={7} className="adm_table_empty">오류: {error}</td></tr>
+                    <tr><td colSpan={9} className="adm_table_empty">오류: {error}</td></tr>
                   ) : items.length === 0 ? (
-                    <tr><td colSpan={7} className="adm_table_empty">게시글이 없습니다.</td></tr>
+                    <tr><td colSpan={9} className="adm_table_empty">신청 내역이 없습니다.</td></tr>
                   ) : items.map((item, idx) => (
                     <tr key={item.id}>
                       <td className="adm_td_center">
                         <input type="checkbox" checked={checkedIds.includes(item.id)} onChange={() => handleCheckOne(item.id)} />
                       </td>
                       <td className="adm_td_center">{totalCount - (page - 1) * PAGE_SIZE - idx}</td>
-                      <td>
-                        <Link to={`/admin/brochure/${item.id}/edit`} className="adm_table_link">{item.title}</Link>
-                      </td>
-                      <td className="adm_td_center">{item.author_name}</td>
-                      <td className="adm_td_center">{item.news_date}</td>
-                      <td className="adm_td_center">{item.view_count.toLocaleString()}</td>
+                      <td className="adm_td_center">{item.company}</td>
+                      <td className="adm_td_center">{item.manager}</td>
+                      <td className="adm_td_center">{item.phone}</td>
+                      <td className="adm_td_center">{item.email}</td>
+                      <td className="adm_td_center">{item.download_at.slice(0, 10)}</td>
+                      <td>{item.memo}</td>
                       <td className="adm_td_center">
                         <div className="adm_action_btns">
-                          <button className="adm_btn_edit" onClick={() => navigate(`/admin/brochure/${item.id}/edit`)}>수정</button>
-                          <button className="adm_btn_delete" onClick={() => handleDelete(item.id, item.title)}>삭제</button>
+                          <button className="adm_btn_delete" onClick={() => handleDelete(item.id, item.company)}>삭제</button>
                         </div>
                       </td>
                     </tr>

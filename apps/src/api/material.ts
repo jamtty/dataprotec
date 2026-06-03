@@ -1,4 +1,5 @@
 import { getStoredToken } from '@/store/useAuthStore'
+import { safeJson } from '@/utils/apiUtils'
 
 const API_BASE = '/renewal_react_v1/backend'
 
@@ -8,10 +9,12 @@ function authHeaders(): Record<string, string> {
 }
 
 export interface MaterialFile {
-  bf_no: number      // g5_board_file.bf_no (0-based slot)
-  wr_id: number      // g5_board_file.wr_id (post id)
+  bf_no: number
+  wr_id: number
   ori_name: string
   file_url: string
+  thumb_url?: string
+  file_type: number   // 1=이미지(썸네일), 0=일반파일
   file_ext: string
   file_size: number
 }
@@ -19,12 +22,9 @@ export interface MaterialFile {
 export interface MaterialItem {
   id: number
   title: string
-  category: string
   news_date: string
-  desc: string
   content: string
   thumbnail: string
-  is_active: number
   author_name: string
   view_count: number
   created_at: string
@@ -34,11 +34,9 @@ export interface MaterialItem {
 
 export interface MaterialFormData {
   title: string
-  category: string
-  news_date: string
-  desc: string
   content: string
-  files?: File[]
+  thumbnail?: File
+  downloadFile?: File
 }
 
 export async function fetchMaterialList(
@@ -46,10 +44,10 @@ export async function fetchMaterialList(
 ): Promise<{ items: MaterialItem[]; totalCount: number; totalPages: number }> {
   const query = new URLSearchParams(params as Record<string, string>).toString()
   const res = await fetch(`${API_BASE}/api/material.php?${query}`, { headers: authHeaders() })
-  const data = await res.json() as {
+  const data = await safeJson<{
     success: boolean; message?: string
     items?: MaterialItem[]; totalCount?: number; totalPages?: number
-  }
+  }>(res)
   if (!data.success) throw new Error(data.message ?? '목록을 불러오지 못했습니다.')
   return {
     items:      data.items      ?? [],
@@ -60,49 +58,48 @@ export async function fetchMaterialList(
 
 export async function fetchMaterialDetail(
   id: number,
+  _withFiles?: boolean,
 ): Promise<{ item: MaterialItem; files: MaterialFile[] }> {
   const res = await fetch(`${API_BASE}/api/material.php?id=${id}&with_files=1`, { headers: authHeaders() })
-  const data = await res.json() as {
+  const data = await safeJson<{
     success: boolean; message?: string
     item?: MaterialItem; files?: MaterialFile[]
-  }
+  }>(res)
   if (!data.success) throw new Error(data.message ?? '상세 정보를 불러오지 못했습니다.')
   return { item: data.item!, files: data.files ?? [] }
 }
 
 export async function createMaterial(formData: MaterialFormData): Promise<void> {
   const form = new FormData()
-  form.append('title',     formData.title)
-  form.append('category',  formData.category)
-  form.append('news_date', formData.news_date)
-  form.append('desc',      formData.desc)
-  form.append('content',   formData.content)
-  if (formData.files) formData.files.forEach(f => form.append('files[]', f))
+  form.append('title',   formData.title)
+  form.append('content', formData.content)
+  if (formData.thumbnail)    form.append('thumbnail',     formData.thumbnail)
+  if (formData.downloadFile) form.append('download_file', formData.downloadFile)
   const res = await fetch(`${API_BASE}/api/material.php`, {
     method: 'POST',
     headers: authHeaders(),
     body: form,
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  if (res.status === 401) throw new Error('인증이 만료되었습니다. 다시 로그인해주세요.')
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '등록에 실패했습니다.')
 }
 
 export async function updateMaterial(id: number, formData: MaterialFormData): Promise<void> {
   const form = new FormData()
-  form.append('_method',   'PUT')
-  form.append('id',        String(id))
-  form.append('title',     formData.title)
-  form.append('category',  formData.category)
-  form.append('news_date', formData.news_date)
-  form.append('desc',      formData.desc)
-  form.append('content',   formData.content)
-  if (formData.files) formData.files.forEach(f => form.append('files[]', f))
+  form.append('_method',  'PUT')
+  form.append('id',       String(id))
+  form.append('title',    formData.title)
+  form.append('content',  formData.content)
+  if (formData.thumbnail)    form.append('thumbnail',     formData.thumbnail)
+  if (formData.downloadFile) form.append('download_file', formData.downloadFile)
   const res = await fetch(`${API_BASE}/api/material.php`, {
     method: 'POST',
     headers: authHeaders(),
     body: form,
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  if (res.status === 401) throw new Error('인증이 만료되었습니다. 다시 로그인해주세요.')
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '수정에 실패했습니다.')
 }
 
@@ -111,15 +108,16 @@ export async function deleteMaterial(id: number): Promise<void> {
     method: 'DELETE',
     headers: authHeaders(),
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '삭제에 실패했습니다.')
 }
 
-export async function deleteMaterialFile(wrId: number, bfNo: number): Promise<void> {
-  const res = await fetch(`${API_BASE}/api/material-file.php?wr_id=${wrId}&bf_no=${bfNo}`, {
+export async function deleteMaterialFile(wrId: number, bfNo: number, fileType?: number): Promise<void> {
+  const ftParam = fileType !== undefined ? `&file_type=${fileType}` : ''
+  const res = await fetch(`${API_BASE}/api/material-file.php?wr_id=${wrId}&bf_no=${bfNo}${ftParam}`, {
     method: 'DELETE',
     headers: authHeaders(),
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '파일 삭제에 실패했습니다.')
 }

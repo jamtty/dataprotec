@@ -1,6 +1,5 @@
-// 개발: 백엔드 API가 dataprotec.co.kr로 프록시되므로 파일도 동일 서버
-// 프로덕션: 같은 도메인이므로 상대경로 사용
-const DATA_BASE = import.meta.env.PROD ? '' : 'https://dataprotec.co.kr'
+// 상대경로는 그대로 유지 (dev: Vite 미들웨어/프록시, prod: 동일 도메인)
+const DATA_BASE = ''
 
 export function toAbsUrl(path: string): string {
   if (!path) return ''

@@ -1,0 +1,7 @@
+src = open('backend/api/material.php','r',encoding='utf-8').read()
+src = src.replace('MAT_MAT_UPLOAD_DIR', 'MAT_UPLOAD_DIR')
+src = src.replace('MAT_MAT_UPLOAD_WEB_PATH', 'MAT_UPLOAD_WEB_PATH')
+src = src.replace('MAT_MAT_ALLOWED_EXTS', 'MAT_ALLOWED_EXTS')
+src = src.replace('MAT_MAT_MAX_FILE_SIZE', 'MAT_MAX_FILE_SIZE')
+open('backend/api/material.php','w',encoding='utf-8').write(src)
+print('done')

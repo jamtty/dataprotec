@@ -24,6 +24,7 @@ import mainClImg4 from '../assets/images/main_cl_img_4.png'
 import mainClImg5 from '../assets/images/main_cl_img_5.png'
 import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
+import LayerPopup from '../components/common/LayerPopup'
 
 function Main() {
   useEffect(() => {
@@ -412,6 +413,7 @@ function Main() {
 
   return (
     <>
+      <LayerPopup />
       <Header />
       <div id="index">
 

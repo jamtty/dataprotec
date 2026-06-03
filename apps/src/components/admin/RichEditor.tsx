@@ -15,11 +15,12 @@ import TableCell from '@tiptap/extension-table-cell'
 import HardBreak from '@tiptap/extension-hard-break'
 import '@/assets/css/editor.css'
 import { getStoredToken } from '@/store/useAuthStore'
+import { safeJson } from '@/utils/apiUtils'
 import { toAbsUrl } from '@/utils/uploadUrl'
 
 const API_BASE = import.meta.env.PROD
   ? 'https://www.dataprotec.co.kr/renewal_react_v1/backend'
-  : 'http://localhost/renewal_react_v1/backend'
+  : '/renewal_react_v1/backend'
 
 // 저장된 상대경로 → 절대경로로 변환 (에디터 표시용)
 function resolveContentUrls(html: string): string {
@@ -29,15 +30,21 @@ function resolveContentUrls(html: string): string {
 
 // 에디터 이미지 업로드
 async function uploadEditorImage(file: File): Promise<string> {
+  const token = getStoredToken()
+  if (!token) {
+    throw new Error('로그인이 필요합니다.')
+  }
   const form = new FormData()
   form.append('image', file)
-  const token = getStoredToken()
   const res = await fetch(`${API_BASE}/api/upload.php`, {
     method: 'POST',
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    headers: { Authorization: `Bearer ${token}` },
     body: form,
   })
-  const data = await res.json() as { success: boolean; url?: string; message?: string }
+  if (res.status === 401) {
+    throw new Error('로그인 세션이 만료되었습니다. 다시 로그인해주세요.')
+  }
+  const data = await safeJson<{ success: boolean; url?: string; message?: string }>(res)
   if (!data.success || !data.url) throw new Error(data.message ?? '이미지 업로드 실패')
   return data.url
 }
@@ -247,7 +254,7 @@ export default function RichEditor({ value, onChange, placeholder }: Props) {
       for (const file of Array.from(files)) {
         try {
           const url = await uploadEditorImage(file)
-          editor.chain().focus().insertContent(`<p><img src="${url}" /></p><p><br></p>`).run()
+          editor.chain().focus().insertContent(`<p><img src="${toAbsUrl(url)}" /></p><p><br></p>`).run()
         } catch (err) {
           errors.push(`${file.name}: ${err instanceof Error ? err.message : '업로드 실패'}`)
         }
@@ -269,7 +276,7 @@ export default function RichEditor({ value, onChange, placeholder }: Props) {
     for (const file of files) {
       try {
         const url = await uploadEditorImage(file)
-        editor.chain().focus().insertContent(`<p><img src="${url}" /></p><p><br></p>`).run()
+        editor.chain().focus().insertContent(`<p><img src="${toAbsUrl(url)}" /></p><p><br></p>`).run()
       } catch (err) {
         errors.push(`${file.name}: ${err instanceof Error ? err.message : '업로드 실패'}`)
       }

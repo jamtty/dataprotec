@@ -514,8 +514,8 @@
   gap: 1.6rem;
 }
 .adm_form_field {
+  flex: 1;
   display: flex;
-  flex-direction: column;
   gap: 0.6rem;
 }
 .adm_form_field label {
@@ -1127,6 +1127,117 @@ select.adm_btn_secondary {
 .required {
   color: #dc2626;
 }
+
+/* ── 팝업 폼 추가 클래스 ──────────────────────────────── */
+.adm_form_select {
+  height: 4.4rem;
+  padding: 0 1.2rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  font-family: inherit;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.adm_form_select:focus {
+  border-color: #2563eb;
+}
+.adm_form_inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+}
+.adm_input_sm {
+  flex: none;
+  width: 9rem;
+}
+.adm_form_unit {
+  font-size: 1.4rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+.adm_form_textarea {
+  width: 100%;
+  min-height: 28rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+  background: #fff;
+}
+.adm_form_textarea:focus {
+  border-color: #2563eb;
+}
+.adm_radio_label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #374151;
+}
+.adm_radio_label input[type='radio'] {
+  accent-color: #2563eb;
+  width: 1.6rem;
+  height: 1.6rem;
+  cursor: pointer;
+}
+.adm_error_msg {
+  color: #dc2626;
+  font-size: 1.3rem;
+  padding: 0.8rem 1.2rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+/* ── 사용여부 토글 버튼 ───────────────────────────────── */
+.adm_toggle_btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 5.2rem;
+  height: 2.8rem;
+  padding: 0 1rem;
+  border-radius: 10rem;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  letter-spacing: 0.05em;
+}
+.adm_toggle_btn.on {
+  background: #2563eb;
+  color: #fff;
+}
+.adm_toggle_btn.on:hover {
+  background: #1d4ed8;
+}
+.adm_toggle_btn.off {
+  background: #e5e7eb;
+  color: #9ca3af;
+}
+.adm_toggle_btn.off:hover {
+  background: #d1d5db;
+}
+.adm_toggle_btn:disabled {
+  background: #f3f4f6;
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+.adm_toggle_btn:disabled:hover {
+  background: #f3f4f6;
+}
+
 
 /* ── 메디TV 폼 ── */
 .medi_tv_form_column {

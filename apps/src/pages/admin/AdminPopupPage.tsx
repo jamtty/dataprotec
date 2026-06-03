@@ -3,16 +3,27 @@ import { Link, useNavigate } from 'react-router-dom'
 import AdminHeader from '@/components/admin/AdminHeader'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import DatePicker from '@/components/admin/DatePicker'
-import { fetchMaterialList, deleteMaterial, type MaterialItem } from '@/api/material'
+import { fetchPopupList, deletePopup, togglePopupActive, type PopupItem } from '@/api/popup'
 
 const PAGE_SIZE = 15
+
+const DEVICE_LABEL: Record<string, string> = {
+  both:   'PC+모바일',
+  pc:     'PC',
+  mobile: '모바일',
+}
+
+function formatDate(dt: string) {
+  if (!dt || dt.startsWith('0000')) return '-'
+  return dt.replace('T', ' ').slice(0, 16)
+}
 
 type SearchParams = { keyword: string; type: number; date_from: string; date_to: string }
 const defaultParams: SearchParams = { keyword: '', type: 2, date_from: '', date_to: '' }
 
-export default function AdminMaterialPage() {
+export default function AdminPopupPage() {
   const navigate = useNavigate()
-  const [items, setItems] = useState<MaterialItem[]>([])
+  const [items, setItems] = useState<PopupItem[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
   const [page, setPage] = useState(1)
@@ -29,7 +40,11 @@ export default function AdminMaterialPage() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetchMaterialList({ page: p, size: PAGE_SIZE, ...params })
+      const query: Record<string, string | number> = { page: p, size: PAGE_SIZE }
+      if (params.keyword) { query.keyword = params.keyword; query.type = params.type }
+      if (params.date_from) query.date_from = params.date_from
+      if (params.date_to)   query.date_to   = params.date_to
+      const res = await fetchPopupList(query)
       setItems(res.items)
       setTotalCount(res.totalCount)
       setTotalPages(res.totalPages)
@@ -50,22 +65,35 @@ export default function AdminMaterialPage() {
   }
 
   const handleReset = () => {
-    setInputKeyword(''); setInputType(2); setInputDateFrom(''); setInputDateTo('')
-    setPage(1); setSearchParams(defaultParams)
+    setInputKeyword('')
+    setInputType(2)
+    setInputDateFrom('')
+    setInputDateTo('')
+    setPage(1)
+    setSearchParams(defaultParams)
   }
 
   const allChecked = items.length > 0 && items.every((item) => checkedIds.includes(item.id))
   const handleCheckAll = () => setCheckedIds(allChecked ? [] : items.map((item) => item.id))
   const handleCheckOne = (id: number) =>
-    setCheckedIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]))
+    setCheckedIds((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])
 
   const handleDelete = async (id: number, title: string) => {
     if (!confirm(`"${title}" 을(를) 삭제하시겠습니까?`)) return
     try {
-      await deleteMaterial(id)
+      await deletePopup(id)
       load(page, searchParams)
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : '삭제에 실패했습니다.')
+      alert(err instanceof Error ? err.message : '삭제 실패')
+    }
+  }
+
+  const handleToggleActive = async (id: number) => {
+    try {
+      const newVal = await togglePopupActive(id)
+      setItems((prev) => prev.map((item) => item.id === id ? { ...item, is_active: newVal } : item))
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : '사용여부 변경 실패')
     }
   }
 
@@ -73,10 +101,10 @@ export default function AdminMaterialPage() {
     if (checkedIds.length === 0) return
     if (!confirm(`선택한 ${checkedIds.length}건을 삭제하시겠습니까?`)) return
     try {
-      await Promise.all(checkedIds.map((id) => deleteMaterial(id)))
+      await Promise.all(checkedIds.map((id) => deletePopup(id)))
       load(page, searchParams)
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : '삭제에 실패했습니다.')
+      alert(err instanceof Error ? err.message : '삭제 실패')
     }
   }
 
@@ -84,7 +112,7 @@ export default function AdminMaterialPage() {
     <div className="adm_wrap">
       <AdminSidebar />
       <div className="adm_content">
-        <AdminHeader pageTitle="홍보자료 관리" />
+        <AdminHeader pageTitle="팝업 관리" />
         <main className="adm_main">
           <section className="adm_section">
             <div className="adm_toolbar">
@@ -115,8 +143,8 @@ export default function AdminMaterialPage() {
                   <button type="button" className="adm_btn_secondary" onClick={handleReset}>초기화</button>
                 </div>
               </form>
-              <button className="adm_btn_primary" onClick={() => navigate('/admin/material/new')}>
-                + 작성
+              <button className="adm_btn_primary" onClick={() => navigate('/admin/popup/new')}>
+                + 팝업 등록
               </button>
             </div>
 
@@ -129,35 +157,67 @@ export default function AdminMaterialPage() {
                     </th>
                     <th style={{ width: '5%' }}>번호</th>
                     <th>제목</th>
-                    <th style={{ width: '10%' }}>작성자</th>
-                    <th style={{ width: '10%' }}>작성일</th>
-                    <th style={{ width: '7%' }}>조회수</th>
-                    <th style={{ width: '16%' }}>관리</th>
+                    <th style={{ width: '10%' }}>접속기기</th>
+                    <th style={{ width: '14%' }}>시작일시</th>
+                    <th style={{ width: '14%' }}>종료일시</th>
+                    <th style={{ width: '10%' }}>크기(W×H)</th>
+                    <th style={{ width: '9%' }}>사용여부</th>
+                    <th style={{ width: '14%' }}>관리</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? (
-                    <tr><td colSpan={7} className="adm_table_empty">불러오는 중...</td></tr>
+                    <tr><td colSpan={9} className="adm_table_empty">불러오는 중...</td></tr>
                   ) : error ? (
-                    <tr><td colSpan={7} className="adm_table_empty">오류: {error}</td></tr>
+                    <tr><td colSpan={9} className="adm_table_empty">오류: {error}</td></tr>
                   ) : items.length === 0 ? (
-                    <tr><td colSpan={7} className="adm_table_empty">게시글이 없습니다.</td></tr>
+                    <tr><td colSpan={9} className="adm_table_empty">팝업이 없습니다.</td></tr>
                   ) : items.map((item, idx) => (
                     <tr key={item.id}>
                       <td className="adm_td_center">
                         <input type="checkbox" checked={checkedIds.includes(item.id)} onChange={() => handleCheckOne(item.id)} />
                       </td>
-                      <td className="adm_td_center">{totalCount - (page - 1) * PAGE_SIZE - idx}</td>
-                      <td>
-                        <Link to={`/admin/material/${item.id}/edit`} className="adm_table_link">{item.title}</Link>
+                      <td className="adm_td_center">
+                        {totalCount - (page - 1) * PAGE_SIZE - idx}
                       </td>
-                      <td className="adm_td_center">{item.author_name}</td>
-                      <td className="adm_td_center">{item.news_date}</td>
-                      <td className="adm_td_center">{item.view_count.toLocaleString()}</td>
+                      <td>
+                        <Link to={`/admin/popup/${item.id}/edit`} className="adm_table_link">
+                          {item.subject}
+                        </Link>
+                      </td>
+                      <td className="adm_td_center">{DEVICE_LABEL[item.device] ?? item.device}</td>
+                      <td className="adm_td_center">{formatDate(item.begin_time)}</td>
+                      <td className="adm_td_center">{formatDate(item.end_time)}</td>
+                      <td className="adm_td_center">{item.width} × {item.height}</td>
+                      <td className="adm_td_center">
+                        {(() => {
+                          const expired = item.end_time && new Date(item.end_time) < new Date()
+                          return (
+                            <button
+                              className={`adm_toggle_btn${(!expired && item.is_active) ? ' on' : ' off'}`}
+                              onClick={() => !expired && handleToggleActive(item.id)}
+                              disabled={!!expired}
+                              title={expired ? '종료일이 지난 팝업' : item.is_active ? '사용 중 (클릭하면 사용 안함으로 변경)' : '사용 안함 (클릭하면 사용으로 변경)'}
+                            >
+                              {expired ? '만료' : item.is_active ? 'ON' : 'OFF'}
+                            </button>
+                          )
+                        })()}
+                      </td>
                       <td className="adm_td_center">
                         <div className="adm_action_btns">
-                          <button className="adm_btn_edit" onClick={() => navigate(`/admin/material/${item.id}/edit`)}>수정</button>
-                          <button className="adm_btn_delete" onClick={() => handleDelete(item.id, item.title)}>삭제</button>
+                          <button
+                            className="adm_btn_edit"
+                            onClick={() => navigate(`/admin/popup/${item.id}/edit`)}
+                          >
+                            수정
+                          </button>
+                          <button
+                            className="adm_btn_delete"
+                            onClick={() => handleDelete(item.id, item.subject)}
+                          >
+                            삭제
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -189,6 +249,7 @@ export default function AdminMaterialPage() {
                 <button className="adm_page_btn" disabled={page >= totalPages} onClick={() => setPage(totalPages)}>{'>>'}</button>
               </div>
             </div>
+
           </section>
         </main>
       </div>

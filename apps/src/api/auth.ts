@@ -1,4 +1,5 @@
 import { getStoredToken } from '@/store/useAuthStore'
+import { safeJson } from '@/utils/apiUtils'
 
 const API_BASE = '/renewal_react_v1/backend'
 
@@ -15,9 +16,9 @@ export async function loginAdmin(id: string, password: string): Promise<LoginRes
   })
   let data: { success: boolean; message?: string; token?: string; user?: { id: number; name: string } }
   try {
-    data = await res.json()
-  } catch {
-    throw new Error(`서버 응답을 처리할 수 없습니다. (HTTP ${res.status})`)
+    data = await safeJson<{ success: boolean; message?: string; token?: string; user?: { id: number; name: string } }>(res)
+  } catch (e) {
+    throw e
   }
   if (!res.ok || !data.success) {
     throw new Error(data.message ?? '로그인에 실패했습니다.')
@@ -35,7 +36,7 @@ export async function changePassword(currentPw: string, newPw: string, _confirmP
     },
     body: JSON.stringify({ current_password: currentPw, new_password: newPw }),
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!res.ok || !data.success) {
     throw new Error(data.message ?? '비밀번호 변경에 실패했습니다.')
   }

@@ -1,8 +1,8 @@
 <?php
-// backend/api/material.php  (홍보자료 게시판)
+// backend/api/material.php
 // GET  ?page&size&keyword&type&date_from&date_to  → 목록
 // GET  ?id&with_files=1                           → 상세 (+파일목록)
-// POST (multipart)                                → 등록
+// POST (multipart/json)                           → 등록
 // POST _method=PUT                                → 수정
 // DELETE ?id                                      → 삭제
 // 등록/수정/삭제는 Bearer JWT 인증 필요
@@ -17,12 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once dirname(__DIR__) . '/db.php';
 require_once dirname(__DIR__) . '/jwt.php';
 
+// ── 업로드 기본 경로 (서버 절대경로 & 웹 경로) ──────────────────
 define('MAT_UPLOAD_DIR',      dirname(__DIR__, 2) . '/data/file/promotion/');
 define('MAT_UPLOAD_WEB_PATH', '/renewal_react_v1/data/file/promotion/');
-define('MAT_BO_TABLE',        'promotion');
-define('MAT_ALLOWED_EXTS',    ['jpg','jpeg','png','gif','webp','pdf','doc','docx','xls','xlsx','ppt','pptx','zip','txt']);
-define('MAT_MAX_FILE_SIZE',   20 * 1024 * 1024);
+define('MAT_BO_TABLE', 'promotion');
 
+// ── 허용 파일 확장자 ─────────────────────────────────────────────
+define('MAT_ALLOWED_EXTS', ['jpg','jpeg','png','gif','webp','pdf','doc','docx','xls','xlsx','ppt','pptx','zip','txt']);
+define('MAT_MAX_FILE_SIZE', 20 * 1024 * 1024); // 20 MB
+
+// ── 인증 helper ──────────────────────────────────────────────────
 function matRequireAuth(): array {
     $auth = $_SERVER['HTTP_AUTHORIZATION']
         ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
@@ -42,6 +46,7 @@ function matRequireAuth(): array {
     return $payload;
 }
 
+// ── 파일 업로드 helper ───────────────────────────────────────────
 function matSaveUploadedFile(array $file): array {
     $oriName = (string)$file['name'];
     $ext     = strtolower((string)pathinfo($oriName, PATHINFO_EXTENSION));
@@ -72,7 +77,9 @@ function matSaveUploadedFile(array $file): array {
     ];
 }
 
+// ── 메서드 분기 ──────────────────────────────────────────────────
 $method = strtoupper($_SERVER['REQUEST_METHOD']);
+// multipart POST는 _method 필드로 메서드 오버라이드 지원
 if ($method === 'POST' && !empty($_POST['_method'])) {
     $method = strtoupper((string)$_POST['_method']);
 }
@@ -82,12 +89,19 @@ try {
 
     switch ($method) {
 
+        // ────────────────────── GET ──────────────────────────────
         case 'GET': {
+            // 상세 조회
             if (isset($_GET['id'])) {
                 $id        = (int)$_GET['id'];
                 $withFiles = !empty($_GET['with_files']);
 
-                $stmt = $pdo->prepare('SELECT * FROM material_items WHERE id = ? LIMIT 1');
+                $stmt = $pdo->prepare(
+                    'SELECT wr_id AS id, wr_subject AS title, DATE(wr_datetime) AS news_date, wr_content AS content,
+                            wr_hit AS view_count, wr_name AS author_name,
+                            wr_datetime AS created_at, wr_last AS updated_at
+                     FROM g5_write_promotion WHERE wr_id = ? AND wr_is_comment = 0 LIMIT 1'
+                );
                 $stmt->execute([$id]);
                 $item = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (!$item) {
@@ -96,86 +110,132 @@ try {
                     exit;
                 }
 
-                $pdo->prepare('UPDATE material_items SET view_count = view_count + 1 WHERE id = ?')
+                // 조회수 증가
+                $pdo->prepare('UPDATE g5_write_promotion SET wr_hit = wr_hit + 1 WHERE wr_id = ?')
                     ->execute([$id]);
                 $item['view_count'] = (int)$item['view_count'] + 1;
 
                 $files = [];
                 if ($withFiles) {
                     $fs = $pdo->prepare(
-                        'SELECT bf_no, wr_id, bf_source AS ori_name, bf_fileurl AS file_url, bf_filesize AS file_size
+                        'SELECT bf_no, wr_id, bf_source AS ori_name,
+                                CASE WHEN bf_fileurl != \'\'  THEN bf_fileurl
+                                     WHEN bf_file   != \'\'  THEN CONCAT(\'' . MAT_UPLOAD_WEB_PATH . '\', bf_file)
+                                     ELSE \'\'  END AS file_url,
+                                bf_thumburl AS thumb_url, bf_type AS file_type, bf_filesize AS file_size
                          FROM g5_board_file WHERE bo_table = ? AND wr_id = ? ORDER BY bf_no ASC'
                     );
                     $fs->execute([MAT_BO_TABLE, $id]);
                     $rawFiles = $fs->fetchAll(PDO::FETCH_ASSOC);
                     $files = array_map(function($f) {
-                        $f['file_ext'] = strtolower((string)pathinfo((string)$f['ori_name'], PATHINFO_EXTENSION));
+                        $f['bf_no']     = (int)$f['bf_no'];
+                        $f['wr_id']     = (int)$f['wr_id'];
+                        $f['file_type'] = (int)$f['file_type'];
+                        $f['file_size'] = (int)$f['file_size'];
+                        $f['file_ext']  = strtolower((string)pathinfo((string)$f['ori_name'], PATHINFO_EXTENSION));
                         return $f;
                     }, $rawFiles);
+                    // 이미지 파일(bf_type=1)을 thumbnail 필드로 로지 타입 API 호환성 유지
+                    $thumbArr = array_values(array_filter($files, fn($f) => $f['file_type'] === 1));
+                    $item['thumbnail'] = !empty($thumbArr) ? $thumbArr[0]['file_url'] : '';
                 }
 
                 echo json_encode(['success' => true, 'item' => $item, 'files' => $files]);
                 break;
             }
 
+            // 목록 조회
             $page     = max(1, (int)($_GET['page'] ?? 1));
             $size     = min(100, max(1, (int)($_GET['size'] ?? 15)));
             $keyword  = trim((string)($_GET['keyword'] ?? ''));
-            $type     = (int)($_GET['type'] ?? 2);
+            $type     = (int)($_GET['type'] ?? 2);   // 1=제목, 2=제목+내용, 3=내용
             $dateFrom = trim((string)($_GET['date_from'] ?? ''));
             $dateTo   = trim((string)($_GET['date_to'] ?? ''));
 
-            $where  = ['1=1'];
+            $where  = ['wr_is_comment = 0'];
             $params = [];
 
             if ($keyword !== '') {
                 if ($type === 1) {
-                    $where[] = 'title LIKE ?';
+                    $where[] = 'wr_subject LIKE ?';
                     $params[] = '%' . $keyword . '%';
                 } elseif ($type === 3) {
-                    $where[] = 'content LIKE ?';
+                    $where[] = 'wr_content LIKE ?';
                     $params[] = '%' . $keyword . '%';
                 } else {
-                    $where[] = '(title LIKE ? OR content LIKE ?)';
+                    $where[] = '(wr_subject LIKE ? OR wr_content LIKE ?)';
                     $params[] = '%' . $keyword . '%';
                     $params[] = '%' . $keyword . '%';
                 }
             }
-            if ($dateFrom !== '') { $where[] = 'news_date >= ?'; $params[] = $dateFrom; }
-            if ($dateTo   !== '') { $where[] = 'news_date <= ?'; $params[] = $dateTo; }
+            if ($dateFrom !== '') { $where[] = 'DATE(wr_datetime) >= ?'; $params[] = $dateFrom; }
+            if ($dateTo   !== '') { $where[] = 'DATE(wr_datetime) <= ?'; $params[] = $dateTo; }
 
             $whereSQL = implode(' AND ', $where);
             $offset   = ($page - 1) * $size;
 
-            $cnt = $pdo->prepare("SELECT COUNT(*) FROM material_items WHERE {$whereSQL}");
+            $cnt  = $pdo->prepare("SELECT COUNT(*) FROM g5_write_promotion WHERE {$whereSQL}");
             $cnt->execute($params);
             $total = (int)$cnt->fetchColumn();
 
+            $webPath = MAT_UPLOAD_WEB_PATH;
             $rows = $pdo->prepare(
-                "SELECT id, title, category, news_date, description AS `desc`, thumbnail, is_active, view_count, author_name, created_at, updated_at
-                 FROM material_items WHERE {$whereSQL} ORDER BY id DESC LIMIT {$size} OFFSET {$offset}"
+                "SELECT w.wr_id AS id, w.wr_subject AS title, DATE(w.wr_datetime) AS news_date,
+                        w.wr_hit AS view_count, w.wr_name AS author_name,
+                        w.wr_datetime AS created_at, w.wr_last AS updated_at,
+                        w.wr_content,
+                        COALESCE(
+                            NULLIF((SELECT CASE
+                                       WHEN bf_thumburl != '' THEN bf_thumburl
+                                       WHEN bf_fileurl  != '' THEN bf_fileurl
+                                       WHEN bf_file     != '' THEN CONCAT('{$webPath}', bf_file)
+                                       ELSE NULL END
+                                   FROM g5_board_file
+                                   WHERE bo_table='promotion' AND wr_id=w.wr_id
+                                     AND bf_type=1
+                                     AND (bf_thumburl != '' OR bf_fileurl != '' OR bf_file != '')
+                                   ORDER BY bf_no ASC LIMIT 1), ''),
+                            ''
+                        ) AS thumbnail
+                 FROM g5_write_promotion w WHERE {$whereSQL} ORDER BY w.wr_id DESC LIMIT {$size} OFFSET {$offset}"
             );
             $rows->execute($params);
             $items = $rows->fetchAll(PDO::FETCH_ASSOC);
 
+            // 썸네일 없으면 에디터 본문에서 첫 번째 <img src> 추출
+            foreach ($items as &$row) {
+                if (empty($row['thumbnail']) && !empty($row['wr_content'])) {
+                    if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/', (string)$row['wr_content'], $m)) {
+                        $imgUrl = $m[1];
+                        // 구 도메인 경로 → /renewal_react_v1/data/ 로 변환 (프록시 통과)
+                        $imgUrl = preg_replace(
+                            '#https?://(?:www\.)?dataprotec\.co\.kr/renewal(?:_react_v1)?/data/#',
+                            '/renewal_react_v1/data/',
+                            $imgUrl
+                        );
+                        $row['thumbnail'] = $imgUrl;
+                    }
+                }
+                unset($row['wr_content']);
+            }
+            unset($row);
+
             echo json_encode([
-                'success'     => true,
-                'items'       => $items,
-                'totalCount'  => $total,
-                'totalPages'  => (int)ceil($total / $size),
-                'page'        => $page,
+                'success'    => true,
+                'items'      => $items,
+                'totalCount' => $total,
+                'totalPages' => (int)ceil($total / $size),
+                'page'       => $page,
             ]);
             break;
         }
 
+        // ────────────────────── POST (등록) ──────────────────────
         case 'POST': {
             matRequireAuth();
 
-            $title    = trim((string)($_POST['title']    ?? ''));
-            $category = trim((string)($_POST['category'] ?? ''));
-            $newsDate = trim((string)($_POST['news_date'] ?? date('Y-m-d')));
-            $desc     = trim((string)($_POST['desc']     ?? ''));
-            $content  = trim((string)($_POST['content']  ?? ''));
+            $title   = trim((string)($_POST['title']   ?? ''));
+            $content = trim((string)($_POST['content'] ?? ''));
 
             if ($title === '') {
                 http_response_code(400);
@@ -183,58 +243,64 @@ try {
                 exit;
             }
 
-            $thumbnail = '';
             $pdo->beginTransaction();
 
+            // GnuBoard5 규칙:
+            //   wr_num  = MIN(wr_num) - 1  (음수, 값이 클수록 새 글)
+            //   wr_parent = wr_id          (최상위 글은 자기 자신)
+            $minNumStmt = $pdo->query('SELECT IFNULL(MIN(wr_num), 0) - 1 FROM g5_write_promotion');
+            $nextNum = (int)$minNumStmt->fetchColumn();
+
             $ins = $pdo->prepare(
-                'INSERT INTO material_items (title, category, news_date, description, content, thumbnail) VALUES (?,?,?,?,?,?)'
+                'INSERT INTO g5_write_promotion (wr_subject, wr_content, wr_2, wr_name, wr_datetime, wr_last, wr_is_comment, wr_parent, wr_num) VALUES (?,?,?,?,NOW(),NOW(),0,0,?)'
             );
-            $ins->execute([$title, $category, $newsDate, $desc, $content, $thumbnail]);
+            $ins->execute([$title, $content, '', '관리자', $nextNum]);
             $newId = (int)$pdo->lastInsertId();
+            // wr_parent를 자기 자신으로 설정 (GnuBoard5 최상위 글 규칙)
+            $pdo->prepare('UPDATE g5_write_promotion SET wr_parent = ? WHERE wr_id = ?')->execute([$newId, $newId]);
 
-            if (!empty($_FILES['files'])) {
-                $files = $_FILES['files'];
-                $count = is_array($files['name']) ? count($files['name']) : 1;
-                for ($i = 0; $i < $count; $i++) {
-                    $fileItem = is_array($files['name']) ? [
-                        'name'     => $files['name'][$i],
-                        'tmp_name' => $files['tmp_name'][$i],
-                        'size'     => $files['size'][$i],
-                        'error'    => $files['error'][$i],
-                    ] : $files;
-
-                    if ((int)$fileItem['error'] !== UPLOAD_ERR_OK) continue;
-
-                    $saved = matSaveUploadedFile($fileItem);
-                    $bfStmt = $pdo->prepare('SELECT COALESCE(MAX(bf_no)+1,0) FROM g5_board_file WHERE bo_table=? AND wr_id=?');
-                    $bfStmt->execute([MAT_BO_TABLE, $newId]);
-                    $bfNo = (int)$bfStmt->fetchColumn();
-                    $pdo->prepare(
-                        'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                         VALUES (?,?,?,?,?,?,?,?,0,0,0,0,\'\',NOW())'
-                    )->execute([MAT_BO_TABLE, $newId, $bfNo, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
-
-                    if ($thumbnail === '' && in_array($saved['file_ext'], ['jpg','jpeg','png','gif','webp'], true)) {
-                        $thumbnail = $saved['file_path'];
-                        $pdo->prepare('UPDATE material_items SET thumbnail = ? WHERE id = ?')->execute([$thumbnail, $newId]);
-                    }
+            // 첫번째 첨부: 썸네일 이미지 (bf_no=0, bf_type=1)
+            if (!empty($_FILES['thumbnail']) && (int)$_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
+                $imgExts = ['jpg','jpeg','png','gif','webp'];
+                $tExt = strtolower((string)pathinfo((string)$_FILES['thumbnail']['name'], PATHINFO_EXTENSION));
+                if (!in_array($tExt, $imgExts, true)) {
+                    $pdo->rollBack();
+                    http_response_code(400);
+                    echo json_encode(['success' => false, 'message' => '썸네일은 이미지 파일만 가능합니다.']);
+                    exit;
                 }
+                $saved = matSaveUploadedFile($_FILES['thumbnail']);
+                // g5_board_file에 bf_no=0으로 삽입
+                $pdo->prepare(
+                    'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                     VALUES (?,?,0,?,?,?,?,?,0,0,1,0,\'\',NOW())'
+                )->execute([MAT_BO_TABLE, $newId, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                // wr_2 필드 저장 생략 — 최신 코드에서는 g5_board_file 사용
+            }
+
+            // 두번째 첨부: 다운로드 파일 (bf_no=1, bf_type=0)
+            if (!empty($_FILES['download_file']) && (int)$_FILES['download_file']['error'] === UPLOAD_ERR_OK) {
+                $saved = matSaveUploadedFile($_FILES['download_file']);
+                // 다운로드 파일은 항상 bf_no=1 슬롯으로 저장
+                $pdo->prepare(
+                    'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                     VALUES (?,?,1,?,?,?,?,?,0,0,0,0,\'\',NOW())'
+                )->execute([MAT_BO_TABLE, $newId, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
             }
 
             $pdo->commit();
+
             echo json_encode(['success' => true, 'id' => $newId]);
             break;
         }
 
+        // ────────────────────── PUT (수정) ───────────────────────
         case 'PUT': {
             matRequireAuth();
 
-            $id       = (int)($_POST['id'] ?? 0);
-            $title    = trim((string)($_POST['title']    ?? ''));
-            $category = trim((string)($_POST['category'] ?? ''));
-            $newsDate = trim((string)($_POST['news_date'] ?? ''));
-            $desc     = trim((string)($_POST['desc']     ?? ''));
-            $content  = trim((string)($_POST['content']  ?? ''));
+            $id      = (int)($_POST['id'] ?? 0);
+            $title   = trim((string)($_POST['title']   ?? ''));
+            $content = trim((string)($_POST['content'] ?? ''));
 
             if ($id === 0 || $title === '') {
                 http_response_code(400);
@@ -243,50 +309,68 @@ try {
             }
 
             $pdo->beginTransaction();
-            $pdo->prepare('UPDATE material_items SET title=?, category=?, news_date=?, description=?, content=? WHERE id=?')
-                ->execute([$title, $category, $newsDate, $desc, $content, $id]);
 
-            if (!empty($_FILES['files'])) {
-                $files = $_FILES['files'];
-                $count = is_array($files['name']) ? count($files['name']) : 1;
-                $tRow = $pdo->prepare('SELECT thumbnail FROM material_items WHERE id = ?');
-                $tRow->execute([$id]);
-                $thumbnail = (string)($tRow->fetchColumn() ?? '');
+            $upd = $pdo->prepare(
+                'UPDATE g5_write_promotion SET wr_subject=?, wr_content=?, wr_last=NOW() WHERE wr_id=?'
+            );
+            $upd->execute([$title, $content, $id]);
 
-                for ($i = 0; $i < $count; $i++) {
-                    $fileItem = is_array($files['name']) ? [
-                        'name'     => $files['name'][$i],
-                        'tmp_name' => $files['tmp_name'][$i],
-                        'size'     => $files['size'][$i],
-                        'error'    => $files['error'][$i],
-                    ] : $files;
-
-                    if ((int)$fileItem['error'] !== UPLOAD_ERR_OK) continue;
-
-                    $saved = matSaveUploadedFile($fileItem);
-                    $bfStmt = $pdo->prepare('SELECT COALESCE(MAX(bf_no)+1,0) FROM g5_board_file WHERE bo_table=? AND wr_id=?');
-                    $bfStmt->execute([MAT_BO_TABLE, $id]);
-                    $bfNo = (int)$bfStmt->fetchColumn();
-                    $pdo->prepare(
-                        'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                         VALUES (?,?,?,?,?,?,?,?,0,0,0,0,\'\',NOW())'
-                    )->execute([MAT_BO_TABLE, $id, $bfNo, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
-
-                    if ($thumbnail === '' && in_array($saved['file_ext'], ['jpg','jpeg','png','gif','webp'], true)) {
-                        $thumbnail = $saved['file_path'];
-                        $pdo->prepare('UPDATE material_items SET thumbnail = ? WHERE id = ?')->execute([$thumbnail, $id]);
-                    }
+            // 새 썸네일 업로드 (bf_no=0, bf_type=1) — 기존 파일 삭제 후 대체
+            if (!empty($_FILES['thumbnail']) && (int)$_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
+                $imgExts = ['jpg','jpeg','png','gif','webp'];
+                $tExt = strtolower((string)pathinfo((string)$_FILES['thumbnail']['name'], PATHINFO_EXTENSION));
+                if (!in_array($tExt, $imgExts, true)) {
+                    $pdo->rollBack();
+                    http_response_code(400);
+                    echo json_encode(['success' => false, 'message' => '썸네일은 이미지 파일만 가능합니다.']);
+                    exit;
                 }
+                $oldRow = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0');
+                $oldRow->execute([MAT_BO_TABLE, $id]);
+                $oldFile = $oldRow->fetchColumn();
+                if ($oldFile) {
+                    $absOld = MAT_UPLOAD_DIR . $oldFile;
+                    if (file_exists($absOld)) @unlink($absOld);
+                    $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0')
+                        ->execute([MAT_BO_TABLE, $id]);
+                }
+                $saved = matSaveUploadedFile($_FILES['thumbnail']);
+                $pdo->prepare(
+                    'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                     VALUES (?,?,0,?,?,?,?,?,0,0,1,0,\'\',NOW())'
+                )->execute([MAT_BO_TABLE, $id, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                // wr_2 필드 저장 생략 — 최신 코드에서는 g5_board_file 사용
+            }
+
+            // 새 다운로드 파일 업로드 (bf_no=1, bf_type=0) — 기존 파일 삭제 후 대체
+            if (!empty($_FILES['download_file']) && (int)$_FILES['download_file']['error'] === UPLOAD_ERR_OK) {
+                $oldRow = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1');
+                $oldRow->execute([MAT_BO_TABLE, $id]);
+                $oldFile = $oldRow->fetchColumn();
+                if ($oldFile) {
+                    $absOld = MAT_UPLOAD_DIR . $oldFile;
+                    if (file_exists($absOld)) @unlink($absOld);
+                    $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1')
+                        ->execute([MAT_BO_TABLE, $id]);
+                }
+                $saved = matSaveUploadedFile($_FILES['download_file']);
+                $pdo->prepare(
+                    'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
+                     VALUES (?,?,1,?,?,?,?,?,0,0,0,0,\'\',NOW())'
+                )->execute([MAT_BO_TABLE, $id, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
             }
 
             $pdo->commit();
+
             echo json_encode(['success' => true]);
             break;
         }
 
+        // ────────────────────── DELETE ───────────────────────────
         case 'DELETE': {
             matRequireAuth();
 
+            // DELETE 요청의 쿼리 파라미터 파싱
             parse_str((string)parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), $qs);
             $id = (int)($qs['id'] ?? 0);
 
@@ -296,16 +380,20 @@ try {
                 exit;
             }
 
+            // 파일 목록 수집 후 삭제
             $fs = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table = ? AND wr_id = ?');
             $fs->execute([MAT_BO_TABLE, $id]);
             $fileNames = $fs->fetchAll(PDO::FETCH_COLUMN);
 
-            $pdo->prepare('DELETE FROM material_items WHERE id = ?')->execute([$id]);
+            $pdo->prepare('DELETE FROM g5_write_promotion WHERE wr_id = ?')->execute([$id]);
             $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table = ? AND wr_id = ?')->execute([MAT_BO_TABLE, $id]);
 
+            // 파일 시스템에서 파일 삭제
             foreach ($fileNames as $fileName) {
                 $absPath = MAT_UPLOAD_DIR . $fileName;
-                if (file_exists($absPath)) { @unlink($absPath); }
+                if (file_exists($absPath)) {
+                    @unlink($absPath);
+                }
             }
 
             echo json_encode(['success' => true]);
@@ -325,5 +413,5 @@ try {
 } catch (Exception $e) {
     if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => '서버 오류가 발생했습니다.']);
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }

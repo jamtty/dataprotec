@@ -1,4 +1,5 @@
 import { getStoredToken } from '@/store/useAuthStore'
+import { safeJson } from '@/utils/apiUtils'
 
 const API_BASE = '/renewal_react_v1/backend'
 
@@ -45,10 +46,10 @@ export async function fetchBrochureList(
 ): Promise<{ items: BrochureItem[]; totalCount: number; totalPages: number }> {
   const query = new URLSearchParams(params as Record<string, string>).toString()
   const res = await fetch(`${API_BASE}/api/brochure.php?${query}`, { headers: authHeaders() })
-  const data = await res.json() as {
+  const data = await safeJson<{
     success: boolean; message?: string
     items?: BrochureItem[]; totalCount?: number; totalPages?: number
-  }
+  }>(res)
   if (!data.success) throw new Error(data.message ?? '목록을 불러오지 못했습니다.')
   return {
     items:      data.items      ?? [],
@@ -61,10 +62,10 @@ export async function fetchBrochureDetail(
   id: number,
 ): Promise<{ item: BrochureItem; files: BrochureFile[] }> {
   const res = await fetch(`${API_BASE}/api/brochure.php?id=${id}&with_files=1`, { headers: authHeaders() })
-  const data = await res.json() as {
+  const data = await safeJson<{
     success: boolean; message?: string
     item?: BrochureItem; files?: BrochureFile[]
-  }
+  }>(res)
   if (!data.success) throw new Error(data.message ?? '상세 정보를 불러오지 못했습니다.')
   return { item: data.item!, files: data.files ?? [] }
 }
@@ -82,7 +83,7 @@ export async function createBrochure(formData: BrochureFormData): Promise<void> 
     headers: authHeaders(),
     body: form,
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '등록에 실패했습니다.')
 }
 
@@ -101,7 +102,7 @@ export async function updateBrochure(id: number, formData: BrochureFormData): Pr
     headers: authHeaders(),
     body: form,
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '수정에 실패했습니다.')
 }
 
@@ -110,7 +111,7 @@ export async function deleteBrochure(id: number): Promise<void> {
     method: 'DELETE',
     headers: authHeaders(),
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '삭제에 실패했습니다.')
 }
 
@@ -119,6 +120,62 @@ export async function deleteBrochureFile(fileId: number): Promise<void> {
     method: 'DELETE',
     headers: authHeaders(),
   })
-  const data = await res.json() as { success: boolean; message?: string }
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
   if (!data.success) throw new Error(data.message ?? '파일 삭제에 실패했습니다.')
+}
+
+// ── 브로슈어 신청 (g5_write_brochure) ───────────────────────────
+
+export interface BrochureRequestPayload {
+  company: string
+  manager: string
+  phone: string
+  email: string
+  memo?: string
+}
+
+export interface BrochureRequestItem {
+  id: number
+  company: string
+  manager: string
+  phone: string
+  email: string
+  download_at: string
+  memo: string
+}
+
+export async function submitBrochureRequest(payload: BrochureRequestPayload): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/brochure-request.php`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
+  if (!data.success) throw new Error(data.message ?? '신청에 실패했습니다.')
+}
+
+export async function fetchBrochureRequestList(
+  params: Record<string, string | number>,
+): Promise<{ items: BrochureRequestItem[]; totalCount: number; totalPages: number }> {
+  const query = new URLSearchParams(params as Record<string, string>).toString()
+  const res = await fetch(`${API_BASE}/api/brochure-request.php?${query}`, { headers: authHeaders() })
+  const data = await safeJson<{
+    success: boolean; message?: string
+    items?: BrochureRequestItem[]; totalCount?: number; totalPages?: number
+  }>(res)
+  if (!data.success) throw new Error(data.message ?? '목록을 불러오지 못했습니다.')
+  return {
+    items:      data.items      ?? [],
+    totalCount: data.totalCount ?? 0,
+    totalPages: data.totalPages ?? 1,
+  }
+}
+
+export async function deleteBrochureRequest(id: number): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/brochure-request.php?id=${id}`, {
+    method: 'DELETE',
+    headers: authHeaders(),
+  })
+  const data = await safeJson<{ success: boolean; message?: string }>(res)
+  if (!data.success) throw new Error(data.message ?? '삭제에 실패했습니다.')
 }
