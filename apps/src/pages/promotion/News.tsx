@@ -92,6 +92,7 @@ function PromotionNews() {
                           <div className="txt">
                             <p className="datetime">{item.news_date}</p>
                             <Link to={`/promotion/news/${item.id}`}>{item.title}</Link>
+                            <p className="news_summary">{item.content ? item.content.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim() : ''}</p>
                           </div>
                         </div>
                       </td>

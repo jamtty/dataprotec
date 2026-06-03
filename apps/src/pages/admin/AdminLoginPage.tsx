@@ -45,7 +45,8 @@ export default function AdminLoginPage() {
     <div
       style={{
         width: '100%',
-        height: '100vh',
+        minHeight: '100vh',
+        height: '100%',
         position: 'relative',
         background: "#171c2b url('https://www.dataprotec.co.kr/renewal/theme/basic/skin/member/basic/img/login_bg.png') center no-repeat",
         backgroundSize: 'cover',

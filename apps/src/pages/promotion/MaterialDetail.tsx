@@ -80,7 +80,7 @@ function MaterialDetail() {
       ctx.fillText(char, 0, 0)
       ctx.restore()
     })
-  }, [captchaCode])
+  }, [captchaCode, loadingItem])
 
   const refreshCaptcha = () => {
     const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'

@@ -182,6 +182,7 @@ try {
             $rows = $pdo->prepare(
                 "SELECT w.wr_id AS id, w.wr_subject AS title, DATE(w.wr_datetime) AS news_date,
                         w.wr_hit AS view_count, w.wr_name AS author_name,
+                        w.wr_content AS content,
                         w.wr_datetime AS created_at, w.wr_last AS updated_at,
                         COALESCE(
                             NULLIF((SELECT CASE
