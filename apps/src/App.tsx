@@ -1,7 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import './assets/css/common.css'
-import './assets/css/style.css'
 import { useAuthStore, isTokenExpired } from '@/store/useAuthStore'
 import AdminLoginPage from './pages/admin/AdminLoginPage'
 import AdminNewsroomPage from './pages/admin/AdminNewsroomPage'

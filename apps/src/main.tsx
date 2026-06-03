@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import './index.css'
-import './assets/css/common.css'
 import App from './App'
 
 AOS.init({

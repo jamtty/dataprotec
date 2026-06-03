@@ -2,7 +2,6 @@
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useAuthStore, isTokenExpired } from '@/store/useAuthStore'
 import { loginAdmin } from '@/api/auth'
-import '@/assets/css/admin.css'
 
 export default function AdminLoginPage() {
   const navigate = useNavigate()
