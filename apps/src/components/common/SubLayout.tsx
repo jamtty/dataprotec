@@ -32,6 +32,16 @@ function SubLayout({ visualClass, visualTitle, lnbItems, children }: SubLayoutPr
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    const headerEl = document.getElementById('header_main')
+    if (!headerEl) return
+    if (lnbFixed) {
+      headerEl.classList.add('lnb-fixed')
+    } else {
+      headerEl.classList.remove('lnb-fixed')
+    }
+  }, [lnbFixed])
+
   return (
     <>
       <Header />

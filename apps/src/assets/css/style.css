@@ -20,6 +20,7 @@ span.br { display:block }
 #header_main.sub-page { background:#fff; }
 #header_main.sub-page.scrolled { top:0; opacity:1 }
 #header_main.sub-page .container .gnb li a { color:#222 }
+#header_main.lnb-fixed { transform:translateY(-100%) !important; }
 #header_main.sub-page .container .logo img.logo-white { display:none }
 #header_main.sub-page .container .logo img.logo-hover { display:block }
 #header_main .container { height:100%; margin:0 auto; display:flex; align-items:center; justify-content: center; position:relative; }
@@ -480,11 +481,11 @@ span.br { display:block }
 #sub .visual .visual_tit .ico1 { position:absolute; top:-3rem; right:-4rem; }
 #sub .visual .visual_tit .ico2 { position:absolute; top:-0.8rem; right:-6rem; }
 
-#sub .visual.product { position:relative; height:35rem; background:url('../images/sub_banner_product.jpg') 50% 50% no-repeat; background-size:cover }
-#sub .visual.company { position:relative; height:35rem; background:url('../images/sub_banner_company.jpg') 50% 50% no-repeat; background-size:cover }
-#sub .visual.pr { position:relative; height:35rem; background:url('../images/sub_banner_pr.jpg') 50% 50% no-repeat; background-size:cover }
-#sub .visual.recruitment { position:relative; height:35rem; background:url('../images/sub_banner_recruitment.jpg') 50% 50% no-repeat; background-size:cover }
-#sub .visual.request { position:relative; height:35rem; background:url('../images/sub_banner_request.jpg') 50% 50% no-repeat; background-size:cover }
+#sub .visual.product { position:relative; height:40.5rem; background:url('../images/sub_banner_product@2x.png') 50% 50% no-repeat; background-size:cover }
+#sub .visual.company { position:relative; height:40.5rem; background:url('../images/sub_banner_company@2x.png') 50% 50% no-repeat; background-size:cover }
+#sub .visual.pr { position:relative; height:40.5rem; background:url('../images/sub_banner_pr@2x.png') 50% 50% no-repeat; background-size:cover }
+#sub .visual.recruitment { position:relative; height:40.5rem; background:url('../images/sub_banner_recruitment@2x.png') 50% 50% no-repeat; background-size:cover }
+#sub .visual.request { position:relative; height:40.5rem; background:url('../images/sub_banner_request@2x.png') 50% 50% no-repeat; background-size:cover }
 
 #sub .lnb { width:100%; height:6rem; background:#fff; border-bottom:1px solid #dbdbdb; position:relative; top:0; left:0; z-index:999 }
 #sub .lnb_wrap { position:relative;  max-width:119rem; margin:0 auto; line-height:6rem; }
