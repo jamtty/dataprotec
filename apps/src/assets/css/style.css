@@ -13,14 +13,14 @@ span.br { display:block }
 
 
 /********** 헤더 ***********/
-#header_main { position:fixed; top:0; left:0; height:10rem; width:100%; background:transparent; z-index:99; transition:all 0.2s ease-out; }
+#header_main { position:fixed; top:0; left:0; height:10rem; width:100%; background:transparent; z-index:99; transition:transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.4s cubic-bezier(0.4,0,0.2,1), background 0.3s ease; }
 #header_main.scrolled { top:-5rem; opacity:0 }
 #header_main:hover { background:#fff;  }
 #header_main:hover .container .gnb li a { color:#222 }
 #header_main.sub-page { background:#fff; }
 #header_main.sub-page.scrolled { top:0; opacity:1 }
 #header_main.sub-page .container .gnb li a { color:#222 }
-#header_main.lnb-fixed { transform:translateY(-100%) !important; }
+#header_main.lnb-fixed { transform:translateY(-100%); opacity:0; }
 #header_main.sub-page .container .logo img.logo-white { display:none }
 #header_main.sub-page .container .logo img.logo-hover { display:block }
 #header_main .container { height:100%; margin:0 auto; display:flex; align-items:center; justify-content: center; position:relative; }
@@ -472,7 +472,7 @@ span.br { display:block }
 
 
 /* 서브 */
-#sub { position:relative; margin-top:10rem; }
+#sub { position:relative; padding-top:10rem; }
 
 /* 서브배너 */
 #sub .visual .responsive { display:flex; align-items:center }
