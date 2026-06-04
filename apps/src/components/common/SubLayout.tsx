@@ -51,7 +51,7 @@ function SubLayout({ visualClass, visualTitle, lnbItems, children }: SubLayoutPr
         </div>
 
         {lnbItems && lnbItems.length > 0 && (
-          <div className="lnb" style={lnbFixed ? { position: 'fixed', top: 0, left: 0, width: '100vw' } : {}}>
+          <div className="lnb" style={lnbFixed ? { position: 'fixed', top: 0, left: 0 } : {}}>
             <div className="lnb_wrap">
               <ul>
                 {(() => {
