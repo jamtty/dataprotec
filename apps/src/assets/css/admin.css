@@ -519,6 +519,9 @@
   display: flex;
   gap: 0.6rem;
 }
+.adm_form_field.column {
+  flex-direction: column;
+}
 .adm_form_field label {
   font-size: 1.3rem;
   color: #555;
@@ -529,7 +532,7 @@
   color: #aaa;
   font-weight: 400;
 }
-.adm_form_field input {
+.adm_form_field input:not(.adm_input_sm) {
   height: 4.2rem;
   padding: 0 1.2rem;
   border: 1px solid #d1d5db;

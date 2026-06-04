@@ -235,11 +235,11 @@ span.br { display:block }
 #index .section_newsroom .ul-list li { flex:1; }
 #index .section_newsroom .ul-list li .news-card { display:flex; flex-direction:column; background:#fff; border-radius:1.2rem; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08); transition:transform 0.3s ease, box-shadow 0.3s ease; height:100%; }
 #index .section_newsroom .ul-list li .news-card:hover { transform:translateY(-6px); box-shadow:0 10px 35px rgba(0,0,0,0.15); }
-#index .section_newsroom .ul-list li .thumbnail { height:24rem; overflow:hidden; flex-shrink:0; }
+#index .section_newsroom .ul-list li .thumbnail { height:24rem; overflow:hidden; flex-shrink:0; border-bottom:1px solid #e5e7eb; }
 #index .section_newsroom .ul-list li .thumbnail img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease; }
 #index .section_newsroom .ul-list li .news-card:hover .thumbnail img { transform:scale(1.06); }
 #index .section_newsroom .ul-list li .card-body { padding:3rem; display:flex; flex-direction:column; flex:1; }
-#index .section_newsroom .ul-list li .subject { font-size:2.2rem; font-weight:700; color:#1a1a1a; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.6; flex:1; }
+#index .section_newsroom .ul-list li .subject { font-size:2rem; font-weight:700; color:#1a1a1a; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.6; flex:1; }
 #index .section_newsroom .ul-list li .card-footer { margin:2.5rem 0 0; display:flex; align-items:center; justify-content:space-between; }
 #index .section_newsroom .ul-list li .tag { display:inline-flex; align-items:center; padding:0.7rem 2rem; background:#003d90; border-radius:3rem; font-size:1.6rem; font-weight:600; color:#fff; letter-spacing:0.5px; }
 #index .section_newsroom .ul-list li .arrow { display:inline-flex; align-items:center; justify-content:center; width:3.6rem; height:3.6rem; border-radius:50%; border:1.5px solid #ccc; transition:border-color 0.25s ease; }
@@ -257,10 +257,12 @@ span.br { display:block }
 #index .section_prroom h2 strong { margin:1.5rem 0 0; display:block; font-size:4.7rem; font-weight:800; color:#003d90; letter-spacing: -1px; }
 #index .section_prroom .ul-list { margin:8rem 0 0; display:flex; justify-content:space-between; }
 #index .section_prroom .ul-list li { position:relative; overflow:hidden; width:33.5rem; height:43.5rem; display:flex; align-items: center; justify-content: center; }
+#index .section_prroom .ul-list li .pr-card { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:2; }
 #index .section_prroom .ul-list li:nth-child(odd) { background:#003399; }
 #index .section_prroom .ul-list li:nth-child(even) { background:#000066; }
 #index .section_prroom .ul-list li .subject { position:relative; z-index:1; font-size:2.8rem; font-weight:600; color:#fff; text-align:center; transition:transform 0.35s ease; }
-#index .section_prroom .ul-list li:hover .subject { transform:scale(1.08); }
+#index .section_prroom .ul-list li:hover .subject,
+#index .section_prroom .ul-list li .pr-card:hover .subject { transform:scale(1.08); }
 /* 유리 반짝임: 스윕 하이라이트 */
 #index .section_prroom .ul-list li::before { content:''; position:absolute; top:-10%; left:-110%; width:70%; height:120%; background:linear-gradient(105deg, transparent 15%, rgba(180,210,255,0.04) 30%, rgba(255,255,255,0.08) 42%, rgba(255,255,255,0.38) 50%, rgba(255,255,255,0.08) 58%, rgba(180,210,255,0.04) 70%, transparent 85%); transform:skewX(-10deg); transition:left 0s; pointer-events:none; z-index:0; }
 #index .section_prroom .ul-list li:hover::before { left:150%; transition:left 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94); }

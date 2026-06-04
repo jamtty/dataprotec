@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Swiper from 'swiper'
 import { Pagination, Autoplay, EffectFade, Navigation } from 'swiper/modules'
@@ -25,8 +25,18 @@ import mainClImg5 from '../assets/images/main_cl_img_5.png'
 import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
 import LayerPopup from '../components/common/LayerPopup'
+import { fetchNewsroomList, type NewsroomItem } from '@/api/newsroom'
+import { toAbsUrl } from '@/utils/uploadUrl'
 
 function Main() {
+  const [newsItems, setNewsItems] = useState<NewsroomItem[]>([])
+
+  useEffect(() => {
+    fetchNewsroomList({ page: 1, size: 4 })
+      .then(res => setNewsItems(res.items))
+      .catch(() => {})
+  }, [])
+
   useEffect(() => {
     let swiperInstance: Swiper | null = null
     let kioskSwiperInstance: Swiper | null = null
@@ -875,65 +885,25 @@ function Main() {
 						<span>News Room</span>
 						<strong>뉴스룸</strong>
 					</h2>
-                    <Link to='#'>더 보기</Link>
+                    <Link to='/promotion/news'>더 보기</Link>
 				</div>
                 <ul className='ul-list'>
-                    <li>
-                        <Link to='#' className='news-card'>
-                            <div className='thumbnail'>
-                                <img src={mainNewsroomSam} alt="" />
+                    {newsItems.map(item => (
+                      <li key={item.id}>
+                        <Link to={`/promotion/news/${item.id}`} className='news-card'>
+                          <div className='thumbnail'>
+                            <img src={item.thumbnail ? toAbsUrl(item.thumbnail) : mainNewsroomSam} alt={item.title} />
+                          </div>
+                          <div className='card-body'>
+                            <p className='subject'>{item.title}</p>
+                            <div className='card-footer'>
+                              <span className='tag'>News</span>
+                              <span className='arrow'></span>
                             </div>
-                            <div className='card-body'>
-                                <p className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</p>
-                                <div className='card-footer'>
-                                    <span className='tag'>News</span>
-                                    <span className='arrow'></span>
-                                </div>
-                            </div>
+                          </div>
                         </Link>
-                    </li>
-                    <li>
-                        <Link to='#' className='news-card'>
-                            <div className='thumbnail'>
-                                <img src={mainNewsroomSam} alt="" />
-                            </div>
-                            <div className='card-body'>
-                                <p className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</p>
-                                <div className='card-footer'>
-                                    <span className='tag'>News</span>
-                                    <span className='arrow'></span>
-                                </div>
-                            </div>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to='#' className='news-card'>
-                            <div className='thumbnail'>
-                                <img src={mainNewsroomSam} alt="" />
-                            </div>
-                            <div className='card-body'>
-                                <p className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</p>
-                                <div className='card-footer'>
-                                    <span className='tag'>News</span>
-                                    <span className='arrow'></span>
-                                </div>
-                            </div>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to='#' className='news-card'>
-                            <div className='thumbnail'>
-                                <img src={mainNewsroomSam} alt="" />
-                            </div>
-                            <div className='card-body'>
-                                <p className='subject'>SECON 2026 보안엑스포 부스 방문 고객분들께 감사드립니다.</p>
-                                <div className='card-footer'>
-                                    <span className='tag'>News</span>
-                                    <span className='arrow'></span>
-                                </div>
-                            </div>
-                        </Link>
-                    </li>
+                      </li>
+                    ))}
                 </ul>
             </div>
         </div>
@@ -946,20 +916,28 @@ function Main() {
 						<span>PR Room</span>
 						<strong>홍보자료</strong>
 					</h2>
-                    <Link to='#'>더 보기</Link>
+                    <Link to='/promotion/material'>더 보기</Link>
 				</div>
                 <ul className='ul-list'>
                     <li>
-                        <Link to='#' className='subject'>데이타프로텍<br />통합브로슈어</Link>
+                        <Link to='/promotion/material/5' className='pr-card'>
+                            <span className='subject'>데이타프로텍<br />통합브로슈어</span>
+                        </Link>
                     </li>
                     <li>
-                        <Link to='#' className='subject'>DPT 엔터프라이즈<br />제품소개서</Link>
+                        <Link to='/promotion/material/3' className='pr-card'>
+                            <span className='subject'>DPT 엔터프라이즈<br />제품소개서</span>
+                        </Link>
                     </li>
                     <li>
-                        <Link to='#' className='subject'>VCS<br />제품소개서</Link>
+                        <Link to='/promotion/material/2' className='pr-card'>
+                            <span className='subject'>VCS<br />제품소개서</span>
+                        </Link>
                     </li>
                     <li>
-                        <Link to='#' className='subject'>Digital Eraser<br />제품소개서</Link>
+                        <Link to='/promotion/material/1' className='pr-card'>
+                            <span className='subject'>Digital Eraser<br />제품소개서</span>
+                        </Link>
                     </li>
                 </ul>
             </div>

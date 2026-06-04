@@ -172,7 +172,7 @@ export default function AdminPopupFormPage() {
                 <input
                   type="datetime-local" name="begin_time"
                   value={form.begin_time} onChange={handleChange}
-                  className="adm_form_input" style={{ width: 'auto' }}
+                  className="adm_form_input" style={{ width: '20rem', flex: 'none' }}
                 />
               </div>
               <div className="adm_form_row">
@@ -180,7 +180,7 @@ export default function AdminPopupFormPage() {
                 <input
                   type="datetime-local" name="end_time"
                   value={form.end_time} onChange={handleChange}
-                  className="adm_form_input" style={{ width: 'auto' }}
+                  className="adm_form_input" style={{ width: '20rem', flex: 'none' }}
                 />
               </div>
 
@@ -199,16 +199,19 @@ export default function AdminPopupFormPage() {
 
               {/* 위치 / 크기 */}
               <div className="adm_form_row">
-                <label className="adm_form_label">팝업 위치</label>
+                <label className="adm_form_label">팝업레이어 좌측 위치</label>
                 <div className="adm_form_field adm_form_inline">
-                  <span className="adm_form_unit">좌:</span>
                   <input
                     type="number" name="pos_left" min={0}
                     value={form.pos_left} onChange={handleChange}
                     className="adm_form_input adm_input_sm"
                   />
                   <span className="adm_form_unit">px</span>
-                  <span className="adm_form_unit" style={{ marginLeft: '1.5rem' }}>상:</span>
+                </div>
+              </div>
+              <div className="adm_form_row">
+                <label className="adm_form_label">팝업레이어 상단 위치</label>
+                <div className="adm_form_field adm_form_inline">
                   <input
                     type="number" name="pos_top" min={0}
                     value={form.pos_top} onChange={handleChange}
@@ -218,16 +221,19 @@ export default function AdminPopupFormPage() {
                 </div>
               </div>
               <div className="adm_form_row">
-                <label className="adm_form_label">팝업 크기</label>
+                <label className="adm_form_label">팝업레이어 넓이</label>
                 <div className="adm_form_field adm_form_inline">
-                  <span className="adm_form_unit">넓이:</span>
                   <input
                     type="number" name="width" min={100}
                     value={form.width} onChange={handleChange}
                     className="adm_form_input adm_input_sm"
                   />
                   <span className="adm_form_unit">px</span>
-                  <span className="adm_form_unit" style={{ marginLeft: '1.5rem' }}>높이:</span>
+                </div>
+              </div>
+              <div className="adm_form_row">
+                <label className="adm_form_label">팝업레이어 높이</label>
+                <div className="adm_form_field adm_form_inline">
                   <input
                     type="number" name="height" min={100}
                     value={form.height} onChange={handleChange}

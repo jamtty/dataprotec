@@ -62,7 +62,7 @@ export default function AdminMyPage() {
           <section className="adm_section" style={{ maxWidth: '52rem' }}>
             <h3 className="adm_section_title">비밀번호 변경</h3>
             <form className="adm_mypage_form" onSubmit={handleSubmit}>
-              <div className="adm_form_field">
+              <div className="adm_form_field column">
                 <label>현재 비밀번호</label>
                 <input
                   type="password"
@@ -73,7 +73,7 @@ export default function AdminMyPage() {
                   required
                 />
               </div>
-              <div className="adm_form_field">
+              <div className="adm_form_field column">
                 <label>
                   새 비밀번호 <small>(6자 이상)</small>
                 </label>
@@ -86,7 +86,7 @@ export default function AdminMyPage() {
                   required
                 />
               </div>
-              <div className="adm_form_field">
+              <div className="adm_form_field column">
                 <label>새 비밀번호 확인</label>
                 <input
                   type="password"

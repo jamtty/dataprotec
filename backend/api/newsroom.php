@@ -208,6 +208,22 @@ try {
             $rows->execute($params);
             $items = $rows->fetchAll(PDO::FETCH_ASSOC);
 
+            // 썸네일 없으면 에디터 본문에서 첫 번째 <img src> 추출
+            foreach ($items as &$row) {
+                if (empty($row['thumbnail']) && !empty($row['content'])) {
+                    if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/', (string)$row['content'], $imgM)) {
+                        $imgUrl = $imgM[1];
+                        $imgUrl = preg_replace(
+                            '#https?://(?:www\.)?dataprotec\.co\.kr/renewal(?:_react_v1)?/data/#',
+                            '/renewal_react_v1/data/',
+                            $imgUrl
+                        );
+                        $row['thumbnail'] = $imgUrl;
+                    }
+                }
+            }
+            unset($row);
+
             echo json_encode([
                 'success'    => true,
                 'items'      => $items,

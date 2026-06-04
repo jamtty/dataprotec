@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom'
 import PromotionLayout from './PromotionLayout'
 import { fetchNewsroomList, type NewsroomItem } from '@/api/newsroom'
+import { toAbsUrl } from '@/utils/uploadUrl'
 import blankImg from '../../assets/images/blank.jpg'
 
 const ITEMS_PER_PAGE = 5
@@ -87,7 +88,7 @@ function PromotionNews() {
                       <td>
                         <div className="result">
                           <Link to={`/promotion/news/${item.id}`} className="thumbnail">
-                            <img src={item.thumbnail || blankImg} alt={item.title} />
+                            <img src={item.thumbnail ? toAbsUrl(item.thumbnail) : blankImg} alt={item.title} />
                           </Link>
                           <div className="txt">
                             <p className="datetime">{item.news_date}</p>
