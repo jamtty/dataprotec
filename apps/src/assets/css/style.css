@@ -472,7 +472,7 @@ span.br { display:block }
 
 
 /* 서브 */
-#sub { position:relative; padding-top:10rem; }
+#sub { position:relative; margin-top:10rem; }
 
 /* 서브배너 */
 #sub .visual .responsive { display:flex; align-items:center }
