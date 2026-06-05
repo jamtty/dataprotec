@@ -32,7 +32,7 @@ import RecruitmentWelfare from './pages/recruitment/Welfare'
 import RecruitmentGuide from './pages/recruitment/Guide'
 import Support from './pages/support/Support'
 
-const basename = import.meta.env.PROD ? '/renewal_react_v1' : '/'
+const basename = '/'
 
 function AdminRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, accessToken, clearAuth } = useAuthStore()

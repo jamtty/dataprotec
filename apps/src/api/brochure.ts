@@ -1,7 +1,7 @@
 import { getStoredToken } from '@/store/useAuthStore'
 import { safeJson } from '@/utils/apiUtils'
 
-const API_BASE = '/renewal_react_v1/backend'
+const API_BASE = '/backend'
 
 function authHeaders(): Record<string, string> {
   const token = getStoredToken()

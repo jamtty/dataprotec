@@ -19,6 +19,7 @@ const navItems: NavItem[] = [
       { label: 'DIGITAL ERASER', href: '/product/eraser' },
       { label: 'DPT-i', href: '/product/dpt-i' },
       { label: 'DPT-ID', href: '/product/dpt-id' },
+      { label: 'VCS', href: '/product/vcs' },
     ],
   },
   {

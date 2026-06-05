@@ -70,7 +70,7 @@ $saved   = date('Ymd') . '_' . bin2hex(random_bytes(8)) . '.' . $ext;
 $yearMonth = date('ym'); // 예: 2606
 
 $uploadDir = dirname(__DIR__, 2) . '/data/editor/' . $yearMonth . '/';
-$webPath   = '/renewal_react_v1/data/editor/' . $yearMonth . '/' . $saved;
+$webPath   = '/data/editor/' . $yearMonth . '/' . $saved;
 
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);

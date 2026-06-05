@@ -118,7 +118,7 @@ function DptVcs() {
                             비인가 장치 연결의 원천 차단 기술
                         </p>
                         <p>
-                            <strong>실시간 상호 감기 메커니즘</strong>
+                            <strong>실시간 상호 감시 메커니즘</strong>
                             매체 차단 프로세스 상호 감시로<span className="br"></span>
                             사용자의 임의적 보안 프로그램 무력화 방지
                         </p>

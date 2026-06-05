@@ -26,7 +26,7 @@ if (!preg_match('/^Bearer\s+(.+)$/i', $auth, $m) || !verifyJWT($m[1])) {
 }
 
 $OLD = 'https://dataprotec.co.kr/renewal/data/';
-$NEW = '/renewal_react_v1/data/';
+$NEW = '/data/';
 
 // 변경 대상: [테이블, 컬럼] 목록
 $targets = [

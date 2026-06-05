@@ -19,7 +19,7 @@ require_once dirname(__DIR__) . '/jwt.php';
 
 // ── 업로드 기본 경로 (서버 절대경로 & 웹 경로) ──────────────────
 define('MAT_UPLOAD_DIR',      dirname(__DIR__, 2) . '/data/file/promotion/');
-define('MAT_UPLOAD_WEB_PATH', '/renewal_react_v1/data/file/promotion/');
+define('MAT_UPLOAD_WEB_PATH', '/data/file/promotion/');
 define('MAT_BO_TABLE', 'promotion');
 
 // ── 허용 파일 확장자 ─────────────────────────────────────────────
@@ -207,10 +207,10 @@ try {
                 if (empty($row['thumbnail']) && !empty($row['wr_content'])) {
                     if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/', (string)$row['wr_content'], $m)) {
                         $imgUrl = $m[1];
-                        // 구 도메인 경로 → /renewal_react_v1/data/ 로 변환 (프록시 통과)
+                        // 구 도메인 경로 → /data/ 로 변환
                         $imgUrl = preg_replace(
-                            '#https?://(?:www\.)?dataprotec\.co\.kr/renewal(?:_react_v1)?/data/#',
-                            '/renewal_react_v1/data/',
+                            '#https?://(?:www\.)?dataprotec\.co\.kr/(?:renewal(?:_react_v1)?/)?data/#',
+                            '/data/',
                             $imgUrl
                         );
                         $row['thumbnail'] = $imgUrl;
@@ -273,8 +273,8 @@ try {
                 // g5_board_file에 bf_no=0으로 삽입
                 $pdo->prepare(
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                     VALUES (?,?,0,?,?,?,?,?,0,0,1,0,\'\',NOW())'
-                )->execute([MAT_BO_TABLE, $newId, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                     VALUES (?,?,0,?,?,\'\',?,?,0,0,1,0,\'\',NOW())'
+                )->execute([MAT_BO_TABLE, $newId, $saved['ori_name'], $saved['file_name'], 'local', $saved['file_size']]);
                 // wr_2 필드 저장 생략 — 최신 코드에서는 g5_board_file 사용
             }
 
@@ -284,8 +284,8 @@ try {
                 // 다운로드 파일은 항상 bf_no=1 슬롯으로 저장
                 $pdo->prepare(
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                     VALUES (?,?,1,?,?,?,?,?,0,0,0,0,\'\',NOW())'
-                )->execute([MAT_BO_TABLE, $newId, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                     VALUES (?,?,1,?,?,\'\',?,?,0,0,0,0,\'\',NOW())'
+                )->execute([MAT_BO_TABLE, $newId, $saved['ori_name'], $saved['file_name'], 'local', $saved['file_size']]);
             }
 
             $pdo->commit();
@@ -328,17 +328,17 @@ try {
                 $oldRow = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0');
                 $oldRow->execute([MAT_BO_TABLE, $id]);
                 $oldFile = $oldRow->fetchColumn();
+                $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0')
+                    ->execute([MAT_BO_TABLE, $id]);
                 if ($oldFile) {
                     $absOld = MAT_UPLOAD_DIR . $oldFile;
                     if (file_exists($absOld)) @unlink($absOld);
-                    $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0')
-                        ->execute([MAT_BO_TABLE, $id]);
                 }
                 $saved = matSaveUploadedFile($_FILES['thumbnail']);
                 $pdo->prepare(
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                     VALUES (?,?,0,?,?,?,?,?,0,0,1,0,\'\',NOW())'
-                )->execute([MAT_BO_TABLE, $id, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                     VALUES (?,?,0,?,?,\'\',?,?,0,0,1,0,\'\',NOW())'
+                )->execute([MAT_BO_TABLE, $id, $saved['ori_name'], $saved['file_name'], 'local', $saved['file_size']]);
                 // wr_2 필드 저장 생략 — 최신 코드에서는 g5_board_file 사용
             }
 
@@ -347,17 +347,17 @@ try {
                 $oldRow = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1');
                 $oldRow->execute([MAT_BO_TABLE, $id]);
                 $oldFile = $oldRow->fetchColumn();
+                $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1')
+                    ->execute([MAT_BO_TABLE, $id]);
                 if ($oldFile) {
                     $absOld = MAT_UPLOAD_DIR . $oldFile;
                     if (file_exists($absOld)) @unlink($absOld);
-                    $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1')
-                        ->execute([MAT_BO_TABLE, $id]);
                 }
                 $saved = matSaveUploadedFile($_FILES['download_file']);
                 $pdo->prepare(
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                     VALUES (?,?,1,?,?,?,?,?,0,0,0,0,\'\',NOW())'
-                )->execute([MAT_BO_TABLE, $id, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                     VALUES (?,?,1,?,?,\'\',?,?,0,0,0,0,\'\',NOW())'
+                )->execute([MAT_BO_TABLE, $id, $saved['ori_name'], $saved['file_name'], 'local', $saved['file_size']]);
             }
 
             $pdo->commit();

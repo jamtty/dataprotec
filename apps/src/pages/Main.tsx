@@ -815,7 +815,7 @@ function Main() {
                 <div className='count'>
                     <ul>
                         <li>
-                            <p className='num'><strong data-count="6">6</strong><span>+개국</span></p>
+                            <p className='num'><strong data-count="10">10</strong><span>+개국</span></p>
                             <p className='des'>미국, 중국, 유럽, 동남아<br />해외법인 운영 중(국내 유일)</p>
                         </li>
                         <li>

@@ -2177,9 +2177,10 @@ span.br { display:block }
 	#sub .contetns.prd.vcs .txt-box p { font-size:1.8rem; }
 	#sub .contetns.prd.vcs .c-tit { font-size:2.2rem; }
 
+    #sub .contetns.prd.vcs .con-box .pad { padding-left:0; }
 	#sub .contetns.prd.vcs .con-box .cp-tit { margin:5rem 0 0; }
 	#sub .contetns.prd.vcs .con-box .cp-tit div:nth-child(1) { height:5.5rem; padding:0 4rem; font-size:1.8rem; }
-	#sub .contetns.prd.vcs .con-box .cp-tit div:nth-child(2) { top:2.5rem; height:5.5rem; font-size:1.9rem; padding:0 4rem 0 12rem; }
+	#sub .contetns.prd.vcs .con-box .cp-tit div:nth-child(2) { top:2.5rem; height:5.5rem; font-size:1.6rem; padding:0 4rem 0 12rem; }
 
 	#sub .contetns.prd.vcs .con-box .cp-con { background:none; padding:5rem 0 !important; }
 	#sub .contetns.prd.vcs .con-box .cp-con.two { background:none; }
@@ -2211,10 +2212,6 @@ span.br { display:block }
 	#sub .contetns.prd.vcs .c-tit { font-size:1.9rem; }
 	#sub .contetns.prd.vcs .con-box { margin:4rem 0 0; }
 
-	#sub .contetns.prd.vcs .con-box .cp-tit { height:auto; margin:3rem 0 0; }
-	#sub .contetns.prd.vcs .con-box .cp-tit div:nth-child(1) { position:static; display:inline-flex; height:4rem; font-size:1.5rem; padding:0 3rem; clip-path:polygon(1rem 0%, 100% 0%, calc(100% - 1rem) 100%, 0% 100%); }
-	#sub .contetns.prd.vcs .con-box .cp-tit div:nth-child(2) { position:static; display:flex; margin-top:0.5rem; height:auto; min-height:5rem; padding:1rem 2rem 1rem 3rem; font-size:1.7rem; clip-path:polygon(1rem 0%, 100% 0%, calc(100% - 1rem) 100%, 0% 100%); line-height:1.4; top:0; left:0; }
-
 	#sub .contetns.prd.vcs .ul-con-list { margin:3rem 0 0; }
 	#sub .contetns.prd.vcs .ul-con-list li,
 	#sub .contetns.prd.vcs .ul-con-list li:nth-child(1),
@@ -2232,10 +2229,11 @@ span.br { display:block }
 
 	#sub .contetns.prd.vcs .ul-con-list3 li { width:calc(50% - 1rem); }
 
-	#sub .contetns.prd.vcs .compare-table-wrap { overflow-x:auto; overflow-y:hidden; }
-	#sub .contetns.prd.vcs .compare-table { min-width:50rem; }
-	#sub .contetns.prd.vcs .compare-table thead th { font-size:1.5rem; padding:1.2rem; }
-	#sub .contetns.prd.vcs .compare-table tbody td { font-size:1.5rem; padding:1.5rem 1.2rem; }
+	#sub .contetns.prd.vcs .compare-table-wrap { overflow-x:visible; overflow-y:hidden; }
+	#sub .contetns.prd.vcs .compare-table { min-width:0; width:100%; }
+	#sub .contetns.prd.vcs .compare-table thead th { font-size:1.4rem; padding:0.8rem 0.6rem; }
+	#sub .contetns.prd.vcs .compare-table tbody td { font-size:1.4rem; padding:0.8rem 0.6rem; }
+    #sub .contetns.prd.vcs .compare-table tbody td.td-after::before { display:none; }
 
 	#sub .contetns.prd.vcs .section_kiosk { padding:4rem 2rem 6rem; background:none; }
 	#sub .contetns.prd.vcs .section_kiosk .con-banner { border-radius:3rem 0 3rem 0; padding:4rem 3rem; }
@@ -2251,8 +2249,8 @@ span.br { display:block }
 	#sub .contetns.prd.vcs .ul-con-list3 { flex-direction:column; align-items:center; }
 	#sub .contetns.prd.vcs .ul-con-list3 li { width:100%;  }
 
-	#sub .contetns.prd.vcs .compare-table thead th { font-size:1.3rem; padding:1rem; }
-	#sub .contetns.prd.vcs .compare-table tbody td { font-size:1.3rem; padding:1rem; }
+	#sub .contetns.prd.vcs .compare-table thead th { font-size:1.2rem; padding:0.6rem 0.5rem; }
+	#sub .contetns.prd.vcs .compare-table tbody td { font-size:1.2rem; padding:0.6rem 0.5rem; }
 	#sub .contetns.prd.vcs .compare-table tbody td.td-after { padding-left:3rem; }
 
 	#sub .contetns.prd.vcs .section_kiosk .con-banner .txtBox h3 { font-size:1.9rem; }

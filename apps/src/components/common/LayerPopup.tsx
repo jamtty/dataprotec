@@ -14,7 +14,7 @@ interface PopupItem {
   disable_hours: number
 }
 
-const API_BASE = import.meta.env.PROD ? '/renewal_react_v1/backend' : '/renewal_react_v1/backend'
+const API_BASE = '/backend'
 
 // disable_hours 동안 다시 보지 않기 - localStorage 기반
 function isDismissed(id: number): boolean {

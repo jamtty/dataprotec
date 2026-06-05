@@ -19,7 +19,7 @@ require_once dirname(__DIR__) . '/jwt.php';
 
 // ── 업로드 기본 경로 (서버 절대경로 & 웹 경로) ──────────────────
 define('UPLOAD_DIR',      dirname(__DIR__, 2) . '/data/file/news_room/');
-define('UPLOAD_WEB_PATH', '/renewal_react_v1/data/file/news_room/');
+define('UPLOAD_WEB_PATH', '/data/file/news_room/');
 define('BO_TABLE_NEWSROOM', 'news_room');
 
 // ── 허용 파일 확장자 ─────────────────────────────────────────────
@@ -214,8 +214,8 @@ try {
                     if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/', (string)$row['content'], $imgM)) {
                         $imgUrl = $imgM[1];
                         $imgUrl = preg_replace(
-                            '#https?://(?:www\.)?dataprotec\.co\.kr/renewal(?:_react_v1)?/data/#',
-                            '/renewal_react_v1/data/',
+                            '#https?://(?:www\.)?dataprotec\.co\.kr/(?:renewal(?:_react_v1)?/)?data/#',
+                            '/data/',
                             $imgUrl
                         );
                         $row['thumbnail'] = $imgUrl;
@@ -277,8 +277,8 @@ try {
                 // g5_board_file에 bf_no=0으로 삽입
                 $pdo->prepare(
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                     VALUES (?,?,0,?,?,?,?,?,0,0,1,0,\'\',NOW())'
-                )->execute([BO_TABLE_NEWSROOM, $newId, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                     VALUES (?,?,0,?,?,\'\',?,?,0,0,1,0,\'\',NOW())'
+                )->execute([BO_TABLE_NEWSROOM, $newId, $saved['ori_name'], $saved['file_name'], 'local', $saved['file_size']]);
                 // wr_2 필드 저장 생략 — 최신 코드에서는 g5_board_file 사용
             }
 
@@ -288,8 +288,8 @@ try {
                 // 다운로드 파일은 항상 bf_no=1 슬롯으로 저장
                 $pdo->prepare(
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                     VALUES (?,?,1,?,?,?,?,?,0,0,0,0,\'\',NOW())'
-                )->execute([BO_TABLE_NEWSROOM, $newId, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                     VALUES (?,?,1,?,?,\'\',?,?,0,0,0,0,\'\',NOW())'
+                )->execute([BO_TABLE_NEWSROOM, $newId, $saved['ori_name'], $saved['file_name'], 'local', $saved['file_size']]);
             }
 
             $pdo->commit();
@@ -332,17 +332,18 @@ try {
                 $oldRow = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0');
                 $oldRow->execute([BO_TABLE_NEWSROOM, $id]);
                 $oldFile = $oldRow->fetchColumn();
+                // bf_file 여부와 관계없이 기존 DB 레코드 삭제 (bf_fileurl만 있는 구 데이터 포함)
+                $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0')
+                    ->execute([BO_TABLE_NEWSROOM, $id]);
                 if ($oldFile) {
                     $absOld = UPLOAD_DIR . $oldFile;
                     if (file_exists($absOld)) @unlink($absOld);
-                    $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=0')
-                        ->execute([BO_TABLE_NEWSROOM, $id]);
                 }
                 $saved = saveUploadedFile($_FILES['thumbnail']);
                 $pdo->prepare(
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                     VALUES (?,?,0,?,?,?,?,?,0,0,1,0,\'\',NOW())'
-                )->execute([BO_TABLE_NEWSROOM, $id, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                     VALUES (?,?,0,?,?,\'\',?,?,0,0,1,0,\'\',NOW())'
+                )->execute([BO_TABLE_NEWSROOM, $id, $saved['ori_name'], $saved['file_name'], 'local', $saved['file_size']]);
                 // wr_2 필드 저장 생략 — 최신 코드에서는 g5_board_file 사용
             }
 
@@ -351,17 +352,17 @@ try {
                 $oldRow = $pdo->prepare('SELECT bf_file FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1');
                 $oldRow->execute([BO_TABLE_NEWSROOM, $id]);
                 $oldFile = $oldRow->fetchColumn();
+                $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1')
+                    ->execute([BO_TABLE_NEWSROOM, $id]);
                 if ($oldFile) {
                     $absOld = UPLOAD_DIR . $oldFile;
                     if (file_exists($absOld)) @unlink($absOld);
-                    $pdo->prepare('DELETE FROM g5_board_file WHERE bo_table=? AND wr_id=? AND bf_no=1')
-                        ->execute([BO_TABLE_NEWSROOM, $id]);
                 }
                 $saved = saveUploadedFile($_FILES['download_file']);
                 $pdo->prepare(
                     'INSERT INTO g5_board_file (bo_table, wr_id, bf_no, bf_source, bf_file, bf_fileurl, bf_storage, bf_filesize, bf_width, bf_height, bf_type, bf_download, bf_content, bf_datetime)
-                     VALUES (?,?,1,?,?,?,?,?,0,0,0,0,\'\',NOW())'
-                )->execute([BO_TABLE_NEWSROOM, $id, $saved['ori_name'], $saved['file_name'], $saved['file_path'], 'local', $saved['file_size']]);
+                     VALUES (?,?,1,?,?,\'\',?,?,0,0,0,0,\'\',NOW())'
+                )->execute([BO_TABLE_NEWSROOM, $id, $saved['ori_name'], $saved['file_name'], 'local', $saved['file_size']]);
             }
 
             $pdo->commit();

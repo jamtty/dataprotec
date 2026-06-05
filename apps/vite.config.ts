@@ -6,7 +6,7 @@ import path from 'node:path'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/renewal_react_v1/' : '/',
+  base: '/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => ({
           '.gif': 'image/gif', '.webp': 'image/webp', '.svg': 'image/svg+xml',
           '.pdf': 'application/pdf',
         }
-        server.middlewares.use('/renewal_react_v1/data', (req: any, res: any, next: any) => {
+        server.middlewares.use('/data', (req: any, res: any, next: any) => {
           const reqPath = decodeURIComponent((req.url as string) ?? '/')
           const filePath = path.resolve(dataDir, '.' + reqPath)
           // path traversal 방지
@@ -48,7 +48,7 @@ export default defineConfig(({ mode }) => ({
       usePolling: true,
     },
     proxy: {
-      '/renewal_react_v1/backend': {
+      '/backend': {
         target: 'https://www.dataprotec.co.kr',
         changeOrigin: true,
         secure: false,
@@ -61,7 +61,7 @@ export default defineConfig(({ mode }) => ({
           })
         },
       },
-      '/renewal_react_v1/data': {
+      '/data': {
         target: 'https://www.dataprotec.co.kr',
         changeOrigin: true,
         secure: false,

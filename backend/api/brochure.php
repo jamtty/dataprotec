@@ -18,7 +18,7 @@ require_once dirname(__DIR__) . '/db.php';
 require_once dirname(__DIR__) . '/jwt.php';
 
 define('BRO_UPLOAD_DIR',      dirname(__DIR__, 2) . '/uploads/brochure/');
-define('BRO_UPLOAD_WEB_PATH', '/renewal_react_v1/uploads/brochure/');
+define('BRO_UPLOAD_WEB_PATH', '/uploads/brochure/');
 define('BRO_ALLOWED_EXTS',    ['jpg','jpeg','png','gif','webp','pdf','doc','docx','xls','xlsx','ppt','pptx','zip','txt']);
 define('BRO_MAX_FILE_SIZE',   20 * 1024 * 1024);
 
