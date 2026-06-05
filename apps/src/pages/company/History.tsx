@@ -22,6 +22,11 @@ function CompanyHistory() {
                 <td></td>
               </tr>
               <tr>
+                <td data-aos="fade-up" data-aos-delay="200">2026.04</td>
+                <td><img src={company2BgLinePoint} data-aos="fade-up" data-aos-delay="200" alt="" /></td>
+                <td data-aos="fade-up" data-aos-delay="200">무인 스마트기기 대여 및 반납기 특허</td>
+              </tr>
+              <tr>
                 <td data-aos="fade-up" data-aos-delay="200">2024.10</td>
                 <td><img src={company2BgLinePoint} data-aos="fade-up" data-aos-delay="200" alt="" /></td>
                 <td data-aos="fade-up" data-aos-delay="200">DPT-i ver.2.0 출시</td>

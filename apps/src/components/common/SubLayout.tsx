@@ -25,11 +25,16 @@ function SubLayout({ visualClass, visualTitle, lnbItems, children }: SubLayoutPr
   const location = useLocation()
 
   useEffect(() => {
-    AOS.init({ duration: 800, once: true, offset: 50 })
+    AOS.init({ duration: 800, once: true, offset: -150 })
     window.scrollTo(0, 0)
+    // DOM 렌더 완료 후 AOS 재스캔
+    const t = setTimeout(() => AOS.refresh(), 100)
     const handleScroll = () => setLnbFixed(window.scrollY > 10)
     window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      clearTimeout(t)
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   useEffect(() => {
