@@ -494,11 +494,11 @@ span.br { display:block }
 #sub .lnb ul li { position:relative; width:18.5rem; text-align:center; border-right:1px solid #ddd }
 #sub .lnb ul li:last-child { background:none }
 #sub .lnb ul li a { display:block; font-size:1.8rem; color:#333; position:relative; z-index:3 }
-#sub .lnb ul li:hover a { color:#0064af }
+#sub .lnb ul li:hover a { color:#003399 }
 #sub .lnb ul li.active a { color:#fff }
 #sub .lnb ul li.active .lnb_bg { opacity:1 }
 #sub .lnb ul li:hover .lnb_bg { opacity:1 }
-.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#0064af; z-index:1; transition:opacity 0.3s }
+.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#003399; z-index:1; transition:opacity 0.3s }
 
 
 /* 서브 컨텐츠 */
@@ -762,9 +762,9 @@ span.br { display:block }
 	#sub .lnb ul li { position:relative; width:18.5rem; text-align:center; border-right:1px solid #ddd }
 	#sub .lnb ul li:last-child { background:none }
 	#sub .lnb ul li a { display:block; font-size:1.8rem; color:#333; position:relative; z-index:3 }
-	#sub .lnb ul li:hover a { color:#0064af }
+	#sub .lnb ul li:hover a { color:#003399 }
 	#sub .lnb ul li.active a { color:#fff }
-	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#0064af; z-index:1 }
+	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#003399; z-index:1 }
 
 
 	/* 서브 컨텐츠 */
@@ -858,9 +858,9 @@ span.br { display:block }
 	#sub .lnb ul li:nth-child(4) { border-bottom:1px solid #ddd }
 	#sub .lnb ul li:last-child { background:none }
 	#sub .lnb ul li a { display:block; font-size:1.8rem; color:#333; position:relative; z-index:3 }
-	#sub .lnb ul li:hover a { color:#0064af }
+	#sub .lnb ul li:hover a { color:#003399 }
 	#sub .lnb ul li.active a { color:#fff }
-	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#0064af; z-index:1 }
+	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#003399; z-index:1 }
 
 
 	/* 서브 컨텐츠 */
@@ -968,9 +968,9 @@ span.br { display:block }
 	#sub .lnb ul li:nth-child(4) { border-bottom:1px solid #ddd }
 	#sub .lnb ul li:last-child { background:none }
 	#sub .lnb ul li a { display:block; font-size:1.8rem; color:#333; position:relative; z-index:3 }
-	#sub .lnb ul li:hover a { color:#0064af }
+	#sub .lnb ul li:hover a { color:#003399 }
 	#sub .lnb ul li.active a { color:#fff }
-	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#0064af; z-index:1 }
+	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#003399; z-index:1 }
 
 	/* 회사소개 CEO 인사말 */
 	#sub .contetns.company1 .title_area { margin:0 0 6rem; width:60%; text-align:left }
@@ -1061,9 +1061,9 @@ span.br { display:block }
 	#sub .lnb ul li:nth-child(2) { border-bottom:1px solid #ddd }
 	#sub .lnb ul li:last-child { background:none }
 	#sub .lnb ul li a { display:block; font-size:1.8rem; color:#333; position:relative; z-index:3 }
-	#sub .lnb ul li:hover a { color:#0064af }
+	#sub .lnb ul li:hover a { color:#003399 }
 	#sub .lnb ul li.active a { color:#fff }
-	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#0064af; z-index:1 }
+	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#003399; z-index:1 }
 
 	/* 회사소개 사업연혁 */
 	#sub .contetns.company2 table.history td { padding:0.7rem; font-size:1.5rem; color:#333; }
