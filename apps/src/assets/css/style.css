@@ -1990,7 +1990,7 @@ span.br { display:block }
 }
 
 /* 고객지원 */
-#sub .contetns.request1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:url('https://dataprotec.co.kr/renewal/theme/basic/img/request_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+#sub .contetns.request1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:url('../images/request_bg1.jpg') 50% 50% no-repeat; background-size:cover}
 
 #sub .contetns.request1 .section_con .tbl_width { border-top:2px solid #333 }
 #sub .contetns.request1 .section_con .tbl_width table.tbl_form { width:100%; }
@@ -2023,7 +2023,7 @@ span.br { display:block }
 @media all and (max-width:1023px) {
 	
 
-	#sub .contetns.request1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:30rem; background:url('https://dataprotec.co.kr/renewal/theme/basic/img/request_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+	#sub .contetns.request1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:30rem; background:url('../images/request_bg1.jpg') 50% 50% no-repeat; background-size:cover}
 
 	#sub .contetns.request1 .section_con .tbl_width { border-top:2px solid #333 }
 	#sub .contetns.request1 .section_con .tbl_width table.tbl_form { width:100%; }
@@ -2054,7 +2054,7 @@ span.br { display:block }
 
 @media all and (max-width:767px) {
 
-	#sub .contetns.request1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:20rem; background:url('https://dataprotec.co.kr/renewal/theme/basic/img/request_bg1.jpg') 50% 50% no-repeat; background-size:cover}
+	#sub .contetns.request1 .section1 { max-width:182rem; margin:0 auto; position:relative; height:20rem; background:url('../images/request_bg1.jpg') 50% 50% no-repeat; background-size:cover}
 
 
 	#sub .contetns.request1 .section_con .tbl_width { border-top:2px solid #333 }
