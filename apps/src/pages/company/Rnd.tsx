@@ -20,12 +20,11 @@ import company3Con4_6 from '../../assets/images/company3_con4_6.jpg'
 import company3Con4_7 from '../../assets/images/company3_con4_7.jpg'
 import company3Con4_8 from '../../assets/images/company3_con4_8.jpg'
 import blankImg from '../../assets/images/blank.jpg'
-import productCon5_1 from '../../assets/images/product_con5_1.jpg'
-import productCon5_2 from '../../assets/images/product_con5_2.jpg'
-import productCon5_3 from '../../assets/images/product_con5_3.jpg'
-import productCon5_4 from '../../assets/images/product_con5_4.jpg'
-import productCon5_5 from '../../assets/images/product_con5_5.jpg'
-import productCon5_6 from '../../assets/images/product_con5_6.jpg'
+import productCon5_1 from '../../assets/images/main_cl_img_1.png'
+import productCon5_2 from '../../assets/images/main_cl_img_2.png'
+import productCon5_3 from '../../assets/images/main_cl_img_3.png'
+import productCon5_4 from '../../assets/images/main_cl_img_4.png'
+import productCon5_5 from '../../assets/images/main_cl_img_5.png'
 
 function CompanyRnd() {
   return (
@@ -108,12 +107,11 @@ function CompanyRnd() {
           <h3><span data-aos="fade-right"></span><div data-aos="fade-up" data-aos-delay="200">주요 고객사</div></h3>
           <div className="img4">
             <ul>
-              <li data-aos="fade-up"><img src={productCon5_1} alt="" /></li>
-              <li data-aos="fade-up" data-aos-delay="100"><img src={productCon5_2} alt="" /></li>
-              <li data-aos="fade-up" data-aos-delay="150"><img src={productCon5_3} alt="" /></li>
-              <li data-aos="fade-up" data-aos-delay="200"><img src={productCon5_4} alt="" /></li>
-              <li data-aos="fade-up" data-aos-delay="250"><img src={productCon5_5} alt="" /></li>
-              <li data-aos="fade-up" data-aos-delay="300"><img src={productCon5_6} alt="" /></li>
+              <li data-aos="fade-up"><img src={productCon5_1} alt="고객사" /></li>
+              <li data-aos="fade-up" data-aos-delay="100"><img src={productCon5_2} alt="고객사" /></li>
+              <li data-aos="fade-up" data-aos-delay="150"><img src={productCon5_3} alt="고객사" /></li>
+              <li data-aos="fade-up" data-aos-delay="200"><img src={productCon5_4} alt="고객사" /></li>
+              <li data-aos="fade-up" data-aos-delay="250"><img src={productCon5_5} alt="고객사" /></li>
             </ul>
           </div>
         </div>
