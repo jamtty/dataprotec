@@ -1272,6 +1272,14 @@ span.br { display:block }
 #sub table.pyo4 .blue { color:#1c94c3; }
 
 
+@media all and (min-width:1024px) {
+    /* 이미지 사이즈 전역 */
+    #sub .contetns.prd .section1 .img img { max-width:80% !important; }
+    /*
+    #sub .contetns.prd.two .img img,
+    #sub .contetns.prd.three .img img { width:95% !important; }
+    */
+}
 
 @media all and (max-width:1023px) {
 	
@@ -1651,14 +1659,6 @@ span.br { display:block }
 	#sub .contetns.prd.five .section3 .img img { width:16rem }
 
 }
-
-/* 이미지 사이즈 전역 */
-/*
-.img img { max-width:80% !important; }
-#sub .contetns.prd.two .img img,
-#sub .contetns.prd.three .img img { width:95% !important; }
-*/
-
 
 #bottom { margin:18rem auto 0; padding:6rem 0; border-top:1px solid #ccc; }
 #bottom .inner { max-width:159.3rem; margin:0 auto; padding-left:2rem; }
@@ -2259,4 +2259,3 @@ span.br { display:block }
 	#sub .contetns.prd.vcs .section_kiosk .con-banner .txtBox p { font-size:1.6rem; }
 	#sub .contetns.prd.vcs .section_kiosk .con-banner .img_kiosk { max-width:17rem; }
 }
-
