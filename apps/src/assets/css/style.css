@@ -1274,11 +1274,11 @@ span.br { display:block }
 
 @media all and (min-width:1024px) {
     /* 이미지 사이즈 전역 */
-    #sub .contetns.prd .section1 .img img { max-width:80% !important; }
-    /*
-    #sub .contetns.prd.two .img img,
-    #sub .contetns.prd.three .img img { width:95% !important; }
-    */
+    /*#sub .contetns.prd .section1 .img img { max-width:80% !important; } */
+    
+    #sub .contetns.prd.one .img img { width:90% !important; }
+    #sub .contetns.prd.four .img img { width:80% !important; }
+    #sub .contetns.prd.five .img img { width:80% !important; }
 }
 
 @media all and (max-width:1023px) {
