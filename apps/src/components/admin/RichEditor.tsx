@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef, DragEvent as ReactDragEvent } from 'react'
 import { useEditor, EditorContent, Extension, Node, mergeAttributes } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
@@ -161,6 +161,16 @@ const COLORS = [
   '#9900ff',
 ]
 
+// 이미지 미리보기 모달 아이템
+interface ImgItem {
+  file: File
+  previewUrl: string
+  id: number
+}
+
+let _imgSeq = 0
+function nextId() { return ++_imgSeq }
+
 export default function RichEditor({ value, onChange, placeholder }: Props) {
   const [htmlMode, setHtmlMode] = useState(false)
   const [htmlSource, setHtmlSource] = useState('')
@@ -170,6 +180,12 @@ export default function RichEditor({ value, onChange, placeholder }: Props) {
   const [showColorPicker, setShowColorPicker] = useState(false)
   const [isDraggingOver, setIsDraggingOver] = useState(false)
   const isInternalChange = useRef(false)
+
+  // 이미지 미리보기 모달
+  const [imgItems, setImgItems] = useState<ImgItem[]>([])
+  const [showImgModal, setShowImgModal] = useState(false)
+  const [imgUploading, setImgUploading] = useState(false)
+  const dragIndexRef = useRef<number | null>(null)
 
   const editor = useEditor({
     extensions: [
@@ -240,51 +256,117 @@ export default function RichEditor({ value, onChange, placeholder }: Props) {
     editor.commands.setContent(resolveContentUrls(value || ''), { emitUpdate: false })
   }, [editor, value])
 
-  // 이미지 업로드 (다중 선택 지원)
+  // 파일 목록을 모달에 추가
+  const openImgModal = useCallback((files: File[]) => {
+    const imgs = files.filter((f) => f.type.startsWith('image/'))
+    if (imgs.length === 0) return
+    setImgItems((prev) => [
+      ...prev,
+      ...imgs.map((file) => ({
+        file,
+        previewUrl: URL.createObjectURL(file),
+        id: nextId(),
+      })),
+    ])
+    setShowImgModal(true)
+  }, [])
+
+  // 이미지 업로드 버튼
   const handleImageInsert = useCallback(() => {
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = 'image/*'
     input.multiple = true
     input.click()
-    input.onchange = async () => {
-      const files = input.files
-      if (!files || files.length === 0 || !editor) return
-      const errors: string[] = []
-      for (const file of Array.from(files)) {
-        try {
-          const url = await uploadEditorImage(file)
-          editor.chain().focus().insertContent(`<p><img src="${toAbsUrl(url)}" /></p><p><br></p>`).run()
-        } catch (err) {
-          errors.push(`${file.name}: ${err instanceof Error ? err.message : '업로드 실패'}`)
-        }
-      }
-      if (errors.length > 0) {
-        alert('일부 이미지 업로드에 실패했습니다.\n' + errors.join('\n'))
+    input.onchange = () => {
+      if (input.files && input.files.length > 0)
+        openImgModal(Array.from(input.files))
+    }
+  }, [openImgModal])
+
+  // 모달 내 파일 추가
+  const handleImgModalAdd = useCallback(() => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/*'
+    input.multiple = true
+    input.click()
+    input.onchange = () => {
+      if (input.files && input.files.length > 0)
+        openImgModal(Array.from(input.files))
+    }
+  }, [openImgModal])
+
+  // 모달 닫기 (미리보기 URL 해제)
+  const closeImgModal = useCallback(() => {
+    setImgItems((prev) => { prev.forEach((i) => URL.revokeObjectURL(i.previewUrl)); return [] })
+    setShowImgModal(false)
+  }, [])
+
+  // 아이템 삭제
+  const removeImgItem = useCallback((id: number) => {
+    setImgItems((prev) => {
+      const item = prev.find((i) => i.id === id)
+      if (item) URL.revokeObjectURL(item.previewUrl)
+      return prev.filter((i) => i.id !== id)
+    })
+  }, [])
+
+  // 순서 이동
+  const moveImgItem = useCallback((index: number, dir: -1 | 1) => {
+    setImgItems((prev) => {
+      const next = [...prev]
+      const swap = index + dir
+      if (swap < 0 || swap >= next.length) return prev
+      ;[next[index], next[swap]] = [next[swap], next[index]]
+      return next
+    })
+  }, [])
+
+  // 드래그 정렬
+  const handleItemDragStart = useCallback((index: number) => {
+    dragIndexRef.current = index
+  }, [])
+  const handleItemDragOver = useCallback((e: ReactDragEvent, index: number) => {
+    e.preventDefault()
+    const from = dragIndexRef.current
+    if (from === null || from === index) return
+    setImgItems((prev) => {
+      const next = [...prev]
+      const [moved] = next.splice(from, 1)
+      next.splice(index, 0, moved)
+      dragIndexRef.current = index
+      return next
+    })
+  }, [])
+
+  // 최종 에디터 삽입
+  const handleImgConfirm = useCallback(async () => {
+    if (!editor || imgItems.length === 0) return
+    setImgUploading(true)
+    const errors: string[] = []
+    for (const item of imgItems) {
+      try {
+        const url = await uploadEditorImage(item.file)
+        editor.chain().focus().insertContent(`<p><img src="${toAbsUrl(url)}" /></p><p><br></p>`).run()
+      } catch (err) {
+        errors.push(`${item.file.name}: ${err instanceof Error ? err.message : '업로드 실패'}`)
       }
     }
-  }, [editor])
+    setImgUploading(false)
+    closeImgModal()
+    if (errors.length > 0) alert('일부 이미지 업로드에 실패했습니다.\n' + errors.join('\n'))
+  }, [editor, imgItems, closeImgModal])
 
   // 드래그앤드롭 이미지 업로드
-  const handleDrop = useCallback(async (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setIsDraggingOver(false)
     if (!editor) return
     const files = Array.from(e.dataTransfer.files).filter((f) => f.type.startsWith('image/'))
     if (files.length === 0) return
-    const errors: string[] = []
-    for (const file of files) {
-      try {
-        const url = await uploadEditorImage(file)
-        editor.chain().focus().insertContent(`<p><img src="${toAbsUrl(url)}" /></p><p><br></p>`).run()
-      } catch (err) {
-        errors.push(`${file.name}: ${err instanceof Error ? err.message : '업로드 실패'}`)
-      }
-    }
-    if (errors.length > 0) {
-      alert('일부 이미지 업로드에 실패했습니다.\n' + errors.join('\n'))
-    }
-  }, [editor])
+    openImgModal(files)
+  }, [editor, openImgModal])
 
   // 유튜브 삽입
   const handleYoutube = useCallback(() => {
@@ -586,6 +668,52 @@ export default function RichEditor({ value, onChange, placeholder }: Props) {
         />
       ) : (
         <EditorContent editor={editor} className="te-content" />
+      )}
+
+      {/* ── 이미지 미리보기 모달 ── */}
+      {showImgModal && (
+        <div className="img_modal_overlay" onClick={closeImgModal}>
+          <div className="img_modal_box" onClick={(e) => e.stopPropagation()}>
+            <div className="img_modal_header">
+              <span className="img_modal_title">이미지 미리보기</span>
+              <button type="button" className="img_modal_close" onClick={closeImgModal}>✕</button>
+            </div>
+            <div className="img_modal_list">
+              {imgItems.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="img_modal_item"
+                  draggable
+                  onDragStart={() => handleItemDragStart(index)}
+                  onDragOver={(e) => handleItemDragOver(e, index)}
+                >
+                  <span className="img_modal_drag_handle">⠿</span>
+                  <img src={item.previewUrl} alt={item.file.name} className="img_modal_thumb" />
+                  <span className="img_modal_name">{item.file.name}</span>
+                  <div className="img_modal_order_btns">
+                    <button type="button" disabled={index === 0} onClick={() => moveImgItem(index, -1)}>▲</button>
+                    <button type="button" disabled={index === imgItems.length - 1} onClick={() => moveImgItem(index, 1)}>▼</button>
+                  </div>
+                  <button type="button" className="img_modal_remove" onClick={() => removeImgItem(item.id)}>✕</button>
+                </div>
+              ))}
+            </div>
+            <div className="img_modal_footer">
+              <button type="button" className="img_modal_add" onClick={handleImgModalAdd}>+ 이미지 추가</button>
+              <div className="img_modal_footer_right">
+                <button type="button" className="img_modal_cancel" onClick={closeImgModal}>취소</button>
+                <button
+                  type="button"
+                  className="img_modal_confirm"
+                  disabled={imgItems.length === 0 || imgUploading}
+                  onClick={handleImgConfirm}
+                >
+                  {imgUploading ? '업로드 중...' : `에디터에 삽입 (${imgItems.length})`}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ── 표 삽입 다이얼로그 ── */}
