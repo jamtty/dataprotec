@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect, useRef, useCallback } from 'react'
 import CompanyLayout from './CompanyLayout'
-import company2Bg1 from '../../assets/images/company2_bg1.jpg'
+import hisImg from '../../assets/images/his_img.png'
 
 interface HistoryEvent {
   month: string
@@ -23,7 +23,7 @@ const PERIODS: Period[] = [
   {
     label: '현재~2022',
     title: '현재 ~ 2022',
-    desc: '혁신적인 기술력과 신뢰를 바탕으로\n보안 솔루션 분야를 선도하고 있습니다.',
+    desc: '핵심 제품 개발과 특허 등록으로\n기술 경쟁력을 강화했습니다.',
     years: [
       { year: 2026, events: [{ month: '04', text: '무인 스마트기기 대여 및 반납기 특허' }] },
       { year: 2024, events: [{ month: '10', text: 'DPT-i ver.2.0 출시' }] },
@@ -40,7 +40,7 @@ const PERIODS: Period[] = [
   {
     label: '2021~2017',
     title: '2021 ~ 2017',
-    desc: '지속적인 기술 혁신과 사업 확장으로\n보안 전문 기업으로 성장하였습니다.',
+    desc: '핵심 제품 개발과 특허 등록으로\n기술 경쟁력을 강화했습니다.',
     years: [
       { year: 2021, events: [{ month: '10', text: 'Passport Application Kiosk Device 특허' }] },
       {
@@ -73,7 +73,7 @@ const PERIODS: Period[] = [
   {
     label: '2016~2012',
     title: '2016 ~ 2012',
-    desc: '핵심 제품 개발과 특허 취득으로\n기술 경쟁력을 강화하였습니다.',
+    desc: '핵심 제품 개발과 특허 등록으로\n기술 경쟁력을 강화했습니다.',
     years: [
       { year: 2016, events: [{ month: '03', text: 'DPT Kiosk System 개발' }] },
       { year: 2015, events: [{ month: '08', text: 'Digital Eraser Appliance 개발' }] },
@@ -91,7 +91,7 @@ const PERIODS: Period[] = [
   {
     label: '2011~2009',
     title: '2011 ~ 2009',
-    desc: '데이타프로텍의 시작,\n창업과 첫 도전의 시간입니다.',
+    desc: '핵심 제품 개발과 특허 등록으로\n기술 경쟁력을 강화했습니다.',
     years: [
       { year: 2010, events: [{ month: '04', text: 'Digital Eraser 개발' }] },
       {
@@ -238,7 +238,7 @@ function CompanyHistory() {
 
         {/* 메인 레이아웃 */}
         <div className="htl-outer">
-          <div className="responsive htl-main-wrap">
+          <div className="htl-main-wrap">
 
             {/* 왼쪽 sticky 패널 */}
             <div className="htl-left-panel">
@@ -246,7 +246,7 @@ function CompanyHistory() {
                 <h3 className="htl-period-title">{currentPeriod.title}</h3>
                 <p className="htl-period-desc">{currentPeriod.desc}</p>
                 <div className="htl-left-img">
-                  <img src={company2Bg1} alt="데이타프로텍" />
+                  <img src={hisImg} alt="데이타프로텍" />
                 </div>
               </div>
             </div>
