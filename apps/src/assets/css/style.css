@@ -542,6 +542,39 @@ span.br { display:block }
 #sub .contetns.company2 table.history td { padding:1.5rem; font-size:2rem; color:#333; }
 #sub .contetns.company2 table.history td:nth-child(2) { text-align:center; background:url('../images/company2_bg_line_body.jpg') 50% 0 repeat-y; }
 
+/* 회사소개 사업연혁 - 새 타임라인 레이아웃 */
+.htl-tab-nav { margin:4rem 0 0; position:sticky; top:6rem; background:#fff; z-index:50; border-bottom:1px solid transparent; transition:border-color 0.25s; }
+.htl-tab-nav.is-sticky { border-bottom-color:#e0e0e0; }
+.htl-tab-inner { display:flex; justify-content:center; align-items:center; padding:0; height:auto; }
+.htl-tab-btn { background:none; border:none; padding:2rem 3rem; font-size:2.4rem; color:#aaa; cursor:pointer; font-weight:400; font-family:inherit; white-space:nowrap; transition:color 0.2s; }
+.htl-tab-btn.active { color:#003399; font-weight:bold; }
+.htl-tab-divider { color:#ccc; font-size:1.6rem; user-select:none; pointer-events:none; }
+.htl-outer { padding:8rem 0 12rem; }
+.htl-main-wrap { display:flex; gap:0; align-items:flex-start; height:auto; }
+.htl-left-panel { flex:1; position:sticky; top:18rem; flex-shrink:0; }
+.htl-left-inner { padding-right:7rem; transition:opacity 0.25s ease; }
+.htl-left-inner.fading { opacity:0; }
+.htl-period-title { font-size:4.5rem; font-weight:bold; color:#111; margin-bottom:2rem; line-height:1.2; }
+.htl-period-desc { font-size:1.7rem; color:#555; line-height:1.9; white-space:pre-line; margin-bottom:3rem; }
+.htl-left-img { overflow:hidden; border-radius:4px; }
+.htl-left-img img { width:100%; height:30rem; object-fit:cover; display:block; }
+.htl-timeline-wrap { flex:1; min-width:0; position:relative;  }
+.htl-timeline-wrap::before { content:''; position:absolute; left:0.6rem; top:0.7rem; bottom:0; width:2px; background:#d8d8d8; z-index:0; }
+.htl-timeline-wrap::after { content:''; position:absolute; left:0.6rem; top:0.7rem; height:var(--fill-h, 0px); max-height:calc(100% - 0.7rem); width:2px; background:#003399; z-index:0; }
+.htl-period-section { padding-bottom:2rem; }
+.htl-year-group { display:flex; gap:0; }
+.htl-marker { flex-shrink:0; width:1.4rem; position:relative; z-index:1; padding-top:0; }
+.htl-dot { width:1.4rem; height:1.4rem; border-radius:50%; background:#d8d8d8; position:relative; z-index:1; transition:background 0.4s ease; }
+.htl-year-group.visible .htl-dot { background:#003399; }
+.htl-year-content { flex:1; min-width:0; padding-bottom:8rem; padding-left:6rem; position:relative; }
+.htl-year-content::before { content:''; position:absolute; left:0; top:0.65rem; width:4rem; height:1px; background:#d0d0d0; }
+.htl-year-num { font-size:3rem; font-weight:bold; color:#c0c0c0; margin-bottom:2rem; line-height:1; transition:color 0.4s ease; margin-top:-0.7rem; }
+.htl-year-group.visible .htl-year-num { color:#003399; }
+.htl-events { }
+.htl-event-item { display:flex; align-items:baseline; gap:2.5rem; padding:1.2rem 0;  }
+.htl-event-month { font-size:1.8rem; font-weight:bold; color:#333; flex-shrink:0; min-width:2.5rem; }
+.htl-event-text { font-size:1.7rem; color:#555; line-height:1.6; }
+
 /* 회사소개 R&D */
 #sub .contetns.company3 .section1 { max-width:182rem; margin:0 auto; position:relative; height:42rem; background:url('../images/company3_bg1.jpg') 50% 50% no-repeat; background-size:cover}
 
@@ -786,11 +819,15 @@ span.br { display:block }
 
 	/* 회사소개 사업연혁 */
 	#sub .contetns.company2 .section1 { height:30rem; }
-	#sub .contetns.company2 table.history { max-width:74rem; margin:0 auto }
-	#sub .contetns.company2 table.history tr:first-child td:nth-child(2) { height:14.1rem; background:url('../images/company2_bg_line_top.jpg') 50% 0 no-repeat; }
-	#sub .contetns.company2 table.history tr:last-child td:nth-child(2) { height:18rem; background:url('../images/company2_bg_line_bottom.jpg') 50% 0 no-repeat; }
-	#sub .contetns.company2 table.history td { padding:1rem; font-size:1.5rem; color:#333; }
-	#sub .contetns.company2 table.history td:nth-child(2) { text-align:center; background:url('../images/company2_bg_line_body.jpg') 50% 50% repeat-y; }
+	.htl-tab-btn { padding:1.5rem 2.5rem; font-size:1.5rem; }
+	.htl-left-panel { width:40%; }
+	.htl-left-inner { padding-right:4rem; }
+	.htl-period-title { font-size:3.8rem; }
+	.htl-period-desc { font-size:1.5rem; }
+	.htl-left-img img { height:24rem; }
+	.htl-year-num { font-size:2.6rem; }
+	.htl-event-month { font-size:1.6rem; }
+	.htl-event-text { font-size:1.5rem; }
 
 	/* 회사소개 R&D */
 	#sub .contetns.company3 .section_con .img.position { width:102.4rem; height:70rem; left:-2rem; text-align:center; }
@@ -982,6 +1019,12 @@ span.br { display:block }
 
 	/* 회사소개 사업연혁 */
 	#sub .contetns.company2 .section1 { height:20rem; }
+	.htl-main-wrap { flex-direction:column; }
+	.htl-left-panel { width:100%; position:relative; top:0; margin-bottom:4rem; }
+	.htl-left-inner { padding-right:0; }
+	.htl-left-img img { height:20rem; }
+	.htl-tab-nav { top:8rem; }
+	.htl-outer { padding:4rem 0 8rem; }
 
 	/* 회사소개 R&D */
 	#sub .contetns.company3 .section1 { height:20rem; }
@@ -1066,8 +1109,10 @@ span.br { display:block }
 	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#003399; z-index:1 }
 
 	/* 회사소개 사업연혁 */
-	#sub .contetns.company2 table.history td { padding:0.7rem; font-size:1.5rem; color:#333; }
-	#sub .contetns.company2 table.history td:first-child { width:8rem }
+	#sub .contetns.company2 .section1 { height:20rem; }
+	.htl-tab-btn { padding:1.2rem 1.8rem; font-size:1.4rem; }
+	.htl-period-title { font-size:3rem; }
+	.htl-year-num { font-size:2.2rem; }
 
 	/* 회사소개 R&D */
 	#sub .contetns.company3 .section_con .img.position { width:31rem; height:35rem; text-align:center; }

@@ -19,8 +19,8 @@ import { safeJson } from '@/utils/apiUtils'
 import { toAbsUrl } from '@/utils/uploadUrl'
 
 const API_BASE = import.meta.env.PROD
-  ? 'https://www.dataprotec.co.kr/renewal_react_v1/backend'
-  : '/renewal_react_v1/backend'
+  ? 'https://www.dataprotec.co.kr/backend'
+  : '/backend'
 
 // 저장된 상대경로 → 절대경로로 변환 (에디터 표시용)
 function resolveContentUrls(html: string): string {
