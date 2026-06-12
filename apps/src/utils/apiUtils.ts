@@ -20,7 +20,6 @@ export async function safeJson<T>(res: Response): Promise<T> {
     if (res.status === 500) throw new Error('서버 내부 오류가 발생했습니다. (500)')
     if (res.status === 403) throw new Error('접근이 거부되었습니다. (403)')
     if (res.status === 401) throw new Error('인증이 필요합니다. (401)')
-    const preview = text.slice(0, 200).replace(/\s+/g, ' ')
-    throw new Error(`서버가 올바르지 않은 응답을 반환했습니다. (HTTP ${res.status})\n응답: ${preview}`)
+    throw new Error(`서버가 올바르지 않은 응답을 반환했습니다. (HTTP ${res.status})`)
   }
 }
