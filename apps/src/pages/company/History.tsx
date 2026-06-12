@@ -23,7 +23,7 @@ const PERIODS: Period[] = [
   {
     label: '현재~2022',
     title: '현재 ~ 2022',
-    desc: '핵심 제품 개발과 특허 등록으로\n기술 경쟁력을 강화했습니다.',
+    desc: '통합보안의 기틀을 마련하고, 새로운 도약을 준비하다.',
     years: [
       { year: 2026, events: [{ month: '04', text: '무인 스마트기기 대여 및 반납기 특허' }] },
       { year: 2024, events: [{ month: '10', text: 'DPT-i ver.2.0 출시' }] },
@@ -40,7 +40,7 @@ const PERIODS: Period[] = [
   {
     label: '2021~2017',
     title: '2021 ~ 2017',
-    desc: '핵심 제품 개발과 특허 등록으로\n기술 경쟁력을 강화했습니다.',
+    desc: '국내외 첨단 기업의 물리보안을 책임지다.',
     years: [
       { year: 2021, events: [{ month: '10', text: 'Passport Application Kiosk Device 특허' }] },
       {
@@ -73,7 +73,7 @@ const PERIODS: Period[] = [
   {
     label: '2016~2012',
     title: '2016 ~ 2012',
-    desc: '핵심 제품 개발과 특허 등록으로\n기술 경쟁력을 강화했습니다.',
+    desc: '핵심 기술 고도화 사업으로 새로운 길을 개척하다.',
     years: [
       { year: 2016, events: [{ month: '03', text: 'DPT Kiosk System 개발' }] },
       { year: 2015, events: [{ month: '08', text: 'Digital Eraser Appliance 개발' }] },
@@ -91,7 +91,7 @@ const PERIODS: Period[] = [
   {
     label: '2011~2009',
     title: '2011 ~ 2009',
-    desc: '핵심 제품 개발과 특허 등록으로\n기술 경쟁력을 강화했습니다.',
+    desc: '특허 기술로 데이타프로텍 출범하다.',
     years: [
       { year: 2010, events: [{ month: '04', text: 'Digital Eraser 개발' }] },
       {
@@ -115,34 +115,55 @@ function CompanyHistory() {
   const tabNavRef = useRef<HTMLDivElement>(null)
   const tabSentinelRef = useRef<HTMLDivElement>(null)
   const timelineWrapRef = useRef<HTMLDivElement>(null)
+  const displayedPeriodIdxRef = useRef(0)
 
-  // 스크롤 시 세로 라인 fill 높이 업데이트 + 연도 컬러 동기화
+  // 스크롤 시 세로 라인 fill + 연도 컬러 + 활성 탭 / 왼쪽 패널 업데이트
   useEffect(() => {
     const wrap = timelineWrapRef.current
     if (!wrap) return
 
     const onScroll = () => {
+      // ── 세로 라인 fill ──
       const rect = wrap.getBoundingClientRect()
       if (rect.top >= window.innerHeight) {
         wrap.style.setProperty('--fill-h', '0px')
         setVisibleYears(new Set())
-        return
-      }
-      const fillPx = Math.max(0, Math.min(rect.height, window.innerHeight * 0.6 - rect.top))
-      wrap.style.setProperty('--fill-h', `${fillPx}px`)
+      } else {
+        const fillPx = Math.max(0, Math.min(rect.height, window.innerHeight * 0.6 - rect.top))
+        wrap.style.setProperty('--fill-h', `${fillPx}px`)
 
-      // fill 높이 기준으로 매번 visible 연도 재계산 (올라가면 제거)
-      const newVisible = new Set<number>()
-      wrap.querySelectorAll<HTMLElement>('.htl-year-group').forEach((group) => {
-        const dot = group.querySelector<HTMLElement>('.htl-dot')
-        if (!dot) return
-        const dotTop = dot.getBoundingClientRect().top - rect.top
-        if (fillPx >= dotTop + dot.offsetHeight / 2) {
-          newVisible.add(parseInt(group.dataset.year ?? '0', 10))
-        }
+        const newVisible = new Set<number>()
+        wrap.querySelectorAll<HTMLElement>('.htl-year-group').forEach((group) => {
+          const dot = group.querySelector<HTMLElement>('.htl-dot')
+          if (!dot) return
+          const dotTop = dot.getBoundingClientRect().top - rect.top
+          if (fillPx >= dotTop + dot.offsetHeight / 2) {
+            newVisible.add(parseInt(group.dataset.year ?? '0', 10))
+          }
+        })
+        setVisibleYears(newVisible)
+      }
+
+      // ── 활성 탭 / 왼쪽 패널 ──
+      // 뷰포트 40% 지점을 기준으로 어느 섹션이 활성인지 판단 (위/아래 스크롤 모두 정확)
+      const trigger = window.innerHeight * 0.4
+      let activeIdx = 0
+      sectionRefs.current.forEach((el, idx) => {
+        if (!el) return
+        if (el.getBoundingClientRect().top <= trigger) activeIdx = idx
       })
-      setVisibleYears(newVisible)
+
+      setActiveTab(activeIdx)
+      if (activeIdx !== displayedPeriodIdxRef.current) {
+        displayedPeriodIdxRef.current = activeIdx
+        setLeftFading(true)
+        setTimeout(() => {
+          setDisplayedPeriodIdx(activeIdx)
+          setLeftFading(false)
+        }, 250)
+      }
     }
+
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -171,35 +192,6 @@ function CompanyHistory() {
     const top = el.getBoundingClientRect().top + window.scrollY - headerH - tabH - 20
     window.scrollTo({ top, behavior: 'smooth' })
     setActiveTab(index)
-  }, [])
-
-  // 스크롤 시 활성 탭 / 왼쪽 패널 업데이트
-  useEffect(() => {
-    const observers: IntersectionObserver[] = []
-
-    sectionRefs.current.forEach((el, idx) => {
-      if (!el) return
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveTab(idx)
-            if (idx !== displayedPeriodIdx) {
-              setLeftFading(true)
-              setTimeout(() => {
-                setDisplayedPeriodIdx(idx)
-                setLeftFading(false)
-              }, 250)
-            }
-          }
-        },
-        { threshold: 0.15 },
-      )
-      obs.observe(el)
-      observers.push(obs)
-    })
-
-    return () => observers.forEach((o) => o.disconnect())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const currentPeriod = PERIODS[displayedPeriodIdx]
