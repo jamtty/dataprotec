@@ -930,7 +930,7 @@ function Main() {
                         </Link>
                     </li>
                     <li>
-                        <Link to='/promotion/material/2' className='pr-card'>
+                        <Link to='/promotion/material/6' className='pr-card'>
                             <span className='subject'>VCS<br />제품소개서</span>
                         </Link>
                     </li>
