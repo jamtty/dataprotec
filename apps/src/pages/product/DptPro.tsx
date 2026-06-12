@@ -1,4 +1,4 @@
-import ProductLayout from './ProductLayout'
+﻿import ProductLayout from './ProductLayout'
 import product2Bg1Img from '../../assets/images/product2_bg1_img.png'
 import icoGood from '../../assets/images/ico-good.png'
 import productCon1_1 from '../../assets/images/product_con1_1.jpg'
@@ -263,7 +263,7 @@ function DptPro() {
             <div className="line">
               <p className="green">솔루션 AS 및 기술문의</p>
               <p>
-                <strong>T.</strong> 070-7542-7788<br />
+                <strong>T.</strong> 1660-1614<br />
                 <strong>E.</strong> support@dataprotec.co.kr
               </p>
             </div>

@@ -1,4 +1,4 @@
-import ProductLayout from './ProductLayout'
+﻿import ProductLayout from './ProductLayout'
 import product3Bg1Img from '../../assets/images/product3_bg1_img.png'
 import product3Bg1Logo2 from '../../assets/images/product3_bg1_logo2.png'
 import product3Bg1Logo3 from '../../assets/images/product3_bg1_logo3.jpg'
@@ -331,7 +331,7 @@ function ProductEraser() {
             <div className="line">
               <p className="green">솔루션 AS 및 기술문의</p>
               <p>
-                <strong>T.</strong> 070-7542-7788<br />
+                <strong>T.</strong> 1660-1614<br />
                 <strong>E.</strong> support@dataprotec.co.kr
               </p>
             </div>

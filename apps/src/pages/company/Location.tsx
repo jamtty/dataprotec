@@ -1,4 +1,4 @@
-import CompanyLayout from './CompanyLayout'
+﻿import CompanyLayout from './CompanyLayout'
 
 function CompanyLocation() {
   return (
@@ -17,7 +17,7 @@ function CompanyLocation() {
           <h3><span data-aos="fade-right"></span><div data-aos="fade-up" data-aos-delay="200">데이타프로텍 본사 (기술개발연구소)</div></h3>
           <p>
             대구광역시 북구 칠곡중앙대로 427, 4층 / <span className="addr_br"></span>우편번호 41447<br /><br />
-            <strong>Tel.</strong> 031-701-0712 / 070-7542-7788(직통)<br />
+            <strong>Tel.</strong> 031-701-0712 / 1660-1614(직통)<br />
             <strong>Fax.</strong> 031-701-0714<br />
             <strong>Email.</strong> sales@dataprotec.co.kr
           </p>

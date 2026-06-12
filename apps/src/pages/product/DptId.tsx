@@ -279,7 +279,7 @@ function ProductDptId() {
             <div className="line">
               <p className="green">솔루션 AS 및 기술문의</p>
               <p>
-                <strong>T.</strong> 070-7542-7788<br />
+                <strong>T.</strong> 1660-1614<br />
                 <strong>E.</strong> support@dataprotec.co.kr
               </p>
             </div>
