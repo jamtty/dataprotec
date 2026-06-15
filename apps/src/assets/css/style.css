@@ -534,6 +534,51 @@ span.br { display:block }
 
 /* 회사소개 회사소개 */
 #sub .contetns.company_about .section_con p { font-size:2rem; color:#333; line-height:170%; margin:0 0 4rem; } 
+#sub .contetns.company_about .con-interaction-1 { position:relative; margin:4rem 0; }
+#sub .contetns.company_about .con-interaction-1 .ci1-bg { width:100%; display:block; height:auto; }
+#sub .contetns.company_about .con-interaction-1 .ci1-item { position:absolute; }
+#sub .contetns.company_about .con-interaction-1 .ci1-item-1 { left:10%; top:20%; }
+#sub .contetns.company_about .con-interaction-1 .ci1-item-2 { right:10%; top:2%; }
+#sub .contetns.company_about .con-interaction-1 .ci1-item-2 img { margin-left:-2rem; }
+#sub .contetns.company_about .con-interaction-1 .ci1-item-3 { right:20%; top:55%; }
+#sub .contetns.company_about .con-interaction-1 .ci1-txt { margin-top:1.5rem; }
+#sub .contetns.company_about .con-interaction-1 .ci1-txt strong { display:block; font-size:2.5rem; font-weight:700; color:#1428a0; margin:0 0 1rem; line-height:1.3; }
+#sub .contetns.company_about .con-interaction-1 .ci1-txt p { font-size:2rem !important; color:#333; line-height:150%; margin:0 !important; }
+#sub .contetns.company_about .con-interaction-1 .ci1-item-1 .ci1-txt { text-align:left; }
+#sub .contetns.company_about .con-interaction-1 .ci1-item-2 .ci1-txt { text-align:left; }
+#sub .contetns.company_about .con-interaction-1 .ci1-item-3 .ci1-txt { text-align:left; }
+
+/* con-interaction-2 */
+#sub .contetns.company_about .con-interaction-2 { position:relative; margin:20rem 0 35rem; }
+#sub .contetns.company_about .con-interaction-2 .ci2-bg { width:100%; display:block; height:auto; position:relative; }
+#sub .contetns.company_about .con-interaction-2 .ci2-item { position:absolute;  }
+#sub .contetns.company_about .con-interaction-2 .ci2-item-1 { left:7%; top:-13%; }
+#sub .contetns.company_about .con-interaction-2 .ci2-item-2 { left:45%; top:-16%; }
+#sub .contetns.company_about .con-interaction-2 .ci2-item-3 { right:9%; top:30%; }
+#sub .contetns.company_about .con-interaction-2 .ci2-item-4 { left:45%; top:72%; }
+#sub .contetns.company_about .con-interaction-2 .ci2-item-5 { left:7%; top:73.5%; }
+#sub .contetns.company_about .con-interaction-2 .ci2-txt { margin-top:1.5rem; }
+#sub .contetns.company_about .con-interaction-2 .ci2-item-3 .ci2-txt { text-align:center; }
+#sub .contetns.company_about .con-interaction-2 .ci2-txt strong { display:block; font-size:2.5rem; font-weight:700; color:#1428a0; margin:0 0 1rem; line-height:1.3; }
+#sub .contetns.company_about .con-interaction-2 .ci2-txt p { font-size:2rem !important; color:#333; line-height:150%; margin:0 !important; }
+
+/* con-interaction-3 */
+#sub .contetns.company_about .con-interaction-3 { position:relative; padding:32rem 0; }
+#sub .contetns.company_about .con-interaction-3 .ci3-bg { width:90%; display:block; height:auto; margin:0 auto;}
+#sub .contetns.company_about .con-interaction-3 .ci3-item { position:absolute; }
+#sub .contetns.company_about .con-interaction-3 .ci3-item-1 { left:3%; top:3%; }
+#sub .contetns.company_about .con-interaction-3 .ci3-item-2 { right:3%; top:-1%; }
+#sub .contetns.company_about .con-interaction-3 .ci3-item-3 { right:3%; bottom:5%; }
+#sub .contetns.company_about .con-interaction-3 .ci3-item-4 { left:3%; bottom:5%; }
+#sub .contetns.company_about .con-interaction-3 .ci3-txt { margin-top:1.5rem; }
+#sub .contetns.company_about .con-interaction-3 .ci3-txt strong { display:block; font-size:2.5rem; font-weight:700; color:#1428a0; margin:0 0 1rem; line-height:1.3; }
+#sub .contetns.company_about .con-interaction-3 .ci3-txt strong em { font-style:normal; color:#0094d4; margin-right:0.3rem; }
+#sub .contetns.company_about .con-interaction-3 .ci3-txt p { font-size:2rem !important; color:#333; line-height:150%; margin:0 !important; }
+
+
+
+
+
 
 
 /* 회사소개 사업연혁 */
