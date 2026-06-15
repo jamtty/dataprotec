@@ -7,7 +7,7 @@
     position: relative;
 }
 
-.responsive { max-width:120rem; height:100%; margin:0 auto; position:relative; padding:0 2rem; }
+.responsive { max-width:140rem; height:100%; margin:0 auto; position:relative; padding:0 2rem; }
 .responsive:after { clear:both; display:block; content:"" }
 span.br { display:block }
 
@@ -188,18 +188,18 @@ span.br { display:block }
 #index .section_storage .con-banner .year p.big strong { font-size:12rem; color:#fff; font-weight:800; line-height:100%; }
 
 /* 데이타프로텍 맵 */
-#index .section_map { position:relative; padding:25rem 0 14rem;  }
-#index .section_map .inner { max-width:159.3rem; margin:0 auto; }
-#index .section_map .tit { text-align:center; }
-#index .section_map .tit  img { width:87.4rem; }
-#index .section_map .bg { height:71rem; background:url('../images/main_map_bg@2x.png') 50% 50% no-repeat; background-size:cover; display:flex; align-items:flex-end; padding:0 0 5rem; }
-#index .section_map .count { width:100%; margin-top:-8rem; }
-#index .section_map .count ul { display:flex; align-items:flex-start; justify-content: center; gap:16rem; }
-#index .section_map .count ul li { flex:0 0 auto; }
-#index .section_map .count ul li .num { display:flex; align-items:baseline; gap:1rem; margin:0 0 3rem; }
-#index .section_map .count ul li .num strong { display:inline-block; font-size:10rem; font-weight:800; color:#1428a0; line-height:1; letter-spacing:-0.5rem; }
-#index .section_map .count ul li .num span { font-size:3.5rem; font-weight:700; color:#1428a0; }
-#index .section_map .count ul li .des { font-size:2.8rem; color:#0094d4;  }
+.section_map { position:relative; padding:14rem 0 0;  }
+.section_map .inner { max-width:159.3rem; margin:0 auto; }
+.section_map .tit { text-align:center; }
+.section_map .tit  img { width:70rem; }
+.section_map .bg { height:50rem; background:url('../images/main_map_bg@2x.png') 50% 50% no-repeat; background-size:cover; display:flex; align-items:flex-end; padding:0 0 5rem; }
+.section_map .count { width:100%; margin-top:-8rem; }
+.section_map .count ul { display:flex; align-items:flex-start; justify-content: center; gap:16rem; }
+.section_map .count ul li { flex:0 0 auto; }
+.section_map .count ul li .num { display:flex; align-items:baseline; gap:1rem; margin:0 0 3rem; }
+.section_map .count ul li .num strong { display:inline-block; font-size:8rem; font-weight:800; color:#1428a0; line-height:1; letter-spacing:-0.5rem; }
+.section_map .count ul li .num span { font-size:3.5rem; font-weight:700; color:#1428a0; }
+.section_map .count ul li .des { font-size:2.8rem !important; color:#0094d4 !important;  }
 
 /* 현장 상황에 유연하게 적용 가능한 키오스크 */
 #index .section_kiosk { position:relative;  padding:11rem 0 28rem; background:url('../images/main_kiosk_bg@2x.png') 80% 0 no-repeat; background-size:contain; }
@@ -350,16 +350,16 @@ span.br { display:block }
 	#index .section_storage .con-banner .year p.big strong { font-size: 9rem; }
 
 	/* section_map */
-	#index .section_map { padding: 15rem 0; }
-	#index .section_map .inner { padding: 0 2rem; }
-	#index .section_map .tit img { width: 55rem; }
-	#index .section_map .bg { height: 40rem; padding: 4rem 2rem; }
-	#index .section_map .count ul { flex-direction: column; gap: 3rem; }
-	#index .section_map .count ul li { width: 100%; }
-	#index .section_map .count ul li + li { border-left: none; border-top: 1px solid rgba(20,40,160,0.2); padding-top: 3rem; }
-	#index .section_map .count ul li .num strong { font-size: 8rem; }
-	#index .section_map .count ul li .num span { font-size: 2.5rem; }
-	#index .section_map .count ul li .des { font-size: 2rem; }
+	.section_map { padding: 15rem 0; }
+	.section_map .inner { padding: 0 2rem; }
+	.section_map .tit img { width: 55rem; }
+	.section_map .bg { height: 40rem; padding: 4rem 2rem; }
+	.section_map .count ul { flex-direction: column; gap: 3rem; }
+	.section_map .count ul li { width: 100%; }
+	.section_map .count ul li + li { border-left: none; border-top: 1px solid rgba(20,40,160,0.2); padding-top: 3rem; }
+	.section_map .count ul li .num strong { font-size: 8rem; }
+	.section_map .count ul li .num span { font-size: 2.5rem; }
+	.section_map .count ul li .des { font-size: 2rem; }
 
     /* section_kiosk */
 	#index .section_kiosk { padding: 8rem 0 20rem; background-position: 100% 0; }
@@ -433,11 +433,11 @@ span.br { display:block }
 	#index .section_storage .con-banner .year p.big strong { font-size: 6rem; }
 
 	/* section_map */
-	#index .section_map { padding:3rem 0; }
-	#index .section_map .tit img { width: 32rem; }
-	#index .section_map .count ul li .num strong { font-size: 5rem; }
-	#index .section_map .count ul li .num span { font-size: 2rem; }
-	#index .section_map .count ul li .des { font-size: 1.8rem; }
+	.section_map { padding:3rem 0; }
+	.section_map .tit img { width: 32rem; }
+	.section_map .count ul li .num strong { font-size: 5rem; }
+	.section_map .count ul li .num span { font-size: 2rem; }
+	.section_map .count ul li .des { font-size: 1.8rem; }
 
     /* section_kiosk */
 	#index .section_kiosk { padding: 6rem 0; background: none; }
@@ -503,10 +503,10 @@ span.br { display:block }
 
 /* 서브 컨텐츠 */
 #sub .contetns { position:relative; margin:8rem auto }
-#sub .contetns h2 { font-size:4.5rem; font-weight:bold; color:#333; margin:0 0 1rem }
-#sub .contetns h2 span { font-size:2.7rem; font-weight:600; color:#666; }
+#sub .contetns h2 { font-size:4.5rem; font-weight:bold; color:#333; margin:0 0 2rem }
+#sub .contetns h2 span { margin-left:1rem; font-size:2.7rem; font-weight:600; color:#666; }
 #sub .contetns .title_area { margin:0 auto 6rem }
-#sub .contetns .title_area p { font-size:2.4rem; color:#333 }
+#sub .contetns .title_area p { font-size:2.3rem; color:#333 }
 #sub .contetns .section_con { margin-top:11rem !important }
 /*
 #sub .contetns .section_con.four { margin-top:35rem !important }*/
@@ -516,7 +516,7 @@ span.br { display:block }
 #sub .contetns .section_con h3 { position:relative; font-size:3rem; color:#333; margin:0 0 3rem; font-weight:bold }
 #sub .contetns .section_con h3.margin { margin-top:13rem }
 #sub .contetns .section_con h3 span { width:5rem; height:0.2rem; background:#17469d; position:absolute; left:-7rem; bottom:1rem }
-#sub .contetns .section_con p { font-size:2rem; color:#333; line-height:170% } 
+#sub .contetns .section_con p { font-size:2rem; color:#333; line-height:170%; margin:0 0 1rem; } 
 
 /*제품소개 관리자 인증*/
 #sub .contetns.hide { display:none !important}
@@ -531,6 +531,10 @@ span.br { display:block }
 #sub .contetns.company1 .section_con:after { clear:both; display:block; content:"" }
 #sub .contetns.company1 .section_con p { font-size:1.9rem; color:#333; line-height:170% }
 #sub .contetns.company1 .section_con .name { font-size:2.4rem; }
+
+/* 회사소개 회사소개 */
+#sub .contetns.company_about .section_con p { font-size:2rem; color:#333; line-height:170%; margin:0 0 4rem; } 
+
 
 /* 회사소개 사업연혁 */
 #sub .contetns.company2 .section1 { max-width:182rem; margin:0 auto 4rem; position:relative; height:42rem; background:url('../images/company2_bg1.jpg') 50% 50% no-repeat; background-size:cover}
@@ -982,6 +986,7 @@ span.br { display:block }
 	/* 서브 컨텐츠 */
 	#sub .contetns { position:relative; margin:3rem auto }
 	#sub .contetns h2 { font-size:3.2rem; font-weight:bold; color:#333; margin:0 0 1rem }
+	#sub .contetns.company_about .title_area h2 span { display:block; margin-left:0; font-size:1.8rem; margin-top:0.5rem; }
 	#sub .contetns .title_area { margin:0 auto 3rem }
 	#sub .contetns .title_area p { font-size:1.5rem; color:#333 }
 	#sub .contetns .section_con { margin-top:7rem !important }

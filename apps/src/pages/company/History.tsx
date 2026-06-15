@@ -201,7 +201,7 @@ function CompanyHistory() {
       <div className="contetns company2">
 
         <div className="responsive title_area">
-          <h2 data-aos="fade-left">사업연혁</h2>
+          <h2 data-aos="fade-left">연혁</h2>
           <p data-aos="fade-up" data-aos-delay="200">
             설립 초기부터 지금까지, 고객과 약속한 정보보안 분야의 신뢰는 계속되고 있습니다.
             <span className="br"></span>고객의 신뢰에 보답하는 기업, 데이타프로텍

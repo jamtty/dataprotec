@@ -20,6 +20,7 @@ import ProductDptI from './pages/product/DptI'
 import ProductDptId from './pages/product/DptId'
 import ProductVcs from './pages/product/DptVcs'
 import CompanyGreeting from './pages/company/Greeting'
+import CompanyAbout from './pages/company/About'
 import CompanyHistory from './pages/company/History'
 import CompanyRnd from './pages/company/Rnd'
 import CompanyLocation from './pages/company/Location'
@@ -84,6 +85,7 @@ function App() {
         <Route path="/product/vcs" element={<ProductVcs />} />
         {/* 회사소개 */}
         <Route path="/company" element={<CompanyGreeting />} />
+        <Route path="/company/about" element={<CompanyAbout />} />
         <Route path="/company/history" element={<CompanyHistory />} />
         <Route path="/company/rnd" element={<CompanyRnd />} />
         <Route path="/company/location" element={<CompanyLocation />} />

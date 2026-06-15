@@ -6,7 +6,7 @@ function CompanyLocation() {
       <div className="contetns company4">
 
         <div className="responsive title_area">
-          <h2 data-aos="fade-left">사업장안내</h2>
+          <h2 data-aos="fade-left">위치안내</h2>
           <p data-aos="fade-up" data-aos-delay="200">설립 이후 끊임없는 연구개발과 특허 원천기술로, 반·출입 정보보안 시장을 리드하고 있습니다.<span className="br"></span>먼저 고민하고 끝까지 책임지는 기술, 데이타프로텍</p>
         </div>
 
