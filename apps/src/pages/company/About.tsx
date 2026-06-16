@@ -96,6 +96,7 @@ function CompanyAbout() {
     const ci2 = document.querySelector('.con-interaction-2')
     if (ci2) {
       gsap.set(['.ci2-item-1', '.ci2-item-2', '.ci2-item-3', '.ci2-item-4', '.ci2-item-5'], { autoAlpha: 0, y: 40 })
+      gsap.set('.ci2-bg', { autoAlpha: 0 })
 
       // 1, 2번: 영역 진입 시
       let ci2Tl1: gsap.core.Timeline | null = null
@@ -127,10 +128,12 @@ function CompanyAbout() {
             .to('.ci2-item-3', { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' })
             .to('.ci2-item-4', { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' })
             .to('.ci2-item-5', { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' })
+            .to('.ci2-bg', { autoAlpha: 1, duration: 0.6, ease: 'power2.out' })
         },
         onLeaveBack: () => {
           if (ci2Tl2) { ci2Tl2.kill(); ci2Tl2 = null }
           gsap.set(['.ci2-item-3', '.ci2-item-4', '.ci2-item-5'], { autoAlpha: 0, y: 40 })
+          gsap.set('.ci2-bg', { autoAlpha: 0 })
         },
       })
     }
