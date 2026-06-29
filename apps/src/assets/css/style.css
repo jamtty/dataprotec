@@ -1075,10 +1075,10 @@ span.br { display:block }
 	#sub .contetns.company_about .con-interaction-1 .ci1-txt p { font-size:1.3rem !important; }
 	#sub .contetns.company_about .con-interaction-2 { margin:2rem 0; }
 	#sub .contetns.company_about .con-interaction-2 .ci2-bg { display:none; }
-	#sub .contetns.company_about .con-interaction-2 .ci2-item { position:relative; left:auto !important; right:auto !important; top:auto !important; bottom:auto !important; width:100%; display:flex; align-items:center; gap:2rem; margin-bottom:2.5rem; }
+	#sub .contetns.company_about .con-interaction-2 .ci2-item { position:relative; left:auto !important; right:auto !important; top:auto !important; bottom:auto !important; width:100%; display:flex; flex-direction:row; align-items:center; gap:2rem; margin-bottom:2.5rem; }
 	#sub .contetns.company_about .con-interaction-2 .ci2-item img { width:10rem; flex-shrink:0; }
-	#sub .contetns.company_about .con-interaction-2 .ci2-item-3 .ci2-txt { text-align:left; }
-	#sub .contetns.company_about .con-interaction-2 .ci2-txt { margin-top:0; }
+	#sub .contetns.company_about .con-interaction-2 .ci2-item-3 .ci2-txt { text-align:left; margin:0; }
+	#sub .contetns.company_about .con-interaction-2 .ci2-txt { margin:0; }
 	#sub .contetns.company_about .con-interaction-2 .ci2-txt strong { font-size:1.6rem; margin:0 0 0.5rem; }
 	#sub .contetns.company_about .con-interaction-2 .ci2-txt p { font-size:1.3rem !important; }
 	#sub .contetns.company_about .con-interaction-3 { padding:0; margin:2rem 0; }
