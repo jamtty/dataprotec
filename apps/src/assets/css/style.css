@@ -564,7 +564,7 @@ span.br { display:block }
 
 /* con-interaction-3 */
 #sub .contetns.company_about .con-interaction-3 { position:relative; padding:32rem 0; }
-#sub .contetns.company_about .con-interaction-3 .ci3-bg { width:90%; display:block; height:auto; margin:0 auto;}
+#sub .contetns.company_about .con-interaction-3 .ci3-bg { width:100%; display:block; height:auto; margin:0 auto;}
 #sub .contetns.company_about .con-interaction-3 .ci3-item { position:absolute; }
 #sub .contetns.company_about .con-interaction-3 .ci3-item-1 { left:3%; top:3%; }
 #sub .contetns.company_about .con-interaction-3 .ci3-item-2 { right:3%; top:-1%; }
