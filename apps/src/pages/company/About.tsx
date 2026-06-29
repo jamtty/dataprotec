@@ -309,14 +309,14 @@ function CompanyAbout() {
               <img src={imgAboutCon3_2} alt="" />
               <div className='ci3-txt'>
                 <strong>02. 사외반출</strong>
-                <p>무단반출 차단릿 사외정솵<br />실시간 적용(화면잠금, 매체제어)</p>
+                <p>무단반출 차단 및 사외 정책<br />실시간 적용(화면잠금, 매체제어)</p>
               </div>
             </div>
             <div className='ci3-item ci3-item-3'>
               <img src={imgAboutCon3_3} alt="" />
               <div className='ci3-txt'>
-                <strong>03. 반낙/분석 <img src={imgAboutCon2_etc2} alt="" /><img src={imgAboutCon2_etc3} alt="" /></strong>
-                <p>보관함 복군 시 변화된 파일 검충 및<br />외부매체 연결 기록 전송</p>
+                <strong>03. 반납/분석 <img src={imgAboutCon2_etc2} alt="" /><img src={imgAboutCon2_etc3} alt="" /></strong>
+                <p>DPT-i 보관함 복귀 시 변화된 파일 검출 및<br />외부매체 연결 기록 전송</p>
               </div>
             </div>
             <div className='ci3-item ci3-item-4'>
