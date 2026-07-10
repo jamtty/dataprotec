@@ -201,6 +201,10 @@ span.br { display:block }
 .section_map .count ul li .num span { font-size:3.5rem; font-weight:700; color:#1428a0; }
 .section_map .count ul li .des { font-size:2.8rem !important; color:#0094d4 !important;  }
 
+.section_map.company .tit  img { width:90rem; }
+.section_map.company .bg { margin:-5rem 0 0; height:45rem; background:url('../images/main_map_bg@2x.png') 50% 0 no-repeat; background-size:contain; display:flex; align-items:flex-end; padding:0; }
+
+
 /* 현장 상황에 유연하게 적용 가능한 키오스크 */
 #index .section_kiosk { position:relative;  padding:11rem 0 28rem; background:url('../images/main_kiosk_bg@2x.png') 80% 0 no-repeat; background-size:contain; }
 #index .section_kiosk .inner { max-width:159.3rem; margin:0 auto; }
@@ -360,6 +364,8 @@ span.br { display:block }
 	.section_map .count ul li .num strong { font-size: 8rem; }
 	.section_map .count ul li .num span { font-size: 2.5rem; }
 	.section_map .count ul li .des { font-size: 2rem; }
+
+    .section_map.company .bg { height:20rem; padding:0; background-size: 100%; }
 
     /* section_kiosk */
 	#index .section_kiosk { padding: 8rem 0 20rem; background-position: 100% 0; }
@@ -1107,12 +1113,12 @@ span.br { display:block }
 	.lnb_bg { opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; background:#003399; z-index:1 }
 
 	/* 회사소개 CEO 인사말 */
-	#sub .contetns.company1 .title_area { margin:0 0 6rem; width:60%; text-align:left }
+	#sub .contetns.company1 .title_area { margin:0 0 6rem; text-align:left }
 	#sub .contetns .title_area span.br { display:none !important }
 	#sub .contetns.company1 .section1 { height:20rem; }
 	#sub .contetns.company1 .section1 .img { top:-17rem; right:1rem }
 	#sub .contetns.company1 .section1 .img img { width:24rem }
-	#sub .contetns.company1 .section_con { margin:8rem auto 0 !important; }
+	#sub .contetns.company1 .section_con { margin:4rem auto 0 !important; }
 
 	/* 회사소개 사업연혁 */
 	#sub .contetns.company2 .section1 { height:20rem; }

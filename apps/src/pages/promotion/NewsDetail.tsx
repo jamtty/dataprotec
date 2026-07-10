@@ -2,6 +2,7 @@
 import { useParams, Link } from 'react-router-dom'
 import PromotionLayout from './PromotionLayout'
 import { fetchNewsroomDetail, fetchNewsroomList, type NewsroomItem } from '@/api/newsroom'
+import { toAbsUrl } from '@/utils/uploadUrl'
 import blankImg from '../../assets/images/blank.jpg'
 
 function NewsDetail() {
@@ -85,11 +86,12 @@ function NewsDetail() {
                       <td>
                         <div className="result">
                           <Link to={`/promotion/news/${item.id}`} className="thumbnail">
-                            <img src={item.thumbnail || blankImg} alt={item.title} />
+                            <img src={item.thumbnail ? toAbsUrl(item.thumbnail) : blankImg} alt={item.title} />
                           </Link>
                           <div className="txt">
                             <p className="datetime">{item.news_date}</p>
                             <Link to={`/promotion/news/${item.id}`}>{item.title}</Link>
+                            <p className="news_summary">{item.content ? item.content.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim() : ''}</p>
                           </div>
                         </div>
                       </td>
