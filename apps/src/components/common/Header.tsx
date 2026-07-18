@@ -12,7 +12,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   {
     label: '제품소개',
-    href: '/product',
+    href: '/product/dpt-id',
     sub: [
       { label: 'DPT Enterprise', href: '/product' },
       { label: 'DPT-PRO', href: '/product/pro' },
