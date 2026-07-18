@@ -14,6 +14,7 @@ import AdminPopupFormPage from './pages/admin/AdminPopupFormPage'
 import AdminMyPage from './pages/admin/AdminMyPage'
 import Main from './pages/Main'
 import ProductEnterprise from './pages/product/DptEnterprise'
+import ProductDpt from './pages/product/Dpt'
 import ProductPro from './pages/product/DptPro'
 import ProductEraser from './pages/product/DptEraser'
 import ProductDptI from './pages/product/DptI'
@@ -78,6 +79,7 @@ function App() {
         <Route path="/" element={<Main />} />
         {/* 제품소개 */}
         <Route path="/product" element={<ProductEnterprise />} />
+        <Route path="/product/dpt" element={<ProductDpt />} />
         <Route path="/product/pro" element={<ProductPro />} />
         <Route path="/product/eraser" element={<ProductEraser />} />
         <Route path="/product/dpt-i" element={<ProductDptI />} />

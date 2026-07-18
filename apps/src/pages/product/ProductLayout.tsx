@@ -2,12 +2,14 @@ import type { ReactNode } from 'react'
 import SubLayout from '../../components/common/SubLayout'
 
 const lnbItems = [
-  { label: 'DPT Enterprise', href: '/product' },
-  { label: 'DPT-PRO', href: '/product/pro' },
-  { label: 'DIGITAL ERASER', href: '/product/eraser' },
-  { label: 'DPT-i', href: '/product/dpt-i' },
+  // { label: 'DVMS', href: '/product/dvms' },
   { label: 'DPT-ID', href: '/product/dpt-id' },
   { label: 'VCS', href: '/product/vcs' },
+  // { label: 'DPT Enterprise', href: '/product' },
+  { label: 'DPT', href: '/product/dpt' },
+  // { label: 'DPT-PRO', href: '/product/pro' },
+  { label: 'DPT-i', href: '/product/dpt-i' },
+  { label: 'DIGITAL ERASER', href: '/product/eraser' },
 ]
 
 function ProductLayout({ children }: { children: ReactNode }) {
