@@ -325,10 +325,12 @@ function ProductDpt() {
 
           <div className="section_con section_client">
             <div className='inner'>
-                <h3>
-                    <span data-reveal />
-                    <div data-reveal data-delay="200">고객사</div>
-                </h3>
+                <div className='tit-area'>
+                    <h3>
+                        <span data-reveal />
+                        <div data-reveal data-delay="200">고객사</div>
+                    </h3>
+                </div>
                 <div className='con'>
                     <ul className='cl-list' data-reveal data-delay="150">
                         <li data-reveal><img src={mainClImg1} alt="고객사" /></li>
