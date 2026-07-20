@@ -1,11 +1,15 @@
 import { useEffect, useRef, type MutableRefObject } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 type RevealOptions = {
   threshold?: number
   rootMargin?: string
 }
 
-/** 스크롤 시 요소가 나타나고 위로 올릴 때 사라지는 효과 */
+/** 스크롤 시 요소가 나타나고 위로 올릴 때 사라지는 효과 (GSAP ScrollTrigger) */
 export function useScrollReveal<T extends HTMLElement>(options?: RevealOptions): MutableRefObject<T | null> {
   const ref = useRef<T | null>(null)
 
@@ -13,29 +17,30 @@ export function useScrollReveal<T extends HTMLElement>(options?: RevealOptions):
     const el = ref.current
     if (!el) return
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.style.opacity = '1'
-          el.style.transform = 'translateY(0)'
-          el.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
-        } else {
-          el.style.opacity = '0'
-          el.style.transform = 'translateY(5rem)'
-          el.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+    const ctx = gsap.context(() => {
+      gsap.fromTo(el,
+        { autoAlpha: 0, y: 50 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.75,
+          ease: 'expo.out',
+          scrollTrigger: {
+            trigger: el,
+            start: options?.rootMargin ? `top ${options.rootMargin}` : 'top 82%',
+            toggleActions: 'play none none reverse',
+          },
         }
-      },
-      { threshold: options?.threshold ?? 0.1, rootMargin: options?.rootMargin ?? '0px 0px -40px 0px' }
-    )
+      )
+    })
 
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [options?.threshold, options?.rootMargin])
+    return () => ctx.revert()
+  }, [options?.rootMargin])
 
   return ref
 }
 
-/** 컨테이너 내부의 [data-reveal] 요소들에 한 번에 스크롤 리빌 적용 */
+/** 컨테이너 내부의 [data-reveal] 요소들에 GSAP ScrollTrigger 기반 스크롤 리빌 적용 */
 export function useBatchReveal(containerRef: MutableRefObject<HTMLElement | null>) {
   useEffect(() => {
     const container = containerRef.current
@@ -44,34 +49,30 @@ export function useBatchReveal(containerRef: MutableRefObject<HTMLElement | null
     const items = container.querySelectorAll<HTMLElement>('[data-reveal]')
     if (items.length === 0) return
 
-    const observers: IntersectionObserver[] = []
+    // gsap.context 로 모든 트윈/ScrollTrigger 일괄 관리 → 언마운트 시 revert 로 완전 정리
+    const ctx = gsap.context(() => {
+      items.forEach((el) => {
+        const delaySec = el.dataset.delay ? parseInt(el.dataset.delay) / 1000 : 0
+        const once = el.dataset.reveal === 'once'
 
-    items.forEach((el, i) => {
-      const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0
-      const once = el.dataset.reveal === 'once'
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              el.style.opacity = '1'
-              el.style.transform = 'translateY(0)'
-              el.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
-            }, delay)
-            if (once) observer.unobserve(el)
-          } else if (!once) {
-            el.style.opacity = '0'
-            el.style.transform = 'translateY(5rem)'
-            el.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+        gsap.fromTo(el,
+          { autoAlpha: 0, y: 50 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.75,
+            delay: delaySec,
+            ease: 'expo.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 82%',
+              toggleActions: once ? 'play none none none' : 'play none none reverse',
+            },
           }
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-      )
+        )
+      })
+    }, container)
 
-      observer.observe(el)
-      observers.push(observer)
-    })
-
-    return () => observers.forEach(o => o.disconnect())
+    return () => ctx.revert()
   }, [containerRef])
 }
