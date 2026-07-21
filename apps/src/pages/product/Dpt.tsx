@@ -244,44 +244,46 @@ function ProductDpt() {
                     </li>
                 </ul>
             </div>
-            <table className="pyo" data-reveal>
-                <tbody>
-                <tr>
-                    <th>구분</th>
-                    <th>상세내역</th>
-                </tr>
-                <tr>
-                    <td>DPT Client</td>
-                    <td>
-                        반출입 되는 저장매체(노트북, PC, USB)에 대한 검색/비교 소프트웨어<br />
-                        <span className="blue">모든 변화된 파일 검출 / Hidden 파티션 검출 또는 사용금지 기능</span><br />
-                        DPT Client : windows XP ~ 10 (스캐닝방식+Agent방식)<br />
-                        <span className="blue">파일 스캐닝 + 매체차단 Agent 프로그램의 융합 방식</span><br />
-                        <span className="blue">(유무선네트워크 , 블루투스, 웹캠, USB, CD-ROM 등 매체 차단 또는 선택적 사용)</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>DPT 관리<br />Appliance</td>
-                    <td>
-                        반출입 관리, 통계, 리포팅 수행 및 Gate별 Appliance 통합 관리 (웹매니저)<br />
-                        <span className="blue">내방객 노트북 반입/반출 관리, 조회 및 통계 분석, 변화된 파일 내역 관리</span><br />
-                        매체 차단 개인/Gate/전체 정책 관리<br />
-                        <span className="blue">파일 ID 분석, 키워드 기반 파일 검색(DB)</span><br />
-                        하드웨어 사양 : Gate Appliance 데이터량에 따른 별도 제안
-                    </td>
-                </tr>
-                <tr>
-                    <td>DPT Gate<br />Appliance</td>
-                    <td>
-                        <span className="blue">출입Gate에 설치되는 일체형 Kiosk 타입으로 반출입 절차 수행</span><br />
-                        검색대 및 전자서명 모듈 포함한 일체형 Kiosk 타입<br />
-                        Kiosk :  670 x 1770 x 500 (mm)<br />
-                        하드웨어 사양(Kiosk) 별도 제안
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <p className="notice" data-reveal>※ Kiosk와 사양은 납품사의 사정에 따라 협의 없이 변경 될 수 있습니다.</p>
+            <div className='width-1105'>
+                <table className="pyo" data-reveal>
+                    <tbody>
+                    <tr>
+                        <th>구분</th>
+                        <th>상세내역</th>
+                    </tr>
+                    <tr>
+                        <td>DPT Client</td>
+                        <td>
+                            반출입 되는 저장매체(노트북, PC, USB)에 대한 검색/비교 소프트웨어<br />
+                            <span className="blue">모든 변화된 파일 검출 / Hidden 파티션 검출 또는 사용금지 기능</span><br />
+                            DPT Client : windows XP ~ 10 (스캐닝방식+Agent방식)<br />
+                            <span className="blue">파일 스캐닝 + 매체차단 Agent 프로그램의 융합 방식</span><br />
+                            <span className="blue">(유무선네트워크 , 블루투스, 웹캠, USB, CD-ROM 등 매체 차단 또는 선택적 사용)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DPT 관리<br />Appliance</td>
+                        <td>
+                            반출입 관리, 통계, 리포팅 수행 및 Gate별 Appliance 통합 관리 (웹매니저)<br />
+                            <span className="blue">내방객 노트북 반입/반출 관리, 조회 및 통계 분석, 변화된 파일 내역 관리</span><br />
+                            매체 차단 개인/Gate/전체 정책 관리<br />
+                            <span className="blue">파일 ID 분석, 키워드 기반 파일 검색(DB)</span><br />
+                            하드웨어 사양 : Gate Appliance 데이터량에 따른 별도 제안
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DPT Gate<br />Appliance</td>
+                        <td>
+                            <span className="blue">출입Gate에 설치되는 일체형 Kiosk 타입으로 반출입 절차 수행</span><br />
+                            검색대 및 전자서명 모듈 포함한 일체형 Kiosk 타입<br />
+                            Kiosk :  670 x 1770 x 500 (mm)<br />
+                            하드웨어 사양(Kiosk) 별도 제안
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p className="notice" data-reveal>※ Kiosk와 사양은 납품사의 사정에 따라 협의 없이 변경 될 수 있습니다.</p>
+            </div>
           </div>
 
           <div className="section_con section_kiosk">
