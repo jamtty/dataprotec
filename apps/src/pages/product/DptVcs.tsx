@@ -25,6 +25,10 @@ import imgDpt8_3 from '../../assets/images/img_dpt_8_3.png'
 import imgDpt8_4 from '../../assets/images/img_dpt_8_4.png'
 import imgDpt8_5 from '../../assets/images/img_dpt_8_5.png'
 import imgDpt8Plus from '../../assets/images/img_dpt_8_plus.png'
+import icoVcsSt1_1 from '../../assets/images/ico_vcs_st1_1.png'
+import icoVcsSt1_2 from '../../assets/images/ico_vcs_st1_2.png'
+import icoVcsSt1_3 from '../../assets/images/ico_vcs_st1_3.png'
+import icoVcsSt1_4 from '../../assets/images/ico_vcs_st1_4.png'
 
 function DptVcs() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -80,7 +84,7 @@ function DptVcs() {
                     아날로그 방식의 반입 관리는 제로 트러스트 환경의 가장 큰 보안 공백입니다 
                 </p>
             </div>
-            <div data-reveal>
+            <div className='max-width' data-reveal>
                 <img src={prdVcsImg1} alt="" />
             </div>
 
@@ -122,8 +126,45 @@ function DptVcs() {
                     <div>STEP 01</div>
                     <div>반입 단계, 다중 백신 기반의 무결성 검증</div>
                 </div>
-                <div data-reveal className='pad'>
-                    <img src={prdVcsImg2} alt="" />
+                <div data-reveal className='step1-list'>
+                    <ul>
+                        <li>
+                            <div className='ico'><img src={icoVcsSt1_1} alt="다중 백신 검사" /></div>
+                            <div className='txt'>
+                                <p>
+                                    <strong>다중 백신 검사</strong>
+                                    <span>V3, ESET, Kaspersky<br />3종 백신 동시 검사 가능</span>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div className='ico'><img src={icoVcsSt1_2} alt="상태 점검 및 치료" /></div>
+                            <div className='txt'>
+                                <p>
+                                    <strong>상태 점검 및 치료</strong>
+                                    <span>악성코드 치료 및 재검사,<br />노트북 경우 윈도우OS<br />업데이트 및 취약점 점검</span>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div className='ico'><img src={icoVcsSt1_3} alt="반입 차단(강제성)" /></div>
+                            <div className='txt'>
+                                <p>
+                                    <strong>반입 차단(강제성)</strong>
+                                    <span>검사 미완료 및 치료불가</span>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div className='ico'><img src={icoVcsSt1_4} alt="정상 반입" /></div>
+                            <div className='txt'>
+                                <p>
+                                    <strong>정상 반입</strong>
+                                    <span>검사 완료된 저장매체</span>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div className='con-box'>
