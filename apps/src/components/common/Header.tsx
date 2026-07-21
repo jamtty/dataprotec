@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import logo from '../../assets/images/logo@2x.png'
+import logo from '../../assets/images/logo_svg.svg'
 import logohover from '../../assets/images/logo_hover@2x.png'
 
 interface NavItem {
