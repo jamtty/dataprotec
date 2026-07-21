@@ -128,7 +128,7 @@ function DptVcs() {
                 </div>
                 <div data-reveal className='step1-list'>
                     <ul>
-                        <li>
+                        <li data-reveal data-delay="0">
                             <div className='ico'><img src={icoVcsSt1_1} alt="다중 백신 검사" /></div>
                             <div className='txt'>
                                 <p>
@@ -137,7 +137,7 @@ function DptVcs() {
                                 </p>
                             </div>
                         </li>
-                        <li>
+                        <li data-reveal data-delay="150">
                             <div className='ico'><img src={icoVcsSt1_2} alt="상태 점검 및 치료" /></div>
                             <div className='txt'>
                                 <p>
@@ -146,7 +146,7 @@ function DptVcs() {
                                 </p>
                             </div>
                         </li>
-                        <li>
+                        <li data-reveal data-delay="300">
                             <div className='ico'><img src={icoVcsSt1_3} alt="반입 차단(강제성)" /></div>
                             <div className='txt'>
                                 <p>
@@ -155,7 +155,7 @@ function DptVcs() {
                                 </p>
                             </div>
                         </li>
-                        <li>
+                        <li data-reveal data-delay="450">
                             <div className='ico'><img src={icoVcsSt1_4} alt="정상 반입" /></div>
                             <div className='txt'>
                                 <p>

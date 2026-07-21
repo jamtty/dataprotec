@@ -6,6 +6,8 @@ import ProductLayout from './ProductLayout'
 import { useBatchReveal } from '../../utils/useScrollReveal'
 import imgDpt1 from '../../assets/images/img_dpt_1.png'
 import imgDpt2 from '../../assets/images/img_dpt_2.png'
+import imgDpt2_1 from '../../assets/images/img_dpt_2_1.png'
+import imgDpt2_2 from '../../assets/images/img_dpt_2_2.png'
 import imgDpt3 from '../../assets/images/img_dpt_3.png'
 import imgDpt4 from '../../assets/images/img_dpt_4.png'
 import imgDpt5 from '../../assets/images/img_dpt_5.png'
@@ -101,7 +103,36 @@ function ProductDpt() {
                     특허 기술로 효율과 보안을 모두 만족시킬 수 있는 방안을 제안합니다.
                 </p>
                 <div className='imgCon' data-reveal>
-                    <img src={imgDpt2} alt="패러다임의 전환, 맹목적 포맷 대신 변화된 파일만 선별적으로 통제" />
+                    <ul>
+                        <li>
+                            <div className='ico'><img src={imgDpt2_1} alt="맹목적 포맷" /></div>
+                            <div className='txt'>
+                                <div className='txt-tit'>
+                                    <div>기존방식</div>
+                                    <div>전체 포맷 / 일괄 삭제 통제</div>
+                                </div>
+                                <p>
+                                    - 협력사 및 방문객 불만 고조 및 협업 지연<br />
+                                    - OS 운영팀의 과도한 업무 부담<br />
+                                    - 개인 자료 유실로 인한 분쟁 위험
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div className='ico'><img src={imgDpt2_2} alt="변화된 파일만 선별 통제" /></div>
+                            <div className='txt'>
+                                <div className='txt-tit'>
+                                    <div>DPT</div>
+                                    <div>선별적 변화된 파일 통제</div>
+                                </div>
+                                <p>
+                                    - 반입 이후 생성, 수정 등 변화된 파일만 자동 검출<br />
+                                    - 기존 업무 및 개인 자료 100% 보존<br />
+                                    - 보안성과 방문객 편의의 완벽한 균형
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
           </div>

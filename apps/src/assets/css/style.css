@@ -2447,15 +2447,13 @@ span.br { display:block }
 
 #sub .contetns.prd.NewDpt { }
 [data-reveal] { opacity:0; transform:translateY(5rem); }
-#sub .contetns.prd.NewDpt .work { display:flex; align-items: center; margin:0 0 5rem; }
+#sub .contetns.prd.NewDpt .work { max-width:118rem; display:flex; align-items: center; margin:0 0 5rem;  }
 #sub .contetns.prd.NewDpt .work .imgCon { width:64rem; }
-#sub .contetns.prd.NewDpt .work .txtCon { width:49rem; }
+#sub .contetns.prd.NewDpt .work .txtCon { flex:1; }
 #sub .contetns.prd.NewDpt .work .txtCon ul { display:flex; flex-direction:column; gap:5rem; }
 #sub .contetns.prd.NewDpt .work .txtCon ul li { display:flex; align-items:center; height:5.4rem; padding:0 3rem; font-size:1.8rem; font-weight:700; color:#fff; white-space:nowrap; background:#1428a0; clip-path:polygon(2rem 0%, 100% 0%, calc(100% - 2rem) 100%, 0% 100%); }
 #sub .contetns.prd.NewDpt .work .txtCon ul li span { font-weight:400; font-size:1.6rem; margin-left:0.6rem; opacity:0.9; }
 #sub .contetns.prd.NewDpt .work .txtCon ul li:nth-child(2) { background:#249bdd; }
-
-#sub .contetns.prd.NewDpt .work2 { background:url('../images/img_dpt_work2_bg.png') center top/cover; margin:0 0 5rem; }
 
 /* ===== NewDpt work/work2/work3 반응형 ===== */
 @media all and (max-width:1193px) {
@@ -2485,19 +2483,38 @@ span.br { display:block }
 	#sub .contetns.prd.NewDpt .work .txtCon ul li { height:3.6rem; font-size:1.3rem; white-space:nowrap; }
 	#sub .contetns.prd.NewDpt .work .txtCon ul li span { font-size:1.1rem; }
 }
-#sub .contetns.prd.NewDpt .work2 .imgCon { margin:6rem 0 0; }
-/*
-#sub .contetns.prd.NewDpt .work2 ul { display:flex; margin:3rem 0 0;  }
-#sub .contetns.prd.NewDpt .work2 ul li { flex:1; position:relative; }
-#sub .contetns.prd.NewDpt .work2 ul li .imgCon { }
-#sub .contetns.prd.NewDpt .work2 ul li .txtCon { }
-#sub .contetns.prd.NewDpt .work2 ul li .txtCon div:nth-child(1) { z-index:2; position:absolute; top:0; left:0; height:6rem; display:flex; align-items:center; justify-content:center; padding:0 3rem; background:#9e9e9e; clip-path:polygon(2rem 0%, 100% 0%, calc(100% - 2rem) 100%, 0% 100%); font-size:2rem; font-weight:700; color:#fff; }
-#sub .contetns.prd.NewDpt .work2 ul li:last-child .txtCon div:nth-child(1) { background:#2196d4; }
-#sub .contetns.prd.NewDpt .work2 ul li .txtCon div:nth-child(2) { z-index:1; position:absolute; top:3rem; left:3rem; display:flex; align-items:center; height:6rem; padding:0 3rem 0 10rem; background:#424242; clip-path:polygon(2rem 0, 100% 0, calc(100% - 2rem) 100%, 0 100%); font-size:2rem; font-weight:700; color:#fff; white-space:nowrap; }
-#sub .contetns.prd.NewDpt .work2 ul li:last-child .txtCon div:nth-child(2) { background:#0f1f7a; }
-#sub .contetns.prd.NewDpt .work2 ul li::after { content:''; position:absolute; top:50%; right:4rem; transform:translateY(-50%); width:8.5rem; height:8.5rem; background:url('../images/img_dpt_arrow.png') center/contain no-repeat; }
-#sub .contetns.prd.NewDpt .work2 ul li:last-child::after { display:none; }
-*/
+
+#sub .contetns.prd.NewDpt .work2 {  margin:0 0 5rem; }
+#sub .contetns.prd.NewDpt .work2 .imgCon { max-width:118rem; margin:4rem 0 0; background:url('../images/img_dpt_work2_bg.png') center -15rem/cover; }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul { display:flex; gap:9rem; }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li { flex:1; position:relative;  }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li .ico { text-align:center; }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li .txt .txt-tit { height:9rem; position:relative; }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li .txt .txt-tit div:nth-child(1) { z-index:2; position:absolute; top:0; left:0; height:6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; width:16rem; margin-right:3rem; background:#1428a0; border:1px solid rgba(255,255,255,0.5); opacity:0.8; clip-path:polygon(2rem 0%, 100% 0%, calc(100% - 2rem) 100%, 0% 100%); font-size:2rem; font-weight:700; color:#fff; letter-spacing:0.5px; }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li .txt .txt-tit div:nth-child(2){ z-index:1; position:absolute; top:3rem; left:5rem; display:flex; align-items:center; justify-content: center; width:49rem; height:6rem; background:#1428a0; clip-path:polygon(2rem 0, 100% 0, calc(100% - 2rem) 100%, 0 100%); font-size:2.3rem; font-weight:700; color:#fff; }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li::after { content:''; position:absolute; top:30%; left:calc(100% + 6rem); transform:translate(-50%, -50%); width:8.5rem; height:8.5rem; background:url('../images/img_dpt_arrow.png') center/contain no-repeat; }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li:last-child::after { display:none; }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li .txt p { margin:3rem 0 0 7rem; font-size:2.1rem; font-weight:600; line-height:2; }
+
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li:nth-child(1) .txt .txt-tit div:nth-child(1) { background:#252525; }
+#sub .contetns.prd.NewDpt .work2 .imgCon ul li:nth-child(1) .txt .txt-tit div:nth-child(2) { background:#252525; }
+
+/* ===== NewDpt work2 반응형 ===== */
+@media all and (max-width:1023px) {
+	#sub .contetns.prd.NewDpt .work2 .imgCon { background:none; }
+	#sub .contetns.prd.NewDpt .work2 .imgCon ul { flex-direction:column; gap:4rem; align-items:center; }
+	#sub .contetns.prd.NewDpt .work2 .imgCon ul li { flex:none; width:100%; max-width:54rem; }
+	#sub .contetns.prd.NewDpt .work2 .imgCon ul li .ico img { max-width:100%; height:auto; }
+	#sub .contetns.prd.NewDpt .work2 .imgCon ul li::after { display:none; }
+	#sub .contetns.prd.NewDpt .work2 .imgCon ul li .txt .txt-tit { height:7rem; }
+	#sub .contetns.prd.NewDpt .work2 .imgCon ul li .txt .txt-tit div:nth-child(1) { height:5rem; width:auto; padding:0 4rem; font-size:1.7rem; }
+	#sub .contetns.prd.NewDpt .work2 .imgCon ul li .txt .txt-tit div:nth-child(2) { top:2.5rem; left:4rem; height:5rem; width:90%; padding:0; font-size:1.6rem; }
+	#sub .contetns.prd.NewDpt .work2 .imgCon ul li .txt p { margin:3rem 0 0 4rem; font-size:1.8rem; }
+}
+
+
+
+
 
 #sub .contetns.prd.NewDpt .work3 {  margin:0 0 5rem; }
 #sub .contetns.prd.NewDpt .work3 .imgCon { margin:6rem 0 0; }
