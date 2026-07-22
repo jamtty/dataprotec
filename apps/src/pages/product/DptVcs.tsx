@@ -124,7 +124,7 @@ function DptVcs() {
                 </p>
                 <div className='cp-tit' data-reveal>
                     <div><span>STEP 01</span></div>
-                    <div>반입 단계, 다중 백신 기반의 무결성 검증</div>
+                    <div><span>반입 단계, 다중 백신 기반의 무결성 검증</span></div>
                 </div>
                 <div data-reveal className='step1-list'>
                     <ul>
@@ -170,7 +170,7 @@ function DptVcs() {
             <div className='con-box'>
                 <div className='cp-tit' data-reveal>
                     <div><span>STEP 02</span></div>
-                    <div>반입 중, DPT 연동을 통한 강력한 노트북 주변장치 통제</div>
+                    <div><span>반입 중, DPT 연동을 통한 강력한 노트북 주변장치 통제</span></div>
                 </div>
                 <div className='cp-con' data-reveal>
                     <p className='t-1'>
@@ -200,7 +200,7 @@ function DptVcs() {
             <div className='con-box'>
                 <div className='cp-tit' data-reveal>
                     <div><span>STEP 03</span></div>
-                    <div>반출 단계, 복구 불가능한 데이터 완전 삭제</div>
+                    <div><span>반출 단계, 복구 불가능한 데이터 완전 삭제</span></div>
                 </div>
                 <div className='cp-con two' data-reveal>
                     <div className='t-2'>
@@ -217,7 +217,7 @@ function DptVcs() {
             <div className='con-box'>
                 <div className='cp-tit' data-reveal>
                     <div className='dark'><span>로컬 AI 통합</span></div>
-                    <div className='dark'>단순 통제를 넘어선 예측, ‘로컬 AI 엔진’ 탑재</div>
+                    <div className='dark'><span>단순 통제를 넘어선 예측, ‘로컬 AI 엔진’ 탑재</span></div>
                 </div>
                 <div className='cp-con three1' data-reveal>
                     <p className='t-1'>

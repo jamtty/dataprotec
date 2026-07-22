@@ -109,7 +109,7 @@ function ProductDpt() {
                             <div className='txt'>
                                 <div className='txt-tit'>
                                     <div><span>기존방식</span></div>
-                                    <div>전체 포맷 / 일괄 삭제 통제</div>
+                                    <div><span>전체 포맷 / 일괄 삭제 통제</span></div>
                                 </div>
                                 <p>
                                     - 협력사 및 방문객 불만 고조 및 협업 지연<br />
@@ -123,7 +123,7 @@ function ProductDpt() {
                             <div className='txt'>
                                 <div className='txt-tit'>
                                     <div><span>DPT</span></div>
-                                    <div>선별적 변화된 파일 통제</div>
+                                    <div><span>선별적 변화된 파일 통제</span></div>
                                 </div>
                                 <p>
                                     - 반입 이후 생성, 수정 등 변화된 파일만 자동 검출<br />
@@ -154,7 +154,7 @@ function ProductDpt() {
                         <li data-reveal data-delay="200">
                             <div className='txt-tit'>
                                 <div><span>01</span></div>
-                                <div>DPT Agent (실시간 통제)</div>
+                                <div><span>DPT Agent (실시간 통제)</span></div>
                             </div>
                             <p>
                                 - 업무 중 무선 통신 및 매체(USB 등) 원천 차단<br />
@@ -164,7 +164,7 @@ function ProductDpt() {
                         <li data-reveal data-delay="400">
                             <div className='txt-tit'>
                                 <div><span>02</span></div>
-                                <div>Volume Snapshot (시점복원)</div>
+                                <div><span>Volume Snapshot (시점복원)</span></div>
                             </div>
                             <p>
                                 - 변화 이전 상태로의 완벽한 회귀점 생성<br />
@@ -174,7 +174,7 @@ function ProductDpt() {
                         <li data-reveal data-delay="600">
                             <div className='txt-tit'>
                                 <div><span>03</span></div>
-                                <div>File Scan (메타정보 스캔)</div>
+                                <div><span>File Scan (메타정보 스캔)</span></div>
                             </div>
                             <p>
                                 - 반입 시점의 기준선 확립 후 반출 시 비교분석<br />
@@ -196,7 +196,7 @@ function ProductDpt() {
                         <li data-reveal data-delay="200">
                             <div className='txt-tit'>
                                 <div><span>01</span></div>
-                                <div>500GB HDD 파일 스캔, 30~60초 이내</div>
+                                <div><span>500GB HDD 파일 스캔, 30~60초 이내</span></div>
                             </div>
                             <p>
                                 - 윈도우 OS의 병목 현상을 우회하는 Direct Disk Access<br />
@@ -206,7 +206,7 @@ function ProductDpt() {
                         <li data-reveal data-delay="400">
                             <div className='txt-tit'>
                                 <div><span>02</span></div>
-                                <div>Direct Disk Access (OS 병목 우회)</div>
+                                <div><span>Direct Disk Access (OS 병목 우회)</span></div>
                             </div>
                             <p>
                                 - 대규모 사업장, 출입 집중 시간대 병목 현상 해소<br />
