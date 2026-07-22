@@ -123,7 +123,7 @@ function DptVcs() {
                     VCS는 사업장 내부로 반입되는 모든 IT 저장장치(USB, SD Card, HDD) 및 노트북의 바이러스와 악성코드를 사전에 점검하고 치료하여 사업장 내부로의<span className="br"></span> 유입을 원천 차단하는 통합 보안 솔루션입니다.   
                 </p>
                 <div className='cp-tit' data-reveal>
-                    <div>STEP 01</div>
+                    <div><span>STEP 01</span></div>
                     <div>반입 단계, 다중 백신 기반의 무결성 검증</div>
                 </div>
                 <div data-reveal className='step1-list'>
@@ -169,7 +169,7 @@ function DptVcs() {
             </div>
             <div className='con-box'>
                 <div className='cp-tit' data-reveal>
-                    <div>STEP 02</div>
+                    <div><span>STEP 02</span></div>
                     <div>반입 중, DPT 연동을 통한 강력한 노트북 주변장치 통제</div>
                 </div>
                 <div className='cp-con' data-reveal>
@@ -199,7 +199,7 @@ function DptVcs() {
             </div>
             <div className='con-box'>
                 <div className='cp-tit' data-reveal>
-                    <div>STEP 03</div>
+                    <div><span>STEP 03</span></div>
                     <div>반출 단계, 복구 불가능한 데이터 완전 삭제</div>
                 </div>
                 <div className='cp-con two' data-reveal>
@@ -216,7 +216,7 @@ function DptVcs() {
             </div>
             <div className='con-box'>
                 <div className='cp-tit' data-reveal>
-                    <div className='dark'>로컬 AI 통합</div>
+                    <div className='dark'><span>로컬 AI 통합</span></div>
                     <div className='dark'>단순 통제를 넘어선 예측, ‘로컬 AI 엔진’ 탑재</div>
                 </div>
                 <div className='cp-con three1' data-reveal>

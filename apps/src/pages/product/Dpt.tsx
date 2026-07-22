@@ -108,7 +108,7 @@ function ProductDpt() {
                             <div className='ico'><img src={imgDpt2_1} alt="맹목적 포맷" /></div>
                             <div className='txt'>
                                 <div className='txt-tit'>
-                                    <div>기존방식</div>
+                                    <div><span>기존방식</span></div>
                                     <div>전체 포맷 / 일괄 삭제 통제</div>
                                 </div>
                                 <p>
@@ -122,7 +122,7 @@ function ProductDpt() {
                             <div className='ico'><img src={imgDpt2_2} alt="변화된 파일만 선별 통제" /></div>
                             <div className='txt'>
                                 <div className='txt-tit'>
-                                    <div>DPT</div>
+                                    <div><span>DPT</span></div>
                                     <div>선별적 변화된 파일 통제</div>
                                 </div>
                                 <p>
@@ -153,7 +153,7 @@ function ProductDpt() {
                     <ul className='txt'>
                         <li data-reveal data-delay="200">
                             <div className='txt-tit'>
-                                <div>01</div>
+                                <div><span>01</span></div>
                                 <div>DPT Agent (실시간 통제)</div>
                             </div>
                             <p>
@@ -163,7 +163,7 @@ function ProductDpt() {
                         </li>
                         <li data-reveal data-delay="400">
                             <div className='txt-tit'>
-                                <div>02</div>
+                                <div><span>02</span></div>
                                 <div>Volume Snapshot (시점복원)</div>
                             </div>
                             <p>
@@ -173,7 +173,7 @@ function ProductDpt() {
                         </li>
                         <li data-reveal data-delay="600">
                             <div className='txt-tit'>
-                                <div>03</div>
+                                <div><span>03</span></div>
                                 <div>File Scan (메타정보 스캔)</div>
                             </div>
                             <p>
@@ -195,7 +195,7 @@ function ProductDpt() {
                     <ul className='txt top'>
                         <li data-reveal data-delay="200">
                             <div className='txt-tit'>
-                                <div>01</div>
+                                <div><span>01</span></div>
                                 <div>500GB HDD 파일 스캔, 30~60초 이내</div>
                             </div>
                             <p>
@@ -205,7 +205,7 @@ function ProductDpt() {
                         </li>
                         <li data-reveal data-delay="400">
                             <div className='txt-tit'>
-                                <div>02</div>
+                                <div><span>02</span></div>
                                 <div>Direct Disk Access (OS 병목 우회)</div>
                             </div>
                             <p>
