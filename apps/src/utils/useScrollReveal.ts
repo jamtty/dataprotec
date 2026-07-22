@@ -27,7 +27,7 @@ export function useScrollReveal<T extends HTMLElement>(options?: RevealOptions):
           ease: 'expo.out',
           scrollTrigger: {
             trigger: el,
-            start: options?.rootMargin ? `top ${options.rootMargin}` : 'top 82%',
+            start: options?.rootMargin ? `top ${options.rootMargin}` : 'top 100%',
             toggleActions: 'play none none reverse',
           },
         }
@@ -65,7 +65,7 @@ export function useBatchReveal(containerRef: MutableRefObject<HTMLElement | null
             ease: 'expo.out',
             scrollTrigger: {
               trigger: el,
-              start: 'top 82%',
+              start: 'top 95%',
               toggleActions: once ? 'play none none none' : 'play none none reverse',
             },
           }

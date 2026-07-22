@@ -89,9 +89,9 @@ function ProductDpt() {
                 </div>
                 <div className='txtCon'>
                     <ul>
-                        <li>무선 통신 우회<span>(Wi-Fi, 블루투스, 테더링)</span></li>
-                        <li>비인가 저장매체<span>(USB, 클라우드 동기화)</span></li>
-                        <li>파일 은닉<span>(확장자 변경, 숨김/시스템 폴더 위장)</span></li>
+                        <li data-reveal data-delay="200">무선 통신 우회(Wi-Fi, 블루투스, 테더링)</li>
+                        <li data-reveal data-delay="400">비인가 저장매체(USB, 클라우드 동기화)</li>
+                        <li data-reveal data-delay="600">파일 은닉(확장자 변경, 숨김/시스템 폴더 위장)</li>
                     </ul>
                 </div>
             </div>
@@ -149,7 +149,39 @@ function ProductDpt() {
                     파일스캔(특허방식), 시점복원, 에이전트로 실시간 통제까지 3중 융합 하이브리드 기술로 변화된 파일만 정밀 검증하는 국내 선두 기술입니다.
                 </p>
                 <div className='imgCon'>
-                    <img src={imgDpt3} alt="3중 융합 하이브리드 아키텍처 기술로 외부 노트북(저장매체)을 통제하는 무결점 검증 시스템" />
+                    <div className='ico'><img src={imgDpt3} alt="" /></div>
+                    <ul className='txt'>
+                        <li data-reveal data-delay="200">
+                            <div className='txt-tit'>
+                                <div>01</div>
+                                <div>DPT Agent (실시간 통제)</div>
+                            </div>
+                            <p>
+                                - 업무 중 무선 통신 및 매체(USB 등) 원천 차단<br />
+                                - 악의적인 우회 시도 실시간 감시
+                            </p>
+                        </li>
+                        <li data-reveal data-delay="400">
+                            <div className='txt-tit'>
+                                <div>02</div>
+                                <div>Volume Snapshot (시점복원)</div>
+                            </div>
+                            <p>
+                                - 변화 이전 상태로의 완벽한 회귀점 생성<br />
+                                - 수정된 파일을 반입 전 상태로 100% 복원
+                            </p>
+                        </li>
+                        <li data-reveal data-delay="600">
+                            <div className='txt-tit'>
+                                <div>03</div>
+                                <div>File Scan (메타정보 스캔)</div>
+                            </div>
+                            <p>
+                                - 반입 시점의 기준선 확립 후 반출 시 비교분석<br />
+                                - 메타데이터 및 시그니처 정밀 분석 기록
+                            </p>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div className='work3' data-reveal>
@@ -159,7 +191,29 @@ function ProductDpt() {
                     병목 현상 없이, 강력한 보안을 적용하면서도 운영의 효율성을 극대화 할 수 있습니다.
                 </p>
                 <div className='imgCon'>
-                    <img src={imgDpt4} alt="반입 처리 시 압도적 성능, 업무 지연 없는 초고속 파일 스캔 기술" />
+                    <div className='ico'><img src={imgDpt4} alt="" /></div>
+                    <ul className='txt top'>
+                        <li data-reveal data-delay="200">
+                            <div className='txt-tit'>
+                                <div>01</div>
+                                <div>500GB HDD 파일 스캔, 30~60초 이내</div>
+                            </div>
+                            <p>
+                                - 윈도우 OS의 병목 현상을 우회하는 Direct Disk Access<br />
+                                - 핵심 메타 정보만을 선별하여 스캔하는 초고속 분석 기술
+                            </p>
+                        </li>
+                        <li data-reveal data-delay="400">
+                            <div className='txt-tit'>
+                                <div>02</div>
+                                <div>Direct Disk Access (OS 병목 우회)</div>
+                            </div>
+                            <p>
+                                - 대규모 사업장, 출입 집중 시간대 병목 현상 해소<br />
+                                - 강력한 보안 적용과 방문객의 대기 시간 최소화 운영
+                            </p>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div className='work3' data-reveal>
@@ -179,24 +233,96 @@ function ProductDpt() {
               <span data-reveal />
               <div data-reveal data-delay="200">스마트 운영 플로우</div>
             </h3>
-            <div className='work3' data-reveal>
+            <div className='work4' data-reveal>
                 <h4 data-reveal data-delay="200">노트북 반입 절차</h4>
                 <p data-reveal data-delay="200">
                     정상적으로 반입한 노트북의 경우에도 악의적인 다양한 활동으로 인해 보안 유출의 가능성은 존재합니다. DPT는 확장자 위장, 시스템 폴더에<span className="br"></span>
                     숨김 폴더로 은닉, 삭제 후 반출 시도 후에 복원하는 등의 다양한 시도를 완벽하게 차단하는 기술을 보유하고 있습니다.
                 </p>
                 <div className='imgCon'>
-                    <img src={imgDpt6} alt="노트북 반입 절차" />
+                    <div className='ico'>
+                        <img src={imgDpt6} alt="노트북 반입 절차" />
+                    </div>
+                    <div className='txt'>
+                        <ul>
+                            <li data-reveal data-delay="200">
+                                <p className='t1'>방문객 확인</p>
+                                <p className='t2'>
+                                    01. 키오스크 기반 무인화<br />
+                                    (방문객 정보 및 하드웨어 정보 자동 추출)
+                                </p>
+                            </li>
+                            <li data-reveal data-delay="400">
+                                <p className='t1'>동의서 작성</p>
+                                <p className='t2'>
+                                    02. 키오스크 동의서 작성<br />
+                                    개인정보 수집 및 보안서약 전자서명
+                                </p>
+                            </li>
+                            <li data-reveal data-delay="600">
+                                <p className='t1'>노트북 파일 스캔</p>
+                                <p className='t2'>
+                                    03. 노트북 파일 스캔<br />
+                                    방문자 노트북 파일 메타정보 스캔 및<br />
+                                    Volume Snapshot 생성
+                                </p>
+                            </li>
+                            <li data-reveal data-delay="800">
+                                <p className='t1'>정책 적용</p>
+                                <p className='t2'>
+                                    04. 정책적용<br />
+                                    DPT Agent 설치 및 통신/매체 차단 정책 활성화
+                                </p>
+                            </li>
+                            <li data-reveal data-delay="1000">
+                                <p className='t1'>반입 완료(입문)</p>
+                                <p className='t2'>
+                                    05. 반입 절차 완료 후 입문<br />
+                                    반입 절차 확인 후 정상 입문 가능
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div className='work3' data-reveal>
+            <div className='work5' data-reveal>
                 <h4 data-reveal data-delay="200">노트북 반출 절차</h4>
                 <p data-reveal data-delay="200">
                     정상적으로 반출한 노트북의 경우에도 악의적인 다양한 활동으로 인해 보안 유출의 가능성은 존재합니다. DPT는 확장자 위장, 시스템 폴더에<span className="br"></span>
                     숨김 폴더로 은닉, 삭제 후 반출 시도 후에 복원하는 등의 다양한 시도를 완벽하게 차단하는 기술을 보유하고 있습니다.
                 </p>
                 <div className='imgCon'>
-                    <img src={imgDpt7} alt="노트북 반출 절차" />
+                    <ul>
+                        <li data-reveal data-delay="200">
+                            <p className='t1'>방문객 확인</p>
+                            <p className='t2'>
+                                01. 반출 노트북 인증<br />
+                                QR/바코드를 통한 동일 노트북 식별
+                            </p>
+                        </li>
+                        <li data-reveal data-delay="400">
+                            <p className='t1'>동의서 작성</p>
+                            <p className='t2'>
+                                02. 변화된 파일 검출<br />
+                                반입 기준 정보와 현재 파일 상태 시그니처 정밀 분석
+                            </p>
+                        </li>
+                        <li data-reveal data-delay="600">
+                            <p className="t1">03. 정책 설정에 따른 자동 조치<span className='mo-br'></span>(변화된 파일 전송만/영구삭제/시점 복원)</p>
+                        </li>
+                        <li className='col-3' data-reveal data-delay="800">
+                            <p className="t1">변화된 파일 사본 서버 전송</p>
+                            <p className="t1">노트북 생성 파일 영구 삭제</p>
+                            <p className="t1">수정된 파일 반입 시점 복구</p>
+                        </li>
+                        <li data-reveal data-delay="400">
+                            <p className='t1'>반출 완료 (입문)</p>
+                            <p className='t2'>
+                                04. 반출 완료<br />
+                                DPT Agent 자동삭제 및 반출 이력 기록 
+                            </p>
+                        </li>
+                    </ul>
                 </div>
             </div>
           </div>
