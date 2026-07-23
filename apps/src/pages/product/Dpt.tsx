@@ -89,9 +89,9 @@ function ProductDpt() {
                 </div>
                 <div className='txtCon'>
                     <ul>
-                        <li data-reveal data-delay="200">무선 통신 우회(Wi-Fi, 블루투스, 테더링)</li>
-                        <li data-reveal data-delay="400">비인가 저장매체(USB, 클라우드 동기화)</li>
-                        <li data-reveal data-delay="600">파일 은닉(확장자 변경, 숨김/시스템 폴더 위장)</li>
+                        <li data-reveal data-delay="200"><span>무선 통신 우회(Wi-Fi, 블루투스, 테더링)</span></li>
+                        <li data-reveal data-delay="400"><span>비인가 저장매체(USB, 클라우드 동기화)</span></li>
+                        <li data-reveal data-delay="600"><span>파일 은닉(확장자 변경, 숨김/시스템 폴더 위장)</span></li>
                     </ul>
                 </div>
             </div>
