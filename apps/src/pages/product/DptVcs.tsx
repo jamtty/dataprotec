@@ -61,7 +61,7 @@ function DptVcs() {
 
   return (
     <ProductLayout>
-      <div className="contetns prd vcs" ref={containerRef}>
+      <div className="contetns prd NewVcs" ref={containerRef}>
 
         <div className="responsive title_area">
           <h2 data-reveal>VCS <span>Virus Clean System</span></h2>
