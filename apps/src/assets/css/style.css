@@ -1313,6 +1313,7 @@ span.br { display:block }
 #sub .contetns.prd .section_con .img2 li p { color:#222; font-weight:bold; font-size:1.8rem; letter-spacing:-0.5px; margin:2rem 0 0; line-height:140% }
 
 #sub .contetns.prd .section_con .img3 ul { display:flex; flex-wrap:wrap; gap:4.5rem 3rem; padding:0 2rem 3rem; }
+#sub .contetns.prd .section_con .img3.gap ul { gap:11rem; }
 #sub .contetns.prd .section_con .img3 li { text-align:center; padding:0; }
 #sub .contetns.prd .section_con .img3 li p { color:#1c94c3; font-weight:bold; font-size:2.1rem; letter-spacing:-0.5px;  margin:3rem 0 0; line-height:140% }
 
@@ -2741,7 +2742,7 @@ span.br { display:block }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon { margin:10rem 0 0; display:flex; align-items: center; gap:11rem; position:relative; }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon .ico { margin-left:2rem; position:relative;  }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon .ico.top { margin-top:3rem; }
-#sub .contetns.prd.NewDpt-i .work3 .imgCon ul { position:absolute; top:0; left:65rem; }
+#sub .contetns.prd.NewDpt-i .work3 .imgCon ul { position:absolute; top:0; left:60rem; }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon ul li { margin:0 0 1rem; }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon ul li .txt-tit { height:9rem; position:relative; z-index:2; }
 

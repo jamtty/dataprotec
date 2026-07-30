@@ -85,8 +85,7 @@ function ProductDptI() {
         <div className="responsive title_area">
           <h2 data-reveal>DPT-i <span>Intelligent Notebook Security</span></h2>
           <p data-reveal data-delay="200">
-            DPT-i (Intelligent Notebook Security Solution)는 노트북의 무단 반출을 통제하고 승인된 반출절차를 통해 사내 노트북의 보안 통제 관리<span className="br"></span>
-            솔루션입니다.  사내 공용 노트북, 업무용 노트북 출장의 통합 보안 관리와 주변장치 제어 및 통제, 파일 분석 및 백업 등을 통해 사내<span className="br"></span>
+            DPT-i (Intelligent Notebook Security Solution)는 노트북의 무단 반출을 통제하고 승인된 반출절차를 통해 사내 노트북의 보안 통제<span className="br"></span>관리 솔루션입니다.  사내 공용 노트북, 업무용 노트북 출장의 통합 보안 관리와 주변장치 제어 및 통제, 파일 분석 및 백업 등을 통해 사내<span className="br"></span>
             기밀자료 정보 유출을 대비할 수 있고, 복귀 시점 복원 및 변화된 파일 분석과 초기화 등의 절차로 운용의 편리성을 동시에 추구합니다.
           </p>
         </div>
@@ -459,7 +458,7 @@ function ProductDptI() {
                 </table>
                 <p className="notice" data-reveal>※ Kiosk와 사양은 납품사의 사정에 따라 협의 없이 변경 될 수 있습니다.</p>
             </div>
-            <div className="img3">
+            <div className="img3 gap">
                 <ul>
                 <li data-reveal data-delay="100">
                     <div><img src={product4Con4_2_1} alt="" /></div>
