@@ -2299,8 +2299,6 @@ span.br { display:block }
 #sub .contetns.prd.NewVcs .con-box .cp-tit div:nth-child(2) span { transform:skewX(20deg); display:inline-block; font-weight:600; }
 
 #sub .contetns.prd.NewVcs .con-box .cp-tit .dark { background:#2b3da9 !important; }
-#sub .contetns.prd.NewVcs .img2.bg { max-width:111rem; margin:6rem 0 0; padding:0 0 10rem; background:url('../images/img_dpt_8_bg.png') center 15rem/contain no-repeat; }
-
 #sub .contetns.prd.NewVcs .con-box .pad { padding-left:8rem; }
 #sub .contetns.prd.NewVcs .ul-con-list { margin:6rem 0 0; }
 #sub .contetns.prd.NewVcs .ul-con-list li { padding:1rem 0 0 29rem; font-size:2rem; font-weight:400; color:#333; margin:0 0 6.5rem; background-repeat:no-repeat; background-position:left center; background-size:22rem auto; }
@@ -2499,7 +2497,8 @@ span.br { display:block }
 }
 
 #sub .contetns.prd .max-width { max-width:123.5rem; }
-#sub .contetns.prd.NewDpt .img2.bg { max-width:123.5rem; margin:6rem 0 0; padding:0 0 10rem; background:url('../images/img_dpt_8_bg.png') center 15rem/contain no-repeat; }
+/* ===== ?�품?�개 공통 img2.bg ===== */
+#sub .contetns.prd .img2.bg { max-width:123.5rem; margin:6rem 0 0; padding:0 0 10rem; background:url('../images/img_dpt_8_bg.png') center 15rem/contain no-repeat; }
 [data-reveal] { opacity:0; transform:translateY(5rem); }
 #sub .contetns.prd.NewDpt .work { max-width:121rem; display:flex; align-items: center; margin:0 0 5rem;  }
 #sub .contetns.prd.NewDpt .work .imgCon { flex:1; }
@@ -2778,8 +2777,6 @@ span.br { display:block }
 	#sub .contetns.prd.NewDpt-i .work3 .imgCon ul li .txt-tit div:nth-child(2) { top:2.5rem; left:4rem; height:5rem; width:90%; padding:0; font-size:1.6rem; }
 	#sub .contetns.prd.NewDpt-i .work3 .imgCon ul li p { margin:2rem 0 0 4rem; font-size:1.8rem; }
 }
-
-#sub .contetns.prd.NewDpt-i .img2.bg { max-width:123.5rem; margin:6rem 0 0; padding:0 0 10rem; background: url('../images/img_dpt_8_bg.png') center 15rem/contain no-repeat; }
 
 
 
