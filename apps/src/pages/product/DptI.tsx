@@ -198,7 +198,7 @@ function ProductDptI() {
                     사내(지급/대여)노트북을 위한 이력관리, 매체제어, 대여 노트북의 무인 키오스크와 보관함을 연동한 24H 관리자 무개입의 관리 효율성까지 한번에!<span className="br"></span>
                     DPT-i(Intelligent Notebook Security)가 사내 노트북 관리와 보안의 새로운 기준을 제시합니다!   
                 </p>
-                <div className='imgCon' data-reveal data-delay="400">
+                <div className='imgCon mt-70' data-reveal data-delay="400">
                     <img src={prdDptiW2Ico} alt="" />
                     <div className='txt'>
                         <p className='tit'>DPT-i 솔루션</p>
