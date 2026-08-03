@@ -102,7 +102,10 @@ function ProductDptI() {
                     기업 노트북의 대여, 사용, 반납, 초기화 및 완전삭제 등의 전 과정을 안전하고 체계적으로 관리합니다.  
                 </p>
                 <div className='max-width' data-reveal data-delay="400">
-                    <img src={prdDptiImg1} alt="" />
+                    <div className='relative'>
+                        <img src={prdDptiImg1} alt="" />
+                        <div className='txt'>* 보관함은 실제 이미지와 다릅니다</div>
+                    </div>
                 </div>
                 <div className='imgCon' data-reveal>
                     <ul>
