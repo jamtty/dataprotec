@@ -14,25 +14,8 @@ import imgDpt8_3 from '../../assets/images/img_dpt_8_3.png'
 import imgDpt8_4 from '../../assets/images/img_dpt_8_4.png'
 import imgDpt8_5 from '../../assets/images/img_dpt_8_5.png'
 import imgDpt8Plus from '../../assets/images/img_dpt_8_plus.png'
-
-
-
-import product4Bg1Img from '../../assets/images/product4_bg1_img.png'
-import product4Con1_1 from '../../assets/images/product4_con1_1.jpg'
-import product4Con1_2 from '../../assets/images/product4_con1_2.jpg'
-import product4Con1_3 from '../../assets/images/product4_con1_3.jpg'
-import product4Con1_4 from '../../assets/images/product4_con1_4.jpg'
-import product4Con1_5 from '../../assets/images/product4_con1_5.jpg'
 import productCon2 from '../../assets/images/product_con2.jpg'
 import product4Con2 from '../../assets/images/product4_con2.jpg'
-import product4Con3 from '../../assets/images/product4_con3.png'
-import product4Bg2Logo from '../../assets/images/product4_bg2_logo.png'
-import productCon3_1 from '../../assets/images/product_con3_1.jpg'
-import productCon3Plus from '../../assets/images/product_con3_plus.jpg'
-import productCon3_2 from '../../assets/images/product_con3_2.jpg'
-import productCon3_3 from '../../assets/images/product_con3_3.jpg'
-import productCon3_4 from '../../assets/images/product_con3_4.jpg'
-import productCon3_5 from '../../assets/images/product_con3_5.jpg'
 import product4Con4_1 from '../../assets/images/product4_con4_1.png'
 import product4Con4_2 from '../../assets/images/product4_con4_2.png'
 import product4Con4_3 from '../../assets/images/product4_con4_3.png'
@@ -104,7 +87,7 @@ function ProductDptI() {
                 <div className='max-width' data-reveal data-delay="400">
                     <div className='relative'>
                         <img src={prdDptiImg1} alt="" />
-                        <div className='txt'>* 보관함은 실제 이미지와 다릅니다</div>
+                        <div className='txt'>* 보관함은 실제 이미지와 다릅니다.</div>
                     </div>
                 </div>
                 <div className='imgCon' data-reveal>
