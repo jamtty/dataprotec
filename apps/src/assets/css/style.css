@@ -2794,7 +2794,8 @@ span.br { display:block }
 .ul-list-eraser { margin:3rem 0 0; background: url('../images/ico_eraser_new_bg.png') center 8rem / cover no-repeat; }
 .ul-list-eraser ul { display:flex;  }
 .ul-list-eraser ul li { margin-left:-1rem; position:relative; }
-.ul-list-eraser ul li p { font-size:2rem; font-weight:600; text-align:center; }
+.ul-list-eraser ul li p { font-size:1.7rem !important; font-weight:500 !important; text-align:center !important; line-height:1.4 !important; color:#444 !important; }
+.ul-list-eraser ul li p strong { display:block; font-size:2rem; font-weight:700; margin:0 0 1rem; color:#111 !important;  }
 .ul-list-eraser ul li:nth-child(even) { bottom:-6rem; }
 
 @media all and (max-width:1023px) {

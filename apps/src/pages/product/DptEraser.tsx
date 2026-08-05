@@ -72,7 +72,7 @@ function ProductDptI() {
       <div className="contetns prd NewDpt-i" ref={containerRef}>
 
         <div className="responsive title_area">
-          <h2 data-reveal>Digital Eraser <span>All-in-one Data Erasing, Digital Eraser</span></h2>
+          <h2 data-reveal>Digital Eraser <span>All-in-one Data Erasing</span></h2>
           <p data-reveal data-delay="200">
             디지털이레이저는 국가정보원 보안적합성 검증필(NSPL-2010-018)을 인증 받은 데이터 영구삭제 솔루션 입니다. 하나의 어플라이언스로<span className="br"></span>
             네트워크 연동 삭제, USB 부팅 삭제, 디바이스 삭제 방식 등의 세 가지 방식을 통합지원 및 관리 가능하여 경쟁력과 업무 효율성을 갖춘<span className="br"></span>솔루션으로 영구삭제의 새로운 기준을 제시하는 올인원 어플라이언스입니다.
@@ -216,7 +216,7 @@ function ProductDptI() {
                         </p>
                     </li>
                     <li data-reveal data-delay="200">
-                        <p className='tit'><span>검증성 Verification</span></p>
+                        <p className='tit'><span>운영성 Operations</span></p>
                         <p className='info'>
                             중앙 집중식 통합관리로<span className="br"></span>
                             신청, 진행, 결과를 웹 방식<span className="br"></span>
@@ -244,23 +244,23 @@ function ProductDptI() {
                         <ul>
                             <li data-reveal data-delay="100">
                                 <img src={prdDpteraserImg1} alt="" />
-                                <p>업무용 단말기<br />노트북, PC</p>
+                                <p><strong>업무용 단말기</strong>노트북, PC</p>
                             </li>
                             <li data-reveal data-delay="300">
                                 <img src={prdDpteraserImg2} alt="" />
-                                <p>내부 저장장치<br />HDD, SDD, M.2 SSD,<br />U.2/U.3 NVMe</p>
+                                <p><strong>내부 저장장치</strong>HDD, SDD, M.2 SSD,<br />U.2/U.3 NVMe</p>
                             </li>
                             <li data-reveal data-delay="500">
                                 <img src={prdDpteraserImg3} alt="" />
-                                <p>외부 저장장치<br />USB메모리, 외장HDD,<br />외장SDD</p>
+                                <p><strong>외부 저장장치</strong>USB메모리, 외장HDD,<br />외장SDD</p>
                             </li>
                             <li data-reveal data-delay="700">
                                 <img src={prdDpteraserImg4} alt="" />
-                                <p>이동식 저장매체<br />SD, Micro SD Card</p>
+                                <p><strong>이동식 저장매체</strong>SD, Micro SD Card</p>
                             </li>
                             <li data-reveal data-delay="900">
                                 <img src={prdDpteraserImg5} alt="" />
-                                <p>서버/기타<br />서버용HDD/SDD,<br />외주/협력업체<br />반출 매체</p>
+                                <p><strong>서버/기타</strong>서버용HDD/SDD,<br />외주/협력업체<br />반출 매체</p>
                             </li>
                         </ul>
                     </div>
