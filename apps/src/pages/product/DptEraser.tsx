@@ -514,7 +514,7 @@ function ProductDptI() {
                 </tr>
                 </tbody>
             </table>
-            <p className="notice">※ 사양은 납품사의 사정에 따라 협의 없이 변경 될 수 있습니다.</p>
+            <p className="notice">※ Kiosk와 사양은 납품사의 사정에 따라 협의 없이 변경 될 수 있습니다.</p>
             </div>
         </div>
 

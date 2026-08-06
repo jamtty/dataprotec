@@ -378,22 +378,22 @@ function ProductDptI() {
             </p>
             <div className="img3">
                 <ul>
-                <li data-reveal data-delay="100">
-                    <div><img src={product4Con4_1} alt="" /></div>
-                    <p>노트북 등록</p>
-                </li>
-                <li data-reveal data-delay="200">
-                    <div><img src={product4Con4_2} alt="" /></div>
-                    <p>노트북 정보수집</p>
-                </li>
-                <li data-reveal data-delay="300">
-                    <div><img src={product4Con4_3} alt="" /></div>
-                    <p>노트북 대여 중 화면</p>
-                </li>
-                <li data-reveal data-delay="400">
-                    <div><img src={product4Con4_4} alt="" /></div>
-                    <p>노트북대여 만료 화면</p>
-                </li>
+                    <li data-reveal data-delay="100">
+                        <div><img src={product4Con4_1} alt="" /></div>
+                        <p>노트북 등록</p>
+                    </li>
+                    <li data-reveal data-delay="200">
+                        <div><img src={product4Con4_2} alt="" /></div>
+                        <p>노트북 정보수집</p>
+                    </li>
+                    <li data-reveal data-delay="300">
+                        <div><img src={product4Con4_3} alt="" /></div>
+                        <p>노트북 대여 중 화면</p>
+                    </li>
+                    <li data-reveal data-delay="400">
+                        <div><img src={product4Con4_4} alt="" /></div>
+                        <p>노트북대여 만료 화면</p>
+                    </li>
                 </ul>
             </div>
             <div className='width-1105'>
