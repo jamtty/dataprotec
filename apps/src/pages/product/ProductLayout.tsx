@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import SubLayout from '../../components/common/SubLayout'
 
 const lnbItems = [
-  // { label: 'DVMS', href: '/product/dvms' },
+  { label: 'DVMS', href: '/product/dvms' },
   { label: 'DPT-ID', href: '/product/dpt-id' },
   { label: 'VCS', href: '/product/vcs' },
   // { label: 'DPT Enterprise', href: '/product' },

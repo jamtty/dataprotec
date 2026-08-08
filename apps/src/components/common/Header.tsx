@@ -14,7 +14,7 @@ const navItems: NavItem[] = [
     label: '제품소개',
     href: '/product/dpt-id',
     sub: [
-      // { label: 'DVMS', href: '/product/dvms' },
+      { label: 'DVMS', href: '/product/dvms' },
       { label: 'DPT-ID', href: '/product/dpt-id' },
       { label: 'VCS', href: '/product/vcs' },
       // { label: 'DPT Enterprise', href: '/product' },

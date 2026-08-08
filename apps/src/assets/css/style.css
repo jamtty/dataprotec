@@ -2673,7 +2673,7 @@ span.br { display:block }
 
 
 /* ===== NewDpt-i ===== */
-#sub .contetns.prd.NewDpt-i .work { max-width:121rem; margin:0 0 5rem; }
+#sub .contetns.prd.NewDpt-i .work { max-width:121rem; margin:0 0 5rem;  }
 #sub .contetns.prd.NewDpt-i .work .imgCon { margin:0 0 7rem; }
 #sub .contetns.prd.NewDpt-i .work .imgCon ul { display:flex; flex-wrap:wrap; gap:5rem 9rem; }
 #sub .contetns.prd.NewDpt-i .work .imgCon ul li { width: calc(50% - 4.5rem); position:relative;  }
@@ -2751,10 +2751,10 @@ span.br { display:block }
 
 }
 
-#sub .contetns.prd.NewDpt-i .work3 { margin:0 0 15rem; }
+#sub .contetns.prd.NewDpt-i .work3 { margin:8rem 0 15rem; }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon { margin:10rem 0 0; display:flex; align-items: center; gap:11rem; position:relative; }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon .ico { margin-left:2rem; position:relative; z-index:2; }
-#sub .contetns.prd.NewDpt-i .work3 .imgCon .ico.top { margin-top:3rem; z-index:-1; }
+#sub .contetns.prd.NewDpt-i .work3 .imgCon .ico.top { margin-top:4rem; z-index:-1; }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon ul { z-index:1; position:absolute; top:0; left:60rem; }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon ul li { margin:0 0 1rem; }
 #sub .contetns.prd.NewDpt-i .work3 .imgCon ul li .txt-tit { height:9rem; position:relative; z-index:2; }

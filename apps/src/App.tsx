@@ -17,6 +17,7 @@ import ProductEnterprise from './pages/product/DptEnterprise'
 import ProductDpt from './pages/product/Dpt'
 import ProductPro from './pages/product/DptPro'
 import ProductEraser from './pages/product/DptEraser'
+import ProductDvms from './pages/product/Dvms'
 import ProductDptI from './pages/product/DptI'
 import ProductDptId from './pages/product/DptId'
 import ProductVcs from './pages/product/DptVcs'
@@ -82,6 +83,7 @@ function App() {
         <Route path="/product/dpt" element={<ProductDpt />} />
         <Route path="/product/pro" element={<ProductPro />} />
         <Route path="/product/eraser" element={<ProductEraser />} />
+        <Route path="/product/dvms" element={<ProductDvms />} />
         <Route path="/product/dpt-i" element={<ProductDptI />} />
         <Route path="/product/dpt-id" element={<ProductDptId />} />
         <Route path="/product/vcs" element={<ProductVcs />} />
