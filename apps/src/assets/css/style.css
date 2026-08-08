@@ -2792,8 +2792,7 @@ span.br { display:block }
 	#sub .contetns.prd.NewDpt-i .work3 .imgCon ul li p { margin:2rem 0 0 4rem; font-size:1.8rem; }
 }
 
-.ImgMargin { margin:5rem 0; }
-.ImgMargin2 { margin:5rem 0 5rem 2rem; }
+.ImgMargin { margin:5rem 0; position:relative; }
 
 .work-eraser { margin:0 0 10rem; }
 .ul-list-eraser { margin:3rem 0 0; background: url('../images/ico_eraser_new_bg.png') center 8rem / cover no-repeat; }
@@ -2826,6 +2825,30 @@ span.br { display:block }
     .ul-list-eraser ul li p { font-size:1.2rem; }
 }
 
+.dptIdimgWrap { margin:5rem 0 5rem 2rem; position:relative; }
+.dptIdimgWrap .po_txt { position:absolute; z-index:9; }
+.dptIdimgWrap .po_txt.a { top:12.5rem; left:0; }
+.dptIdimgWrap .po_txt.b { top:40.5rem; left:0; }
+.dptIdimgWrap .po_txt.c { top:3.5rem; right:14rem; }
+.dptIdimgWrap .po_txt.d { top:20rem; right:14rem; }
+.dptIdimgWrap .po_txt.e { top:41rem; right:14rem; }
+.dptIdimgWrap .po_txt .tit { width:25rem; height:6rem; display:flex; align-items: center; justify-content: center; background:#0166fa; font-size:2rem; font-weight:600; color:#fff; }
+.dptIdimgWrap .po_txt .info { margin:2rem 0 0 1rem; font-size:2rem; font-weight:600; color:#333; }
+.dptIdimgWrap .po_txt .info span { display:inline-block; width:1rem; }
+.dptIdimgWrap .line { position:absolute; z-index:7; top:7rem; left:23rem;  }
+
+@media all and (max-width:1023px) {
+    .dptIdimgWrap { margin:3rem 0; }
+    .dptIdimgWrap .po_txt { position:relative; z-index:auto; margin:3rem 0 2.5rem; }
+    .dptIdimgWrap .po_txt.a,
+    .dptIdimgWrap .po_txt.b,
+    .dptIdimgWrap .po_txt.c,
+    .dptIdimgWrap .po_txt.d,
+    .dptIdimgWrap .po_txt.e { top:auto; left:auto; right:auto; }
+    .dptIdimgWrap .po_txt .tit { width:100%; height:5rem; font-size:1.8rem; }
+    .dptIdimgWrap .po_txt .info { margin:1.2rem 0 0; font-size:1.7rem; }
+    .dptIdimgWrap .line { display:none; }
+}
 
 
 

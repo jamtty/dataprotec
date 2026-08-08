@@ -5,6 +5,7 @@ import 'swiper/css'
 import ProductLayout from './ProductLayout'
 import { useBatchReveal } from '../../utils/useScrollReveal'
 import prdDptiImg1 from '../../assets/images/img_dptid_con_1.png'
+import prdDptiImg1_line from '../../assets/images/img_dptid_con_1_bg.png'
 import prdDptiW2Ico from '../../assets/images/img_dpt_eraser_2.png'
 import prdDptiw3Img2 from '../../assets/images/img_dpt_eraser_3.png'
 import imgDpt8_1 from '../../assets/images/img_dpt_eraser8_1.png'
@@ -106,8 +107,45 @@ function ProductDptI() {
                     500여장의 출입 카드가 듀얼로 연결 운영되어 하나의 장치에 장애가 발생해도 예비 장치로 전환되어 발급 중단 사태를 방지할 수 있습니다.
                 </p>
                 <div className='max-width' data-reveal data-delay="400">
-                    <div className='ImgMargin2'>
-                        <img src={prdDptiImg1} alt="" />
+                    <div className='dptIdimgWrap'>
+                        <img src={prdDptiImg1} data-reveal data-delay="100" alt="" />
+                        <div className='line' data-reveal data-delay="200"><img src={prdDptiImg1_line} alt="" /></div>
+                        <div className='po_txt a' data-reveal data-delay="300">
+                            <div className='tit'>신분증/고속 OCR 지원</div>
+                            <div className='info'>
+                                - 방문시스템, 주차, 게이트 시스템 연동<br />
+                                - 주민등록증/면허증 진위확인 단말기 모듈<br />
+                                <span></span>(행정자치부 진위확인시스템 표준규격 인증)
+                            </div>
+                        </div>
+                        <div className='po_txt b' data-reveal data-delay="400">
+                            <div className='tit'>듀얼 디스펜서 시스템</div>
+                            <div className='info'>
+                                - 장애 발생 시 자동 예비 장치 가동<br />
+                                - 1,000장 출입 카드 발급 가능
+                            </div>
+                        </div>
+                        <div className='po_txt c' data-reveal data-delay="500">
+                            <div className='tit'>32인치 대화면/지능형UX</div>
+                            <div className='info'>
+                                - 근접 센서 사용자 자동 감지<br />
+                                - 키오스크 무인 안내(음성포함)
+                            </div>
+                        </div>
+                        <div className='po_txt d' data-reveal data-delay="600">
+                            <div className='tit'>QR, 바코드 인식</div>
+                            <div className='info'>
+                                - 다양한 인증 방식<br />
+                                - 사전 등록된 물품 반입 관리
+                            </div>
+                        </div>
+                        <div className='po_txt e' data-reveal data-delay="700">
+                            <div className='tit'>무정전 전원 관리</div>
+                            <div className='info'>
+                                - UPS 전원 장치<br />
+                                - 실시간 장비 상태 모니터링
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className='imgCon' data-reveal>
