@@ -886,7 +886,7 @@ function Main() {
 						<span>News Room</span>
 						<strong>뉴스룸</strong>
 					</h2>
-                    <Link to='/promotion/news'>더 보기</Link>
+                    <Link to='/promotion'>더 보기</Link>
 				</div>
                 <ul className='ul-list'>
                     {newsItems.map(item => (
