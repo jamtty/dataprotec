@@ -873,6 +873,7 @@ function Main() {
                             </div> */}
                         </div>
                     </div>
+                    <div className='bg'></div>
                 </div>
             </div>
         </div>
