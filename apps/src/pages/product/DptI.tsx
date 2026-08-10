@@ -139,7 +139,7 @@ function ProductDptI() {
                     </ul>
                 </div>
                 <div className='tbl-scroll'>
-                    <table className="pyo5" data-reveal>
+                    <table className="pyo5 bg" data-reveal>
                         <thead>
                             <tr>
                                 <th>구분</th>
