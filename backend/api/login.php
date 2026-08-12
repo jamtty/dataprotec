@@ -3,11 +3,12 @@
 
 ob_start();
 ini_set('display_errors', '0');
-set_error_handler(function(int $errno, string $errstr) {
+ini_set('log_errors', '1');
+set_error_handler(function() {
     ob_end_clean();
     header('Content-Type: application/json; charset=utf-8');
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'PHP 오류: ' . $errstr . ' (' . $errno . ')']);
+    echo json_encode(['success' => false, 'message' => '서버 오류가 발생했습니다.']);
     exit;
 });
 register_shutdown_function(function() {
@@ -16,7 +17,7 @@ register_shutdown_function(function() {
         ob_end_clean();
         header('Content-Type: application/json; charset=utf-8');
         http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Fatal: ' . $err['message']]);
+        echo json_encode(['success' => false, 'message' => '서버 오류가 발생했습니다.']);
     }
 });
 

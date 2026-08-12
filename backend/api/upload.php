@@ -12,7 +12,7 @@ register_shutdown_function(function () {
             header('Content-Type: application/json; charset=utf-8');
             http_response_code(500);
         }
-        echo json_encode(['success' => false, 'message' => 'Fatal: ' . $err['message']]);
+        echo json_encode(['success' => false, 'message' => '서버 오류가 발생했습니다.']);
     }
 });
 

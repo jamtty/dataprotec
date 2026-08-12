@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuthStore, isTokenExpired } from '@/store/useAuthStore'
 import AdminLoginPage from './pages/admin/AdminLoginPage'
 import AdminNewsroomPage from './pages/admin/AdminNewsroomPage'
@@ -40,10 +40,45 @@ const basename = '/'
 function AdminRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, accessToken, clearAuth } = useAuthStore()
   const navigate = useNavigate()
+  const [verified, setVerified] = useState(false)
+  const [checking, setChecking] = useState(true)
 
+  // 서버에 토큰 유효성 검증 요청 (클라이언트 측 변조 방지)
   useEffect(() => {
-    if (!isAuthenticated || !accessToken) return
-    // 토큰 남은 시간 계산 후 만료 시점에 자동 로그아웃
+    if (!isAuthenticated || !accessToken) {
+      setChecking(false)
+      return
+    }
+
+    let cancelled = false
+    fetch('/backend/api/verify-token.php', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then(res => res.json())
+      .then((data: { success: boolean }) => {
+        if (cancelled) return
+        if (data.success) {
+          setVerified(true)
+        } else {
+          clearAuth()
+          navigate('/admin/login', { replace: true })
+        }
+      })
+      .catch(() => {
+        if (cancelled) return
+        clearAuth()
+        navigate('/admin/login', { replace: true })
+      })
+      .finally(() => {
+        if (!cancelled) setChecking(false)
+      })
+
+    return () => { cancelled = true }
+  }, [isAuthenticated, accessToken, clearAuth, navigate])
+
+  // 검증 완료 후 자동 로그아웃 타이머 설정
+  useEffect(() => {
+    if (!verified || !accessToken) return
     try {
       const parts = accessToken.split('.')
       if (parts.length === 3) {
@@ -65,9 +100,14 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
     } catch {
       // 파싱 실패 시 무시
     }
-  }, [isAuthenticated, accessToken, clearAuth, navigate])
+  }, [verified, accessToken, clearAuth, navigate])
 
-  if (!isAuthenticated || isTokenExpired(accessToken)) {
+  // 초기 체크 중이면 로딩 표시
+  if (checking && isAuthenticated && accessToken) {
+    return <div style={{ display:'flex', justifyContent:'center', alignItems:'center', height:'100vh' }}>인증 확인 중...</div>
+  }
+
+  if (!isAuthenticated || isTokenExpired(accessToken) || !verified) {
     return <Navigate to="/admin/login" replace />
   }
   return <>{children}</>
