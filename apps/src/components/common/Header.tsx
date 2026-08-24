@@ -6,6 +6,7 @@ import logohover from '../../assets/images/logo_hover@2x.png'
 interface NavItem {
   label: string
   href: string
+  match?: string
   sub: { label: string; href: string }[]
 }
 
@@ -13,6 +14,7 @@ const navItems: NavItem[] = [
   {
     label: '제품소개',
     href: '/product/dvms',
+    match: '/product',
     sub: [
       { label: 'DVMS', href: '/product/dvms' },
       { label: 'DPT-ID', href: '/product/dpt-id' },
@@ -66,7 +68,8 @@ function Header() {
   const location = useLocation()
   const isSubPage = location.pathname !== '/'
 
-  const isActive = (href: string) => {
+  const isActive = (item: NavItem) => {
+    const href = item.match ?? item.href
     if (href === '#') return false
     if (href === '/') return location.pathname === '/'
     return location.pathname.startsWith(href)
@@ -164,15 +167,15 @@ function Header() {
           </div>
           <ul className="gnb" role="navigation" aria-label="주요 메뉴">
             {navItems.map((item, idx) => (
-              <li key={idx} className={isActive(item.href) ? 'active' : ''} style={{ position: 'relative' }}>
+              <li key={idx} className={isActive(item) ? 'active' : ''} style={{ position: 'relative' }}>
                 <Link
                   to={item.href}
-                  style={isActive(item.href) ? { color: '#0064af' } : {}}
-                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  style={isActive(item) ? { color: '#0064af' } : {}}
+                  aria-current={isActive(item) ? 'page' : undefined}
                 >{item.label}</Link>
                 <div
                   className="active_line"
-                  style={isActive(item.href) ? { left: 0, opacity: 1 } : {}}
+                  style={isActive(item) ? { left: 0, opacity: 1 } : {}}
                 />
               </li>
             ))}
