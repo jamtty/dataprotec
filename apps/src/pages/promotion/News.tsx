@@ -64,7 +64,7 @@ function PromotionNews() {
           <h3><span data-aos="fade-right"></span><div data-aos="fade-up" data-aos-delay="200">뉴스룸</div></h3>
           <div id="bo_list">
             <div className="search">
-              <select value={searchType} onChange={handleSearchTypeChange}>
+              <select value={searchType} onChange={handleSearchTypeChange} aria-label="검색 분류">
                 {searchTypes.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
               <input
@@ -73,6 +73,7 @@ function PromotionNews() {
                 onChange={e => setSearchInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="검색어를 입력하세요"
+                aria-label="검색어"
               />
               <button type="button" className="sch_btn" onClick={handleSearch} aria-label="검색"></button>
             </div>
@@ -112,6 +113,7 @@ function PromotionNews() {
                     type="button"
                     className={currentPage === page ? 'active' : ''}
                     onClick={() => setCurrentPage(page)}
+                    aria-current={currentPage === page ? 'page' : undefined}
                   >{page}</button>
                 ))}
                 <button type="button" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} aria-label="다음">{'>'}</button>

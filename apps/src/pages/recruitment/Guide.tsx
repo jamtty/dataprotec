@@ -54,7 +54,7 @@ function RecruitmentGuide() {
 
           <h4 className="margin">데이타프로텍 채용과정</h4>
           <div className="img">
-            <img src={recruitment3Img} alt="" />
+            <img src={recruitment3Img} alt="데이타프로텍 채용과정 안내" />
           </div>
 
           <p>

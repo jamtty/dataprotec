@@ -127,7 +127,7 @@ function ProductEnterprise() {
             <p>
               DPT 엔터프라이즈는 첨단기술사업장, 공공기관, 국가시설 등의 내부로 반입되는 노트북이나 저장매체로 인한 정보 유출을 방지하기 위한
               시스템입니다. 기존의 방식은 노트북 보안스티커 부착으로 매체 통제를 하고, X-RAY 검색대로 반출 시 보안 검색을 하는 방식입니다.
-              하지만 저장매체의 파일 유출을 방지하기엔 역부족입니다. 반입 시 스캔 된 파일정보 대비 변화된 모든 데이터를 완벽하게 추적할 수 있습니다.
+              하지만 저장매체의 파일 유출을 방지하기엔 역부족입니다. 반입 시 스캔된 파일정보 대비 변화된 모든 데이터를 완벽하게 추적할 수 있습니다.
               이를 반입 시점으로 원복 또는 복원 불가능 하도록 완전삭제 할 수도 있고, 고객사 서버에 변화된 파일 데이터를 전송하여 사후 추적하여
               보안사고와 대비를 할 수 있습니다. 첨단기술의 유출을 방지하고자 하는 대규모 사업장이라면 DPT-Enterprise가 해답이 될 것입니다.
             </p>
@@ -148,8 +148,8 @@ function ProductEnterprise() {
               <div data-aos="fade-up" data-aos-delay="200">DPT-Enterprise 특장점</div>
             </h3>
             <p>
-              핵심 기술인 DPT는 2009년 부터 지속적으로 대기업 및 해외현지법인, 공공기관, 국가중요시설 등에 설치 운영되고 있습니다.
-              반입시 방문자의 바이러스 및 악성코드 유입을 줄이고 완벽한 매체차단으로 반입 노트북을 통제할 수 있으며 반출 시에는 변화된
+              핵심 기술인 DPT는 2009년부터 지속적으로 대기업 및 해외현지법인, 공공기관, 국가중요시설 등에 설치 운영되고 있습니다.
+              반입 시 방문자의 바이러스 및 악성코드 유입을 줄이고 완벽한 매체차단으로 반입 노트북을 통제할 수 있으며 반출 시에는 변화된
               파일만 선택적으로 영구삭제하여 운영의 효율성을 극대화할 수 있습니다. 특히 DPT-Enterprise는 대규모 사업장에 맞춰진 키오스크와
               확장형 시스템을 추가할 수 있고 기존 방문자 시스템과 연동하여 고객사 편의와 방문객의 효율성을 높일 수 있습니다.
             </p>
@@ -188,7 +188,7 @@ function ProductEnterprise() {
                 <p data-aos="fade-up">
                   대규모 사업장 방문객 및 노트북, 저장매체 반입·반출 관리 솔루션<br />
                   주요기능 : 노트북 반입·반출관리, USB저장장치 CD-ROM <br />
-                  바이러스 검사기능, 기존 방문자 시스템 연동, 노트북 디스트 영구삭제<br />
+                  바이러스 검사기능, 기존 방문자 시스템 연동, 노트북 디스크 영구삭제<br />
                   내부 인원 출장 시 노트북 보안, 노트북 시점 복원 및 관리
                 </p>
               </div>
@@ -274,11 +274,11 @@ function ProductEnterprise() {
             <table className="pyo">
               <tbody>
                 <tr>
-                  <th>구분</th>
-                  <th>상세내역</th>
+                  <th scope="col">구분</th>
+                  <th scope="col">상세내역</th>
                 </tr>
                 <tr>
-                  <td>DPT Client</td>
+                  <th scope="row">DPT Client</th>
                   <td>
                     반·출입 되는 저장매체(노트북, PC, USB)에 대한 검색/비교 소프트웨어<br />
                     <span className="blue">모든 변화된 파일 검출 / Hidden 파티션 검출 또는 사용금지 기능</span><br />
@@ -288,7 +288,7 @@ function ProductEnterprise() {
                   </td>
                 </tr>
                 <tr>
-                  <td>DPT 관리<br />Appliance</td>
+                  <th scope="row">DPT 관리<br />Appliance</th>
                   <td>
                     반·출입 관리, 통계, 리포팅 수행 및 Gate별 Appliance 통합 관리 (웹매니저)<br />
                     <span className="blue">내방객 노트북 반입/반출 관리, 조회 및 통계 분석, 변화된 파일 내역 관리</span><br />
@@ -298,7 +298,7 @@ function ProductEnterprise() {
                   </td>
                 </tr>
                 <tr>
-                  <td>DPT Gate<br />Appliance</td>
+                  <th scope="row">DPT Gate<br />Appliance</th>
                   <td>
                     <span className="blue">출입Gate에 설치되는 일체형 Kiosk 타입으로 반·출입 절차 수행</span><br />
                     검색대 및 전자서명 모듈 포함한 일체형 Kiosk 타입<br />

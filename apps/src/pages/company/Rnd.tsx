@@ -68,7 +68,7 @@ function CompanyRnd() {
             <p>먼저 고민하고, 끝까지 책임지는 기술</p>
           </div>
           <div className="img" data-aos="fade-zoom-in" data-aos-delay="200" data-aos-duration="500">
-            <img src={company3Con2} alt="" />
+            <img src={company3Con2} alt="미국, 중국, 유럽 등 해외 법인 운영 현황" />
           </div>
           <div className="txt_area">
             <p>데이타프로텍 보안 기술은,<span className="br"></span>고객사의 해외 법인 기술정보 유출 방지를 위해<span className="br"></span><strong>미국, 중국, 유럽</strong>에서 운영 중입니다.</p>
@@ -78,7 +78,7 @@ function CompanyRnd() {
         <div className="responsive section_con">
           <h3><span data-aos="fade-right"></span><div data-aos="fade-up" data-aos-delay="200">조직도</div></h3>
           <div className="img">
-            <img src={company3Con3} alt="" />
+            <img src={company3Con3} alt="데이타프로텍 조직도" />
           </div>
         </div>
 

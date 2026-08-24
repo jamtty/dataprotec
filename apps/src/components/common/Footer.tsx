@@ -16,7 +16,7 @@ function Footer() {
 
   return (
     <>
-      <div id="bottom">
+      <footer id="bottom">
         <div className="inner">
             <div className="logo">
                 <img
@@ -36,7 +36,7 @@ function Footer() {
                 </p>
             </div>
         </div>
-      </div>
+      </footer>
 
       <div
         id="top-btn"
@@ -45,7 +45,7 @@ function Footer() {
           transition: 'bottom 0.3s, opacity 0.3s',
         }}
       >
-        <button type="button" className="top" onClick={scrollToTop} />
+        <button type="button" className="top" onClick={scrollToTop} aria-label="맨 위로 이동" />
       </div>
     </>
   )

@@ -21,7 +21,7 @@ function PromotionMaterial() {
       <div className="contetns">
         <div className="responsive title_area">
           <h2 data-aos="fade-left">홍보자료</h2>
-          <p data-aos="fade-up" data-aos-delay="200">저장매체 정보보안의 '처음과 끝을 책임지는' 기업,<span className="br"></span> 데이타프로텍 홍보자료실 입니다.</p>
+          <p data-aos="fade-up" data-aos-delay="200">저장매체 정보보안의 '처음과 끝을 책임지는' 기업,<span className="br"></span> 데이타프로텍 홍보자료실입니다.</p>
         </div>
         <div className="section1_pr"></div>
         <div className="responsive section_con">

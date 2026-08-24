@@ -83,6 +83,9 @@ export default function LayerPopup() {
         >
           <div
             className="layer_popup_box"
+            role="dialog"
+            aria-modal="true"
+            aria-label={popup.subject || '공지사항 팝업'}
             style={{ width: popup.width, left: popup.pos_left, top: popup.pos_top }}
             onClick={(e) => e.stopPropagation()}
           >

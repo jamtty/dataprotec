@@ -99,13 +99,17 @@ function Header() {
 
   return (
     <>
+      {/* 스킵 내비게이션 */}
+      <a href={isSubPage ? '#sub' : '#index'} className="skip-nav">본문 바로가기</a>
+
       {/* 모바일 메뉴 */}
-      <div id="mobile_menu" className={mobileOpen ? 'open' : ''}>
+      <div id="mobile_menu" className={mobileOpen ? 'open' : ''} aria-label="모바일 메뉴">
         <div className="container">
           <button
             type="button"
             className="mobile_close"
             onClick={() => setMobileOpen(false)}
+            aria-label="메뉴 닫기"
           />
           <div className="logo">
             <img
@@ -119,10 +123,17 @@ function Header() {
                 <Link to={item.href}>{item.label}</Link>
                 {item.sub.length > 0 && (
                   <>
-                    <button type="button" onClick={() => toggleSub(idx)}>
+                    <button
+                      type="button"
+                      onClick={() => toggleSub(idx)}
+                      aria-label={`${item.label} 하위 메뉴 ${openSubIdx === idx ? '닫기' : '열기'}`}
+                      aria-expanded={openSubIdx === idx}
+                      aria-controls={`submenu-${idx}`}
+                    >
                       <i className={openSubIdx === idx ? 'fas fa-minus' : 'fas fa-plus'} aria-hidden="true" />
                     </button>
                     <ul
+                      id={`submenu-${idx}`}
                       className="sub"
                       style={{ maxHeight: openSubIdx === idx ? '40rem' : '0' }}
                     >
@@ -151,12 +162,13 @@ function Header() {
               <img src={logohover} alt="데이타프로텍" className="logo-hover" />
             </Link>
           </div>
-          <ul className="gnb">
+          <ul className="gnb" role="navigation" aria-label="주요 메뉴">
             {navItems.map((item, idx) => (
               <li key={idx} className={isActive(item.href) ? 'active' : ''} style={{ position: 'relative' }}>
                 <Link
                   to={item.href}
                   style={isActive(item.href) ? { color: '#0064af' } : {}}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
                 >{item.label}</Link>
                 <div
                   className="active_line"
@@ -169,6 +181,9 @@ function Header() {
             type="button"
             className="mo_menu mobile_open"
             onClick={() => setMobileOpen(true)}
+            aria-label="메뉴 열기"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile_menu"
           />
         </div>
       </div>

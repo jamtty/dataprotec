@@ -100,35 +100,35 @@ function Support() {
               <table className="tbl_form">
                 <tbody>
                   <tr>
-                    <th><span className="re">*</span> 회사명</th>
-                    <td><input type="text" name="wr_subject" className="frm_input" id="wr_subject" value={company} onChange={e => setCompany(e.target.value)} /></td>
+                    <th scope="row" id="label-company"><span className="re" aria-hidden="true">*</span> 회사명</th>
+                    <td><input type="text" name="wr_subject" className="frm_input" id="wr_subject" aria-labelledby="label-company" aria-required="true" value={company} onChange={e => setCompany(e.target.value)} /></td>
                   </tr>
                   <tr>
-                    <th><span className="re">*</span> 담당자</th>
-                    <td><input type="text" name="wr_name" className="frm_input" id="wr_name" value={manager} onChange={e => setManager(e.target.value)} /></td>
+                    <th scope="row" id="label-manager"><span className="re" aria-hidden="true">*</span> 담당자</th>
+                    <td><input type="text" name="wr_name" className="frm_input" id="wr_name" aria-labelledby="label-manager" aria-required="true" value={manager} onChange={e => setManager(e.target.value)} /></td>
                   </tr>
                   <tr>
-                    <th><span className="re">*</span> 연락처</th>
-                    <td><input type="text" name="wr_1" className="frm_input" id="wr_1" maxLength={13} value={phone} onChange={e => setPhone(e.target.value)} /></td>
+                    <th scope="row" id="label-phone"><span className="re" aria-hidden="true">*</span> 연락처</th>
+                    <td><input type="text" name="wr_1" className="frm_input" id="wr_1" aria-labelledby="label-phone" aria-required="true" maxLength={13} value={phone} onChange={e => setPhone(e.target.value)} /></td>
                   </tr>
                   <tr>
-                    <th><span className="re">*</span> 이메일</th>
-                    <td><input type="text" name="wr_2" className="frm_input" id="wr_2" value={email} onChange={e => setEmail(e.target.value)} /></td>
+                    <th scope="row" id="label-email"><span className="re" aria-hidden="true">*</span> 이메일</th>
+                    <td><input type="text" name="wr_2" className="frm_input" id="wr_2" aria-labelledby="label-email" value={email} onChange={e => setEmail(e.target.value)} /></td>
                   </tr>
                   <tr>
-                    <th style={{ verticalAlign: 'top' }}><span className="re">*</span> 문의내용</th>
-                    <td><textarea name="wr_content" className="frm_input" id="wr_content" value={content} onChange={e => setContent(e.target.value)}></textarea></td>
+                    <th scope="row" id="label-content" style={{ verticalAlign: 'top' }}><span className="re" aria-hidden="true">*</span> 문의내용</th>
+                    <td><textarea name="wr_content" className="frm_input" id="wr_content" aria-labelledby="label-content" aria-required="true" value={content} onChange={e => setContent(e.target.value)}></textarea></td>
                   </tr>
                   <tr>
-                    <th className="cap"><span className="re">*</span> 자동입력방지</th>
+                    <th scope="row" className="cap"><span className="re" aria-hidden="true">*</span> 자동입력방지</th>
                     <td className="cap">
                       <fieldset className="captcha">
                         <legend><label htmlFor="captcha_key">자동등록방지</label></legend>
-                        <canvas ref={canvasRef} width={170} height={50} style={{ display: 'block', margin: '0 0 0.8rem', border: '1px solid #ddd' }} />
+                        <canvas ref={canvasRef} width={170} height={50} role="img" aria-label="자동입력방지 문자 이미지" style={{ display: 'block', margin: '0 0 0.8rem', border: '1px solid #ddd' }} />
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                          <input type="text" name="captcha_key" id="captcha_key" required className="captcha_box" maxLength={6} value={captchaKey} onChange={e => setCaptchaKey(e.target.value)} placeholder="위 문자를 입력하세요" />
-                          <button type="button" onClick={refreshCaptcha} title="새로고침" style={{ height: '4.2rem', width: '4.2rem', border: '1px solid #ccc', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                          <input type="text" name="captcha_key" id="captcha_key" className="captcha_box" maxLength={6} value={captchaKey} onChange={e => setCaptchaKey(e.target.value)} placeholder="위 문자를 입력하세요" />
+                          <button type="button" onClick={refreshCaptcha} title="새로고침" aria-label="자동입력방지 문자 새로고침" style={{ height: '4.2rem', width: '4.2rem', border: '1px solid #ccc', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
                           </button>
                         </div>
                       </fieldset>
@@ -140,7 +140,7 @@ function Support() {
               <div className="agree_wr">
                 <p><span style={{ color: 'red' }}>(필수)</span> 개인정보 수집 및 이용에 대한 동의</p>
                 <div className="agree_txt">
-                  당사는 고객님의 정보를 중요시 하며, 개인정보보호법을 준수하고 있습니다. 고객문의를 통해 수집된 개인정보는 문의에 대한 답변을 회신 드리기 위한 목적으로 활용되며 최소한의 범위 내에서 개인정보를 수집하고 있습니다.<br /><br />
+                  당사는 고객님의 정보를 중요시 하며, 개인정보보호법을 준수하고 있습니다. 고객문의를 통해 수집된 개인정보는 문의에 대한 답변을 회신드리기 위한 목적으로 활용되며 최소한의 범위 내에서 개인정보를 수집하고 있습니다.<br /><br />
 
                   1. 개인정보 수집 목적 및 항목<br />
                   - 수집목적 : 제품/채용/기타문의에 대한 상담 및 처리를 위한 정보 수집<br /><br />

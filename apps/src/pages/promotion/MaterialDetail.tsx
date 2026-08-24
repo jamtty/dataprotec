@@ -147,7 +147,7 @@ function MaterialDetail() {
       <div className="contetns">
         <div className="responsive title_area">
           <h2 data-aos="fade-left">홍보자료</h2>
-          <p data-aos="fade-up" data-aos-delay="200">저장매체 정보보안의 '처음과 끝을 책임지는' 기업,<span className="br"></span> 데이타프로텍 홍보자료실 입니다.</p>
+          <p data-aos="fade-up" data-aos-delay="200">저장매체 정보보안의 '처음과 끝을 책임지는' 기업,<span className="br"></span> 데이타프로텍 홍보자료실입니다.</p>
         </div>
         <div className="section1_pr"></div>
         <div className="responsive section_con">
@@ -187,35 +187,35 @@ function MaterialDetail() {
                     </div>
                   ) : (
                     <form name="brochure" autoComplete="off" onSubmit={e => { e.preventDefault(); handleFormSubmit() }}>
-                      <h4>하단 정보를 입력 후, 확인 버튼을 누르면 브로슈어(PDF)파일을 <span>다운로드</span>받을 수 있습니다.</h4>
+                      <h4>하단 정보를 입력 후, 확인 버튼을 누르면 브로슈어(PDF) 파일을 <span>다운로드</span>받을 수 있습니다.</h4>
                       <table className="tbl_form">
                         <tbody>
                           <tr>
-                            <th><span className="re">*</span> 회사명</th>
-                            <td><input type="text" name="wr_subject" className="frm_input" value={company} onChange={e => setCompany(e.target.value)} /></td>
+                            <th scope="row"><span className="re" aria-hidden="true">*</span> 회사명</th>
+                            <td><input type="text" name="wr_subject" className="frm_input" aria-label="회사명" aria-required="true" value={company} onChange={e => setCompany(e.target.value)} /></td>
                           </tr>
                           <tr>
-                            <th><span className="re">*</span> 담당자</th>
-                            <td><input type="text" name="wr_name" className="frm_input" value={manager} onChange={e => setManager(e.target.value)} /></td>
+                            <th scope="row"><span className="re" aria-hidden="true">*</span> 담당자</th>
+                            <td><input type="text" name="wr_name" className="frm_input" aria-label="담당자" aria-required="true" value={manager} onChange={e => setManager(e.target.value)} /></td>
                           </tr>
                           <tr>
-                            <th><span className="re">*</span> 연락처</th>
-                            <td><input type="text" name="wr_1" className="frm_input" maxLength={13} value={phone} onChange={e => setPhone(e.target.value)} /></td>
+                            <th scope="row"><span className="re" aria-hidden="true">*</span> 연락처</th>
+                            <td><input type="text" name="wr_1" className="frm_input" aria-label="연락처" aria-required="true" maxLength={13} value={phone} onChange={e => setPhone(e.target.value)} /></td>
                           </tr>
                           <tr>
-                            <th><span className="re">*</span> 이메일</th>
-                            <td><input type="text" name="wr_2" className="frm_input" value={email} onChange={e => setEmail(e.target.value)} /></td>
+                            <th scope="row"><span className="re" aria-hidden="true">*</span> 이메일</th>
+                            <td><input type="text" name="wr_2" className="frm_input" aria-label="이메일" aria-required="true" value={email} onChange={e => setEmail(e.target.value)} /></td>
                           </tr>
                           <tr>
-                            <th className="cap"><span className="re">*</span> 자동입력방지</th>
+                            <th scope="row" className="cap"><span className="re" aria-hidden="true">*</span> 자동입력방지</th>
                             <td className="cap">
                               <fieldset className="captcha">
                                 <legend><label htmlFor="captcha_key">자동등록방지</label></legend>
-                                <canvas ref={canvasRef} width={170} height={50} style={{ display: 'block', margin: '0 0 0.8rem', border: '1px solid #ddd' }} />
+                                <canvas ref={canvasRef} width={170} height={50} role="img" aria-label="자동입력방지 문자 이미지" style={{ display: 'block', margin: '0 0 0.8rem', border: '1px solid #ddd' }} />
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                   <input type="text" name="captcha_key" id="captcha_key" className="captcha_box" maxLength={6} value={captchaKey} onChange={e => setCaptchaKey(e.target.value)} placeholder="위 문자를 입력하세요" />
-                                  <button type="button" onClick={refreshCaptcha} title="새로고침" style={{ height: '4.2rem', width: '4.2rem', border: '1px solid #ccc', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                                  <button type="button" onClick={refreshCaptcha} title="새로고침" aria-label="자동입력방지 문자 새로고침" style={{ height: '4.2rem', width: '4.2rem', border: '1px solid #ccc', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
                                   </button>
                                 </div>
                               </fieldset>
@@ -226,7 +226,7 @@ function MaterialDetail() {
                       <div className="agree_wr">
                         <p><span style={{ color: 'red' }}>(필수)</span> 개인정보 수집 및 이용에 대한 동의</p>
                         <div className="agree_txt">
-                          당사는 고객님의 정보를 중요시 하며, 개인정보보호법을 준수하고 있습니다. 고객문의를 통해 수집된 개인정보는 문의에 대한 답변을 회신 드리기 위한 목적으로 활용되며 최소한의 범위 내에서 개인정보를 수집하고 있습니다.<br />
+                          당사는 고객님의 정보를 중요시 하며, 개인정보보호법을 준수하고 있습니다. 고객문의를 통해 수집된 개인정보는 문의에 대한 답변을 회신드리기 위한 목적으로 활용되며 최소한의 범위 내에서 개인정보를 수집하고 있습니다.<br />
                           <br />
                           1. 개인정보 수집 목적 및 항목<br />
                           - 수집목적 : 제품/채용/기타문의에 대한 상담 및 처리를 위한 정보 수집<br />

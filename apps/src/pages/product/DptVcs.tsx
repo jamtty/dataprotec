@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import Swiper from 'swiper'
-import { Navigation } from 'swiper/modules'
+import { Navigation, A11y } from 'swiper/modules'
 import 'swiper/css'
 import ProductLayout from './ProductLayout'
 import { useBatchReveal } from '../../utils/useScrollReveal'
@@ -40,7 +40,12 @@ function DptVcs() {
       const numEl = document.querySelector<HTMLElement>('.section_kiosk .slide-nav .num')
       const totalSlides = document.querySelectorAll('.kiosk_slide .swiper-slide').length
       kioskSwiper = new Swiper('.kiosk_slide', {
-        modules: [Navigation],
+        modules: [Navigation, A11y],
+        a11y: {
+          enabled: true,
+          prevSlideMessage: '이전 슬라이드',
+          nextSlideMessage: '다음 슬라이드',
+        },
         loop: false,
         navigation: {
           prevEl: '.section_kiosk .btn-prev',
@@ -288,9 +293,9 @@ function DptVcs() {
                     <table className='compare-table'>
                         <thead>
                             <tr>
-                                <th>구분</th>
-                                <th>기존 아날로그방식</th>
-                                <th className='th-after'>VCS 도입 이후</th>
+                                <th scope="col">구분</th>
+                                <th scope="col">기존 아날로그방식</th>
+                                <th scope="col" className='th-after'>VCS 도입 이후</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -361,9 +366,9 @@ function DptVcs() {
                         </p>
                         <div className='btn-area'>
                             <div className='slide-nav'>
-                                <button type='button' className='btn-prev'></button>
-                                <span className='num'>1/N</span>
-                                <button type='button' className='btn-next'></button>
+                                <button type='button' className='btn-prev' aria-label="이전 슬라이드"></button>
+                                <span className='num' aria-live="polite">1/N</span>
+                                <button type='button' className='btn-next' aria-label="다음 슬라이드"></button>
                             </div>
                         </div>
                     </div>

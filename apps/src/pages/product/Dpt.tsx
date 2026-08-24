@@ -1,6 +1,6 @@
 ﻿import { useEffect, useRef } from 'react'
 import Swiper from 'swiper'
-import { Navigation } from 'swiper/modules'
+import { Navigation, A11y } from 'swiper/modules'
 import 'swiper/css'
 import ProductLayout from './ProductLayout'
 import { useBatchReveal } from '../../utils/useScrollReveal'
@@ -42,7 +42,12 @@ function ProductDpt() {
       const numEl = document.querySelector<HTMLElement>('.section_kiosk .slide-nav .num')
       const totalSlides = document.querySelectorAll('.kiosk_slide .swiper-slide').length
       kioskSwiper = new Swiper('.kiosk_slide', {
-        modules: [Navigation],
+        modules: [Navigation, A11y],
+        a11y: {
+          enabled: true,
+          prevSlideMessage: '이전 슬라이드',
+          nextSlideMessage: '다음 슬라이드',
+        },
         loop: false,
         navigation: {
           prevEl: '.section_kiosk .btn-prev',
@@ -69,7 +74,7 @@ function ProductDpt() {
             <p data-reveal data-delay="200">
                 완벽한 통제, 유연한 협업! 100% 선별적 변화 파일 탐지 기반, 노트북 반출입 정보보안 시스템 DPT(Data Protection Technology)은<span className="br"></span>
                 기업 협업의 딜레마인 외부 노트북 '보안 사각지대'를 완벽하게 해결할 수 있는 정보보안 시스템으로, 3중 융합 하이브리드 아키텍처 기술로<span className="br"></span>
-                외부 노트북(저장매체)을 통제하는 국내 유일의 무결점 검증 시스템 입니다.
+                외부 노트북(저장매체)을 통제하는 국내 유일의 무결점 검증 시스템입니다.
             </p>
           </div>
 
@@ -188,7 +193,7 @@ function ProductDpt() {
                 <h4 data-reveal data-delay="200">반입 처리 시 압도적 성능, 업무 지연 없는 초고속 파일 스캔 기술</h4>
                 <p data-reveal data-delay="200">
                     500GB HDD 기준, 30초에서 1분 이내로 핵심 메타 정보만을 타겟팅하여 초고속 분석 수행이 가능해서 대규모 사업장 및 출입 집중 시간대에도<span className="br"></span>
-                    병목 현상 없이, 강력한 보안을 적용하면서도 운영의 효율성을 극대화 할 수 있습니다.
+                    병목 현상 없이, 강력한 보안을 적용하면서도 운영의 효율성을 극대화할 수 있습니다.
                 </p>
                 <div className='imgCon'>
                     <div className='ico'><img src={imgDpt4} alt="" /></div>
@@ -405,11 +410,11 @@ function ProductDpt() {
                 <table className="pyo" data-reveal>
                     <tbody>
                     <tr>
-                        <th>구분</th>
-                        <th>상세내역</th>
+                        <th scope="col">구분</th>
+                        <th scope="col">상세내역</th>
                     </tr>
                     <tr>
-                        <td>DPT Client</td>
+                        <th scope="row">DPT Client</th>
                         <td>
                             반출입 되는 저장매체(노트북, PC, USB)에 대한 검색/비교 소프트웨어<br />
                             <span className="blue">모든 변화된 파일 검출 / Hidden 파티션 검출 또는 사용금지 기능</span><br />
@@ -419,7 +424,7 @@ function ProductDpt() {
                         </td>
                     </tr>
                     <tr>
-                        <td>DPT 관리<br />Appliance</td>
+                        <th scope="row">DPT 관리<br />Appliance</th>
                         <td>
                             반출입 관리, 통계, 리포팅 수행 및 Gate별 Appliance 통합 관리 (웹매니저)<br />
                             <span className="blue">내방객 노트북 반입/반출 관리, 조회 및 통계 분석, 변화된 파일 내역 관리</span><br />
@@ -429,7 +434,7 @@ function ProductDpt() {
                         </td>
                     </tr>
                     <tr>
-                        <td>DPT Gate<br />Appliance</td>
+                        <th scope="row">DPT Gate<br />Appliance</th>
                         <td>
                             <span className="blue">출입Gate에 설치되는 일체형 Kiosk 타입으로 반출입 절차 수행</span><br />
                             검색대 및 전자서명 모듈 포함한 일체형 Kiosk 타입<br />
@@ -459,9 +464,9 @@ function ProductDpt() {
                         </p>
                         <div className='btn-area'>
                             <div className='slide-nav'>
-                                <button type='button' className='btn-prev'></button>
-                                <span className='num'>1/N</span>
-                                <button type='button' className='btn-next'></button>
+                                <button type='button' className='btn-prev' aria-label="이전 슬라이드"></button>
+                                <span className='num' aria-live="polite">1/N</span>
+                                <button type='button' className='btn-next' aria-label="다음 슬라이드"></button>
                             </div>
                         </div>
                     </div>

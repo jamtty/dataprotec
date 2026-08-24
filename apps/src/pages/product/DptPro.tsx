@@ -107,8 +107,8 @@ function DptPro() {
         <div className="responsive section_con bg">
           <h3><span data-aos="fade-right"></span><div data-aos="fade-up" data-aos-delay="200">DPT-PRO 특장점</div></h3>
           <p>
-            핵심 기술인 DPT는 2009년 부터 현재까지 대기업 및 해외현지법인, 공공기관, 국가중요기설 등에 설치 운영되고 있습니다.
-            반입시 방문자의 바이러스 및 악성코드 유입을 줄이고 완벽한 매체차단으로 반입 노트북을 통제할 수 있으며 반출 시에는 변화된
+            핵심 기술인 DPT는 2009년부터 현재까지 대기업 및 해외현지법인, 공공기관, 국가중요시설 등에 설치 운영되고 있습니다.
+            반입 시 방문자의 바이러스 및 악성코드 유입을 줄이고 완벽한 매체차단으로 반입 노트북을 통제할 수 있으며 반출 시에는 변화된
             파일만 선택적으로 영구삭제하여 운영의 효율성을 극대화할 수 있습니다. 특히 방문자 관리시스템과 결합된 슬림 사이즈의 올인원 키오스크로 디자인 되어 그 활용성을 더욱 높였습니다.
           </p>
           <ul className="info">
@@ -144,8 +144,8 @@ function DptPro() {
         <div className="responsive section_con sm">
           <p>
             도입 이후 보안의 중요성에 비해 관리의 어려움과 추가 관리 인원 부담, 관계사의 불편함이 가중되는 어려움은 없으셨나요?
-            DPT-PRO는 강력한 보안기능뿐만 아니라 간단한 교육만으로 방문 노트북과 저장매체를 통제관리 할 수 있습니다.
-            전산실 보안구역 등의 출입 지역에 설치하여 모든 노트북과 저장매체의 출입관리와 정보유출 방지를 해결 할 수 있습니다.
+            DPT-PRO는 강력한 보안기능뿐만 아니라 간단한 교육만으로 방문 노트북과 저장매체를 통제관리할 수 있습니다.
+            전산실 보안구역 등의 출입 지역에 설치하여 모든 노트북과 저장매체의 출입관리와 정보유출 방지를 해결할 수 있습니다.
           </p>
           <div className="img2">
             <ul>
@@ -206,15 +206,15 @@ function DptPro() {
           <table className="pyo2">
             <tbody>
               <tr>
-                <th>구분</th>
-                <th>상세내역</th>
+                <th scope="col">구분</th>
+                <th scope="col">상세내역</th>
               </tr>
               <tr>
-                <td>Kiosk Width x Height x Depth</td>
+                <th scope="row">Kiosk Width x Height x Depth</th>
                 <td>630 x 1540 x 420 (mm)</td>
               </tr>
               <tr>
-                <td>검사용 PC 사양</td>
+                <th scope="row">검사용 PC 사양</th>
                 <td>
                   CD-ROM 검사용 드라이브<span className="br"></span>
                   Kiosk Print Module<span className="br"></span>
@@ -223,7 +223,7 @@ function DptPro() {
                 </td>
               </tr>
               <tr>
-                <td>SERVER 사양</td>
+                <th scope="row">SERVER 사양</th>
                 <td>
                   UPS 550VA/330W<span className="br"></span>
                   Kiosk Server(Intel Xeon, RAM 16G, SSD 240G)<span className="br"></span>

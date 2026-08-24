@@ -1,6 +1,6 @@
 ﻿import { useEffect, useRef } from 'react'
 import Swiper from 'swiper'
-import { Navigation } from 'swiper/modules'
+import { Navigation, A11y } from 'swiper/modules'
 import 'swiper/css'
 import ProductLayout from './ProductLayout'
 import { useBatchReveal } from '../../utils/useScrollReveal'
@@ -42,7 +42,12 @@ function ProductDptI() {
       const numEl = document.querySelector<HTMLElement>('.section_kiosk .slide-nav .num')
       const totalSlides = document.querySelectorAll('.kiosk_slide .swiper-slide').length
       kioskSwiper = new Swiper('.kiosk_slide', {
-        modules: [Navigation],
+        modules: [Navigation, A11y],
+        a11y: {
+          enabled: true,
+          prevSlideMessage: '이전 슬라이드',
+          nextSlideMessage: '다음 슬라이드',
+        },
         loop: false,
         navigation: {
           prevEl: '.section_kiosk .btn-prev',
@@ -142,27 +147,27 @@ function ProductDptI() {
                     <table className="pyo5 bg" data-reveal>
                         <thead>
                             <tr>
-                                <th>구분</th>
-                                <th>수동 보관 장치</th>
-                                <th>단순 보안 에이전트</th>
-                                <th>DPT-i 통합 시스템</th>
+                                <th scope="col">구분</th>
+                                <th scope="col">수동 보관 장치</th>
+                                <th scope="col">단순 보안 에이전트</th>
+                                <th scope="col">DPT-i 통합 시스템</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>자동 대여/반납</td>
+                                <th scope="row">자동 대여/반납</th>
                                 <td>수동</td>
                                 <td>해당없음</td>
                                 <td>전과정 자동 대여/반납<br />(무인 키오스크 보관함)</td>
                             </tr>
                             <tr>
-                                <td>자동 삭제/백업·복원</td>
+                                <th scope="row">자동 삭제/백업·복원</th>
                                 <td>해당없음</td>
                                 <td>해당없음</td>
                                 <td>자동 삭제/백업·복원<br />(무인 키오스크 보관 동시)</td>
                             </tr>
                             <tr>
-                                <td>HW/SW 통합 연동</td>
+                                <th scope="row">HW/SW 통합 연동</th>
                                 <td>해당없음</td>
                                 <td>해당없음</td>
                                 <td>키오스크, 클라이언트, 서버<br />실시간 동기화로 통합 보안 관리</td>
@@ -400,39 +405,39 @@ function ProductDptI() {
                 <table className="pyo" data-reveal>
                     <tbody>
                     <tr>
-                        <th>구분</th>
-                        <th>상세내역</th>
+                        <th scope="col">구분</th>
+                        <th scope="col">상세내역</th>
                     </tr>
                     <tr>
-                        <td>승인코드로<br />보관함 개폐</td>
+                        <th scope="row">승인코드로<br />보관함 개폐</th>
                         <td>
                         <span className="blue">대여 승인 완료 후 지급 받는 '승인코드' 입력 후 보관함 자동 개폐</span><span className="br"></span>
                         관리 서버와 통신으로 개폐되며 무단 개방 방지
                         </td>
                     </tr>
                     <tr>
-                        <td>자동 초기화/복원</td>
+                        <th scope="row">자동 초기화/복원</th>
                         <td>
                         노트북 반납 시점 관리 서버 통신 후 로그 기록 이관 후 자동 초기화<span className="br"></span>
                         <span className="blue">초기화(이미지 복원)는 보관함 내부 USB-C 연결 후 진행(자동 기능)</span>
                         </td>
                     </tr>
                     <tr>
-                        <td>자동 SW 업데이트</td>
+                        <th scope="row">자동 SW 업데이트</th>
                         <td>
                         보관함에 수납된 노트북은 자동으로 충전<span className="br"></span>
                         <span className="blue">이미지 복원 후 보안소프트웨어 업데이트 기능 지원</span>
                         </td>
                     </tr>
                     <tr>
-                        <td>이력전송<br />로그저장</td>
+                        <th scope="row">이력전송<br />로그저장</th>
                         <td>
                         <span className="blue">대여 및 반납 이벤트 이력정보를 관리서버에 실시간 보고</span><span className="br"></span>
                         네트워크 장애 시 이력 정보 임시 저장 기능
                         </td>
                     </tr>
                     <tr>
-                        <td>보안/안전 기능</td>
+                        <th scope="row">보안/안전 기능</th>
                         <td>
                         비인가 개방 시도 시 경보 및 중앙 서버 경고 전송<span className="br"></span>
                         <span className="blue">비정상 코드 입력 차단 기능 (일정횟수 승인코드 오류 시, 일정시간 동안 입력 기능 차단)</span><span className="br"></span>
@@ -442,7 +447,7 @@ function ProductDptI() {
                     </tr>
                     </tbody>
                 </table>
-                <p className="notice" data-reveal>※ Kiosk와 사양은 납품사의 사정에 따라 협의 없이 변경 될 수 있습니다.</p>
+                <p className="notice" data-reveal>※ Kiosk와 사양은 납품사의 사정에 따라 협의 없이 변경될 수 있습니다.</p>
             </div>
             <div className="img3 gap">
                 <ul>
@@ -474,9 +479,9 @@ function ProductDptI() {
                         </p>
                         <div className='btn-area'>
                             <div className='slide-nav'>
-                                <button type='button' className='btn-prev'></button>
-                                <span className='num'>1/N</span>
-                                <button type='button' className='btn-next'></button>
+                                <button type='button' className='btn-prev' aria-label="이전 슬라이드"></button>
+                                <span className='num' aria-live="polite">1/N</span>
+                                <button type='button' className='btn-next' aria-label="다음 슬라이드"></button>
                             </div>
                         </div>
                     </div>

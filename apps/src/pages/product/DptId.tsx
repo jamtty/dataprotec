@@ -1,6 +1,6 @@
 ﻿import { useEffect, useRef } from 'react'
 import Swiper from 'swiper'
-import { Navigation } from 'swiper/modules'
+import { Navigation, A11y } from 'swiper/modules'
 import 'swiper/css'
 import ProductLayout from './ProductLayout'
 import { useBatchReveal } from '../../utils/useScrollReveal'
@@ -64,7 +64,12 @@ function ProductDptI() {
       const numEl = document.querySelector<HTMLElement>('.section_kiosk .slide-nav .num')
       const totalSlides = document.querySelectorAll('.kiosk_slide .swiper-slide').length
       kioskSwiper = new Swiper('.kiosk_slide', {
-        modules: [Navigation],
+        modules: [Navigation, A11y],
+        a11y: {
+          enabled: true,
+          prevSlideMessage: '이전 슬라이드',
+          nextSlideMessage: '다음 슬라이드',
+        },
         loop: false,
         navigation: {
           prevEl: '.section_kiosk .btn-prev',
@@ -207,8 +212,8 @@ function ProductDptI() {
             <h4 data-reveal data-delay="200">지능형 무인 출입증 발급 키오스크</h4>
             <p data-reveal data-delay="300">
                 방문객은 안내 데스크에 줄을 설 필요 없이 DPT-ID Kiosk에 신분증을 투입하고 전화번호를 입력해 본인 확인을 끝내는 절차로<span className="br"></span>
-                출입증 발급이 되고 게이트를 통과할 수 있습니다. 대규모 사업장의 경우 오전 시간대에 방문객이 몰려 출입 혼잡이 발생하는  단점을 해소할 수 있습니다.<br />
-                물품 반입시 QR코드 리더기를 통해 확인 절차를 거쳐 반입이 가능하므로 최소한의 인원 운영으로 보안과 운용의 효율성을 극대화할 수 있습니다.
+                출입증 발급이 되고 게이트를 통과할 수 있습니다. 대규모 사업장의 경우 오전 시간대에 방문객이 몰려 출입 혼잡이 발생하는 단점을 해소할 수 있습니다.<br />
+                물품 반입 시 QR코드 리더기를 통해 확인 절차를 거쳐 반입이 가능하므로 최소한의 인원 운영으로 보안과 운용의 효율성을 극대화할 수 있습니다.
             </p>
             <ul className="info">
                 <li>주민등록증/면허증 진위확인 단말기 모듈 (행정자치부 주관 주민등록증 진위확인시스템 관공서용 단말기 표준규격 인증)</li>
@@ -236,7 +241,7 @@ function ProductDptI() {
                 <p data-reveal data-delay="300">
                     DPT-ID Kiosk는 안내데스크에서 수작업으로 이뤄지던 여러단계의 확인 절차와 출입카드 발급과 반납 등의 절차를 방문객<span className="br"></span>
                     스스로가 키오스크에서 한번에 처리할 수 있게 하는 편리하고 안전한 보안솔루션입니다. 또한 방문예약사이트와 연동하여 보다 빠르고<span className="br"></span>
-                    효율적으로 방문객 출입을 관리 할 수 있어 방문객의 대기 시간을 획기적으로 줄일 수 있습니다. 
+                    효율적으로 방문객 출입을 관리할 수 있어 방문객의 대기 시간을 획기적으로 줄일 수 있습니다. 
                 </p>
                 <div className='img2 bg'>
                     <ul>
@@ -305,11 +310,11 @@ function ProductDptI() {
                     <table className="pyo2">
                         <tbody>
                         <tr>
-                            <th>구분</th>
-                            <th>상세내역</th>
+                            <th scope="col">구분</th>
+                            <th scope="col">상세내역</th>
                         </tr>
                         <tr>
-                            <td>KIOSK<span className="br"></span>Appliance</td>
+                            <th scope="row">KIOSK<span className="br"></span>Appliance</th>
                             <td>
                             Intel/AMD 2.0Ghz 이상<span className="br"></span>
                             <span className="blue">DDR4 8Gbyte (RAM)</span><span className="br"></span>
@@ -320,7 +325,7 @@ function ProductDptI() {
                             </td>
                         </tr>
                         <tr>
-                            <td>Touch Monitor</td>
+                            <th scope="row">Touch Monitor</th>
                             <td>
                             32인치 터치모니터 (698.4(H) x 392.9(V)mm)<span className="br"></span>
                             <span className="blue">1,920 x 1,080 (Resolution)</span><span className="br"></span>
@@ -329,7 +334,7 @@ function ProductDptI() {
                             </td>
                         </tr>
                         <tr>
-                            <td>바코드<span className="br"></span>QR 코드 스캐너</td>
+                            <th scope="row">바코드<span className="br"></span>QR 코드 스캐너</th>
                             <td>
                             QR Code, 1D (Type)<span className="br"></span>
                             <span className="blue">Wiegand26/34, RS232, USB, RS485, TTL (Interface)</span><span className="br"></span>
@@ -339,7 +344,7 @@ function ProductDptI() {
                             </td>
                         </tr>
                         <tr>
-                            <td>Elevator Type<span className="br"></span>Card Dispenser</td>
+                            <th scope="row">Elevator Type<span className="br"></span>Card Dispenser</th>
                             <td>
                             Dispensing: 500±3 cards (Card Loading Capacity)<span className="br"></span>
                             <span className="blue">150 mm/Sec±10% (Dispensing and Collecting speed (sec))</span><span className="br"></span>
@@ -349,7 +354,7 @@ function ProductDptI() {
                             </td>
                         </tr>
                         <tr>
-                            <td>신분증 인식기</td>
+                            <th scope="row">신분증 인식기</th>
                             <td>
                             600dpi 3ch dlso, 300 dpi 1.6초 이내 (Scan Speed)<span className="br"></span>
                             <span className="blue">주민등록증 사진 본인 거부율(FRR) 5% 미만, 사진 타인 인식률(FAR) 0.01% 미만</span><span className="br"></span>
@@ -382,9 +387,9 @@ function ProductDptI() {
                         </p>
                         <div className='btn-area'>
                             <div className='slide-nav'>
-                                <button type='button' className='btn-prev'></button>
-                                <span className='num'>1/N</span>
-                                <button type='button' className='btn-next'></button>
+                                <button type='button' className='btn-prev' aria-label="이전 슬라이드"></button>
+                                <span className='num' aria-live="polite">1/N</span>
+                                <button type='button' className='btn-next' aria-label="다음 슬라이드"></button>
                             </div>
                         </div>
                     </div>

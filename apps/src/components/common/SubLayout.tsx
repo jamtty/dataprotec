@@ -50,7 +50,7 @@ function SubLayout({ visualClass, visualTitle, lnbItems, children }: SubLayoutPr
   return (
     <>
       <Header />
-      <div id="sub">
+      <main id="sub" tabIndex={-1}>
         <div className={`visual ${visualClass}`}>
           <div className="responsive">
             <div className="visual_tit">
@@ -68,6 +68,7 @@ function SubLayout({ visualClass, visualTitle, lnbItems, children }: SubLayoutPr
         {lnbItems && lnbItems.length > 0 && (
           <div className="lnb" style={lnbFixed ? { position: 'fixed', top: 0, left: 0 } : {}}>
             <div className="lnb_wrap">
+              <nav aria-label="서브 메뉴">
               <ul>
                 {(() => {
                   const activeHref = lnbItems.reduce<string | null>((best, item) => {
@@ -77,18 +78,19 @@ function SubLayout({ visualClass, visualTitle, lnbItems, children }: SubLayoutPr
                   }, null)
                   return lnbItems.map((item) => (
                     <li key={item.href} className={activeHref === item.href ? 'active' : ''}>
-                      <Link to={item.href}>{item.label}</Link>
+                      <Link to={item.href} aria-current={activeHref === item.href ? 'page' : undefined}>{item.label}</Link>
                       {activeHref === item.href && <div className="lnb_bg" />}
                     </li>
                   ))
                 })()}
               </ul>
+              </nav>
             </div>
           </div>
         )}
 
         {children}
-      </div>
+      </main>
       <Footer />
     </>
   )

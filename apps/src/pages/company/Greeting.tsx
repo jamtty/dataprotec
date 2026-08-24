@@ -9,7 +9,7 @@ function CompanyGreeting() {
 
         <div className="responsive title_area">
           <h2 data-aos="fade-left">CEO 인사말</h2>
-          <p data-aos="fade-up" data-aos-delay="200">첨단 기업 및 국가중요기설 반·출입 정보보안 시스템,<span className="br"></span>저장매체 정보보안의 '처음과 끝을 책임지는' 기업, 데이타프로텍</p>
+          <p data-aos="fade-up" data-aos-delay="200">첨단 기업 및 국가중요시설 반·출입 정보보안 시스템,<span className="br"></span>저장매체 정보보안의 '처음과 끝을 책임지는' 기업, 데이타프로텍</p>
         </div>
         
         {/* <div className="section1">

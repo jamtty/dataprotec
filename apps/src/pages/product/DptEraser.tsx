@@ -1,6 +1,6 @@
 ﻿import { useEffect, useRef } from 'react'
 import Swiper from 'swiper'
-import { Navigation } from 'swiper/modules'
+import { Navigation, A11y } from 'swiper/modules'
 import 'swiper/css'
 import ProductLayout from './ProductLayout'
 import { useBatchReveal } from '../../utils/useScrollReveal'
@@ -48,7 +48,12 @@ function ProductDptI() {
       const numEl = document.querySelector<HTMLElement>('.section_kiosk .slide-nav .num')
       const totalSlides = document.querySelectorAll('.kiosk_slide .swiper-slide').length
       kioskSwiper = new Swiper('.kiosk_slide', {
-        modules: [Navigation],
+        modules: [Navigation, A11y],
+        a11y: {
+          enabled: true,
+          prevSlideMessage: '이전 슬라이드',
+          nextSlideMessage: '다음 슬라이드',
+        },
         loop: false,
         navigation: {
           prevEl: '.section_kiosk .btn-prev',
@@ -74,7 +79,7 @@ function ProductDptI() {
         <div className="responsive title_area">
           <h2 data-reveal>Digital Eraser <span>All-in-one Data Erasing</span></h2>
           <p data-reveal data-delay="200">
-            디지털이레이저는 국가정보원 보안적합성 검증필(NSPL-2010-018)을 인증 받은 데이터 영구삭제 솔루션 입니다. 하나의 어플라이언스로<span className="br"></span>
+            디지털이레이저는 국가정보원 보안적합성 검증필(NSPL-2010-018)을 인증 받은 데이터 영구삭제 솔루션입니다. 하나의 어플라이언스로<span className="br"></span>
             네트워크 연동 삭제, USB 부팅 삭제, 디바이스 삭제 방식 등의 세 가지 방식을 통합지원 및 관리 가능하여 경쟁력과 업무 효율성을 갖춘<span className="br"></span>솔루션으로 영구삭제의 새로운 기준을 제시하는 올인원 어플라이언스입니다.
           </p>
         </div>
@@ -87,7 +92,7 @@ function ProductDptI() {
             <div className='work' data-reveal>
                 <h4 data-reveal data-delay="200">데이터 유출 제로를 위한 통합 영구삭제 솔루션</h4>
                 <p data-reveal data-delay="300">
-                    네트워크 연동, USB 부팅, 디바이스 삭제 방식을 한 번에 구현한, 국가정보원 보안적합성 검증필 영구삭제 솔루션으로 저장장치의 단순 초기화를 넘어<span className="br"></span>복구 불가능한 영구삭제와 체계적인 증적 관리를위한 통합 보안 강화 프로세스를 제안합니다.  
+                    네트워크 연동, USB 부팅, 디바이스 삭제 방식을 한 번에 구현한, 국가정보원 보안적합성 검증필 영구삭제 솔루션으로 저장장치의 단순 초기화를 넘어<span className="br"></span>복구 불가능한 영구삭제와 체계적인 증적 관리를 위한 통합 보안 강화 프로세스를 제안합니다.  
                 </p>
                 <div className='max-width' data-reveal data-delay="400">
                     <div className='ImgMargin'>
@@ -146,33 +151,33 @@ function ProductDptI() {
                     <table className="pyo5 bg" data-reveal>
                         <thead>
                             <tr>
-                                <th>구분</th>
-                                <th>일반 포맷(OS초기화)</th>
-                                <th>디가우저/천공</th>
-                                <th>Digital Eraser</th>
+                                <th scope="col">구분</th>
+                                <th scope="col">일반 포맷(OS초기화)</th>
+                                <th scope="col">디가우저/천공</th>
+                                <th scope="col">Digital Eraser</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>데이터 잔존 여부</td>
+                                <th scope="row">데이터 잔존 여부</th>
                                 <td>표면적 연결만 끊음<br />(데이터 잔존)</td>
                                 <td>디스크 물리적 파괴<br />(재사용 불가)</td>
                                 <td>다중 OverWrite로<br />데이터 잔존 완벽 제거</td>
                             </tr>
                             <tr>
-                                <td>포렌식 복구가능성</td>
+                                <th scope="row">포렌식 복구가능성</th>
                                 <td>전문 장비<br />100% 복구 가능</td>
                                 <td>복구 불가</td>
                                 <td>복구 절대불가<br />(국정원 인증)</td>
                             </tr>
                             <tr>
-                                <td>보안 감사 대응력</td>
+                                <th scope="row">보안 감사 대응력</th>
                                 <td>대응불가<br />(기록없음)</td>
                                 <td>수기 기록 필요<br />(자동화 불가)</td>
                                 <td>삭제 리포트 및<br />로그 중앙 저장 기능</td>
                             </tr>
                             <tr>
-                                <td>운영 효율성</td>
+                                <th scope="row">운영 효율성</th>
                                 <td>빠르지만<br />보안 유출 가능</td>
                                 <td>디스크 탈부착 필수<br />(전문 인력 배치)</td>
                                 <td>디스크 탈착 없이<br />원클릭 대량 작업</td>
@@ -191,7 +196,7 @@ function ProductDptI() {
             <div className='work2' data-reveal>
                 <h4 data-reveal data-delay="200">Digital Eraser 주요 특징</h4>
                 <p data-reveal data-delay="300">
-                    국가정보원 보안적합성 검증필(NSPL-2010-018)을 인증 받은 데이터 영구삭제 솔루션 으로 하나의 어플라이언스로 네트워크 연동 삭제,<span className="br"></span>
+                    국가정보원 보안적합성 검증필(NSPL-2010-018)을 인증 받은 데이터 영구삭제 솔루션으로 하나의 어플라이언스로 네트워크 연동 삭제,<span className="br"></span>
                     USB 부팅 삭제, 디바이스 삭제 방식 등의 세 가지 방식을 통합지원 및 관리 가능하여 경쟁력과 업무 효율성을 갖춘 올인원 어플라이언스입니다. 
                 </p>
                 <div className='imgCon mt-70 w-auto' data-reveal data-delay="400">
@@ -323,7 +328,7 @@ function ProductDptI() {
             </h3>
             <h4 data-reveal data-delay="200">네트워크 연동, USB 부팅, 디바이스 삭제 방식을 하나로 해결하는 올인원 시스템</h4>
             <p data-reveal data-delay="300">
-                디지털이레이저는 국가정보원 보안적합성 검증필(NSPL-2010-018)을 인증 받은 데이터 영구삭제 솔루션 으로 하나의 어플라이언스로 네트워크<span className="br"></span>
+                디지털이레이저는 국가정보원 보안적합성 검증필(NSPL-2010-018)을 인증 받은 데이터 영구삭제 솔루션으로 하나의 어플라이언스로 네트워크<span className="br"></span>
                 연동 삭제, USB 부팅 삭제, 디바이스 삭제 방식 등의 세 가지 방식을 통합지원 및 관리 가능하여 경쟁력과 업무 효율성을 갖춘 올인원 어플라이언스<span className="br"></span>
                 입니다. 특히, 검증받은 완전삭제 핵심 기능의 보안성과 운영의 편리성을 동시에 갖춰 삭제방식에 따른 추가 장비와 소프트웨어를 따로 구입해야 하는<span className="br"></span>부담을 줄일 수 있습니다. 
             </p>
@@ -342,7 +347,7 @@ function ProductDptI() {
                 <li>히든영역 (HPA, DCO) 검출 및 삭제</li>
                 <li>단기 노트북 반·출입관리 솔루션 DPT 연계</li>
                 <li>장·단기 출입자의 노트북 보안의 중점관리 가능</li>
-                <li>노트북 반입시 PC 방역 자동 처리</li>
+                <li>노트북 반입 시 PC 방역 자동 처리</li>
                 <li>운영 체제 구분 없이 데이터 완전삭제 가능</li>
                 <li>다수의 Disk 및 저장매체 멀티 삭제 가능</li>
                 <li>개별 DISK, USB 메모리 등  다양한 매체 지원</li>
@@ -366,7 +371,7 @@ function ProductDptI() {
                 <p data-reveal data-delay="300">
                     도입 이후 보안의 중요성에 비해 관리의 어려움과 추가 관리 인원 부담, 관계사의 불편함이 가중되는 어려움은 없으셨나요?<br />
                     디지털이레이저는 기존의 완전삭제 솔루션과 달리 하나의 어플라이언스로 다양한 삭제 기능을 지원합니다. 반출입 솔루션 DPT와 연동한다면,<span className="br"></span>
-                    사업장 전체의 반입출 인원 및 저장매체 보안을 통합관리할 수 있고 다수의 노트북을 정기적으로 완전 삭제해야 하는 업무의 효율성을 높일 수 있습니다.
+                    사업장 전체의 반·출입 인원 및 저장매체 보안을 통합관리할 수 있고 다수의 노트북을 정기적으로 완전 삭제해야 하는 업무의 효율성을 높일 수 있습니다.
                 </p>
                 <div className='img2 bg'>
                     <ul>
@@ -395,42 +400,42 @@ function ProductDptI() {
                     <table className="pyo3">
                         <tbody>
                         <tr>
-                            <th>구분</th>
-                            <th>디지털이레이저</th>
-                            <th>A사 삭제솔루션</th>
-                            <th>B사 삭제기기</th>
-                            <th>C사 삭제기기</th>
+                            <th scope="col">구분</th>
+                            <th scope="col">디지털이레이저</th>
+                            <th scope="col">A사 삭제솔루션</th>
+                            <th scope="col">B사 삭제기기</th>
+                            <th scope="col">C사 삭제기기</th>
                         </tr>
                         <tr>
-                            <td>노트북(PC) HDD 분리</td>
+                            <th scope="row">노트북(PC) HDD 분리</th>
                             <td>필요없음</td>
                             <td>필요없음</td>
                             <td>필수</td>
                             <td>필수</td>
                         </tr>
                         <tr>
-                            <td>노트북(PC) BIOS 설정변경</td>
+                            <th scope="row">노트북(PC) BIOS 설정변경</th>
                             <td>필요없음</td>
                             <td>필수</td>
                             <td>필수</td>
                             <td>필수</td>
                         </tr>
                         <tr>
-                            <td>HDD(저장매체) 멀티삭제</td>
+                            <th scope="row">HDD(저장매체) 멀티삭제</th>
                             <td>가능</td>
                             <td>가능</td>
                             <td>불가</td>
                             <td>불가</td>
                         </tr>
                         <tr>
-                            <td>HDD(저장매체) 재활용</td>
+                            <th scope="row">HDD(저장매체) 재활용</th>
                             <td>가능</td>
                             <td>가능</td>
                             <td>가능</td>
                             <td>가능</td>
                         </tr>
                         <tr>
-                            <td>사용자 인터페이스 디자인</td>
+                            <th scope="row">사용자 인터페이스 디자인</th>
                             <td>매우높음</td>
                             <td>보통</td>
                             <td>낮음</td>
@@ -476,36 +481,36 @@ function ProductDptI() {
             <table className="pyo4">
                 <tbody>
                 <tr>
-                    <th>하드웨어 Spec.</th>
-                    <th>지원장치</th>
+                    <th scope="col">하드웨어 Spec.</th>
+                    <th scope="col">지원장치</th>
                 </tr>
                 <tr>
-                    <td>CPU: intel i5 2.8GHz/8M</td>
+                    <th scope="row">CPU: intel i5 2.8GHz/8M</th>
                     <td>3.5" SAS/SATA HDD</td>
                 </tr>
                 <tr>
-                    <td>RAM : DDR4 4G PC4-19200</td>
+                    <th scope="row">RAM : DDR4 4G PC4-19200</th>
                     <td>2.5" SAS/SATA HDD</td>
                 </tr>
                 <tr>
-                    <td>
+                    <th scope="row">
                     HDD : M.2 Nvme 120G<span className="br"></span>
                     HBA : Adaptec 12G SAS Controller
-                    </td>
+                    </th>
                     <td>
                     M.2 Nvme SSD / M.2 SATA SSD support<span className="br"></span>
                     (2242,2260, 2280 Guide include )
                     </td>
                 </tr>
                 <tr>
-                    <td>3.5" HotSwap SAS/SATA 4BAY</td>
+                    <th scope="row">3.5" HotSwap SAS/SATA 4BAY</th>
                     <td>USB-C 1port, USB 3.1 1port, USB 3.0 4Port, USB 2.0 4port</td>
                 </tr>
                 <tr>
-                    <td>
+                    <th scope="row">
                     2.5" HotSwap SAS/SATA 4BAY<span className="br"></span>
                     All in One Media BAY
-                    </td>
+                    </th>
                     <td>
                     MS/MSPRO/MSDUO, SD/MMC/RS-MMC, CFI/CFII,<span className="br"></span>
                     T-Flash, MicroSD, XD type Flash Memory<span className="br"></span>
@@ -514,7 +519,7 @@ function ProductDptI() {
                 </tr>
                 </tbody>
             </table>
-            <p className="notice">※ Kiosk와 사양은 납품사의 사정에 따라 협의 없이 변경 될 수 있습니다.</p>
+            <p className="notice">※ Kiosk와 사양은 납품사의 사정에 따라 협의 없이 변경될 수 있습니다.</p>
             </div>
         </div>
 
@@ -534,9 +539,9 @@ function ProductDptI() {
                         </p>
                         <div className='btn-area'>
                             <div className='slide-nav'>
-                                <button type='button' className='btn-prev'></button>
-                                <span className='num'>1/N</span>
-                                <button type='button' className='btn-next'></button>
+                                <button type='button' className='btn-prev' aria-label="이전 슬라이드"></button>
+                                <span className='num' aria-live="polite">1/N</span>
+                                <button type='button' className='btn-next' aria-label="다음 슬라이드"></button>
                             </div>
                         </div>
                     </div>

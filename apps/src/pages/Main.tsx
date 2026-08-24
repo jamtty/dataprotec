@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Swiper from 'swiper'
-import { Pagination, Autoplay, EffectFade, Navigation } from 'swiper/modules'
+import { Pagination, Autoplay, EffectFade, Navigation, A11y } from 'swiper/modules'
 import 'swiper/css/effect-fade'
 import 'swiper/css'
 import gsap from 'gsap'
@@ -50,7 +50,11 @@ function Main() {
     }
 
     swiperInstance = new Swiper('.visual_slide', {
-      modules: [Pagination, Autoplay, EffectFade],
+      modules: [Pagination, Autoplay, EffectFade, A11y],
+      a11y: {
+        enabled: true,
+        paginationBulletMessage: '{{index}}번 슬라이드로 이동',
+      },
       effect: 'fade',
       loop: true,
       speed: 500,
@@ -350,7 +354,12 @@ function Main() {
       const numEl = document.querySelector<HTMLElement>('.section_kiosk .slide-nav .num')
       const totalSlides = document.querySelectorAll('.kiosk_slide .swiper-slide').length
       kioskSwiperInstance = new Swiper('.kiosk_slide', {
-        modules: [Navigation],
+        modules: [Navigation, A11y],
+        a11y: {
+          enabled: true,
+          prevSlideMessage: '이전 슬라이드',
+          nextSlideMessage: '다음 슬라이드',
+        },
         loop: false,
         navigation: {
           prevEl: '.section_kiosk .btn-prev',
@@ -425,7 +434,8 @@ function Main() {
     <>
       <LayerPopup />
       <Header />
-      <div id="index">
+      <main id="index" tabIndex={-1}>
+        <h1 className="sr-only">데이타프로텍 - 저장매체 반·출입 통합 보안 솔루션</h1>
 
         {/* 비주얼 슬라이드 */}
         <div className="visual">
@@ -488,7 +498,7 @@ function Main() {
 					<p className='t-des'>
 						외부 방문객의 반출입으로 인한 보안유출을 대비하는 통합 보안 프로세스를 제안합니다.<br />
 						방문예약시스템부터 무인출입증 발급, 저장매체로 인한 악성코드 유입 방지와 노트북 정보보안, 무인대여노트북 관리, <br />
-						복구불가 완전삭제까지  앤드포인트 물리보안의 AtoZ까지 데이타프로텍의 기술력으로 보안 위협으로부터 안전을 약속 드립니다.
+						복구불가 완전삭제까지 앤드포인트 물리보안의 AtoZ까지 데이타프로텍의 기술력으로 보안 위협으로부터 안전을 약속드립니다.
 					</p>
 				</div>
 				<div className='card'>
@@ -584,7 +594,7 @@ function Main() {
                                     <p className='num'>04</p>
                                     <p className='prd'>DPT<br /><span>Data Protection Technology</span></p>
                                     <div className='des'>
-                                        내부로 반입되는 노트북이나 저장매체로 인한 정보유출을 방지 하기 위한 시스템으로, 사업장 내부로 반입 전 노트북 파일을 스캔하여 반출 시 비교분석 후 원복 또는 삭제하는 시스템
+                                        내부로 반입되는 노트북이나 저장매체로 인한 정보유출을 방지하기 위한 시스템으로, 사업장 내부로 반입 전 노트북 파일을 스캔하여 반출 시 비교분석 후 원복 또는 삭제하는 시스템
                                     </div>
                                 </div>
                             </div>
@@ -704,7 +714,7 @@ function Main() {
                             <li>
                                 <p className='prd'>보관함<br />방문</p>
                                 <div className='des'>
-                                    무인보관함에서<br />승인 시., 운영자<br />개입없이 대여
+                                    무인보관함에서<br />승인 시, 운영자<br />개입 없이 대여
                                 </div>
                             </li>
                             <li>
@@ -851,9 +861,9 @@ function Main() {
                         <div className='btn-area'>
                             <Link to='#'>더 보기</Link>
                             <div className='slide-nav'>
-                                <button type='button' className='btn-prev'></button>
-                                <span className='num'>1/N</span>
-                                <button type='button' className='btn-next'></button>
+                                <button type='button' className='btn-prev' aria-label="이전 슬라이드"></button>
+                                <span className='num' aria-live="polite">1/N</span>
+                                <button type='button' className='btn-next' aria-label="다음 슬라이드"></button>
                             </div>
                         </div>
                     </div>
@@ -967,7 +977,7 @@ function Main() {
 
 
 
-      </div>
+      </main>
       <Footer />
     </>
   )
